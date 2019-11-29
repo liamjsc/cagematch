@@ -1,19 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Splash } from './src/containers/index';
 
-export default function App() {
+export default function Splash() {
   return (
-    <View style={styles.container}>
-      <Splash/>
+    <View style={styles.splash}>
+      <Text>CAGE MATCH</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  splash: {
     flex: 1,
-    backgroundColor: '#fff',
+    width: '100%',
+    backgroundColor: 'lightslategray',
     alignItems: 'center',
     justifyContent: 'center',
   },
