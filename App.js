@@ -1,20 +1,21 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Splash } from './src/containers/index';
+import React, { Component } from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Splash/>
-    </View>
-  );
+import { App as CageApp } from './src/containers/index';
+import listReducer from './src/reducers/list';
+
+const store = createStore(listReducer);
+
+class App extends Component {
+  render() {
+    console.log('entry App')
+    return (
+      <Provider store={store}>
+        <CageApp />
+      </Provider>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
