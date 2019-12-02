@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { createStore } from 'redux';
 import { connect } from 'react-redux';
 
 import { loadLists } from '../../actions/list';
 import { Splash, CreateList } from '../../containers';
-import listReducer from '../../reducers/list';
-
-const store = createStore(listReducer);
 
 class App extends Component {
   componentDidMount() {
@@ -21,10 +17,11 @@ class App extends Component {
 
   render() {
     const { listLoaded } = this.props;
-    console.log('cage app');
+    console.log('cage app render');
+    console.log(this.props);
     return (
       <View style={styles.container}>
-        { listLoaded ? <Splash/> : <CreateList/> }
+        { !listLoaded ? <Splash/> : <CreateList/> }
       </View>
     );
   }
@@ -40,9 +37,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
+  console.log('mapStateToProps);')
   console.log(state);
   return {
-    listLoaded: state.listLoaded,
+    listLoaded: state.list.loaded,
   }
 }
 export default connect(mapStateToProps)(App);

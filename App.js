@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import { App as CageApp } from './src/containers/index';
-import listReducer from './src/reducers/list';
+import CageApp from './src/containers/App/App';
+import reducer from './src/reducers'
 
-const store = createStore(listReducer);
+const store = createStore(reducer);
 
 class App extends Component {
   render() {
-    console.log('entry App')
     return (
       <Provider store={store}>
         <CageApp />

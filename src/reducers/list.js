@@ -6,6 +6,7 @@ const initialState = {
 }
 
 export default function listReducer(state = initialState, action = {}) {
+  console.log('reducer', action);
   switch (action.type) {
     case actionTypes.LIST_LOADED:
       return {
