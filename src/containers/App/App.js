@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
-import { loadLists } from '../../actions/list';
+import { loadAllLists } from '../../actions/list';
 import { Splash, CreateList } from '../../containers';
 
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    console.log('App.js did mount');
     setTimeout(() => {
-      console.log('calling load lists');
-      dispatch(loadLists());
-    }, 5000);
+      dispatch(loadAllLists());
+    }, 1000);
   }
 
   render() {

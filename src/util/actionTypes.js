@@ -1,1 +1,3 @@
-export const LIST_LOADED = 'list_loaded';
+export const LOAD_ALL_LISTS_START = 'LOAD_ALL_LISTS_START';
+export const LOAD_ALL_LISTS_SUCCESS = 'LOAD_ALL_LISTS_SUCCESS';
+export const LOAD_ALL_LISTS_FAIL = 'LOAD_ALL_LISTS_FAIL';

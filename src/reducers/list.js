@@ -3,16 +3,32 @@ import * as actionTypes from '../util/actionTypes';
 const initialState = {
   loaded: false,
   loading: false,
+  listIds: [],
+  byId: {},
 }
 
 export default function listReducer(state = initialState, action = {}) {
   console.log('reducer', action);
   switch (action.type) {
-    case actionTypes.LIST_LOADED:
+    case actionTypes.LOAD_ALL_LISTS_START:
       return {
         ...state,
-        loaded: true,
+        loading: true,
+        loaded: false,
       };
+    case actionTypes.LOAD_ALL_LISTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        listIds: [],
+      };
+      case actionTypes.LOAD_ALL_LISTS_FAIL:
+        return {
+          ...state,
+          loading: false,
+          loaded: false,
+        };
     default:
       return state;
   }
