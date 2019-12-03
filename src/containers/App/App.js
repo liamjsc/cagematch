@@ -37,8 +37,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   console.log('mapStateToProps);')
   console.log(state);
+  const { list: {
+    byId,
+    listIds,
+    loaded,
+    loading,
+  }} = state;
   return {
-    listLoaded: state.list.loaded,
+    listLoaded: loaded,
   }
 }
 export default connect(mapStateToProps)(App);
