@@ -32,7 +32,7 @@ export default function listReducer(state = initialState, action = {}) {
       case actionTypes.ADD_LIST:
         const newState = {
           ...state,
-          listIds: [...listIds, action.list.id],
+          listIds: [...state.listIds, action.list.id],
           byId: {
             ...state.byId,
             [action.list.id]: action.list,

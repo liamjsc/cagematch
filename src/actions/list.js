@@ -2,16 +2,16 @@ import * as actionTypes from '../util/actionTypes';
 import { api } from '../config'
 import { devLists, devList } from '../util/devData';
 
-const dev = true;
+const dev = false;
 
 /**load all lists without sorted entries */
 export function loadAllLists() {
   return (dispatch, getState) => {
+    console.log('load all lists');
     dispatch(loadAllListsStart());
     return fetch(`${api}/lists`)
       .then(response => response.json())
       .then(data => {
-        console.log('data');
         dispatch(loadAllListsSuccess(data));
       })
       .catch((err) => {
@@ -65,16 +65,21 @@ function loadListFail() {
   return { type: actionTypes.LOAD_LIST_FAIL };
 }
 
-export function createList(list = devList) {
+export function createList(list) {
   return (dispatch) => {
-    return fetch({
-      url: `${api}/lists`,
+    const url = `${api}/lists`;
+    return fetch(url, {
       method: 'POST',
-      body: list,
+      body: JSON.stringify(list),
+      headers: {
+        'Content-Type': 'application/json'
+      },
     })
     .then(data => data.json())
+    .then((results) => dispatch(addList(results)))
     .catch(error => {
-      dispatch(addList(list))
+      console.log(error);
+      return Promise.reject();
     })
   }
 }

@@ -31,6 +31,7 @@ class CreateList extends Component {
       title,
       entries,
     }
+    console.log('onClickCreateList', list);
     this.setState({ posting: true });
     return this.props.dispatch(createList(list))
       .then(() => this.setState({ posted: true, posting: false }))
@@ -50,7 +51,7 @@ class CreateList extends Component {
   render() {
     console.log(this.state);
     return (
-      <View style={{width: '100%', height: '70%', backgroundColor: 'powderblue'}}>
+      <View style={{width: '100%', backgroundColor: 'lightgreen', color: 'black' }}>
         <TextInput
           style={{ height: 40 }}
           placeholder="Title"
@@ -58,15 +59,14 @@ class CreateList extends Component {
           value={this.state.title}
         />
         <TextInput
-          style={{ border: '1px solid black', witdh: '100%', height: 30 }}
+          style={{height: 30 }}
         />
-        <FlatList
+        {/* <FlatList
           data={this.state.entries}
           keyExtractor={(e) => `${e.index}-${e.title}`}
           renderItem={(item, index) => {
             return (
               <View>
-                {/* <XButton /> */}
                 <TextInput
                   style={{ height: 40 }}
                   placeholder="entry..."
@@ -76,7 +76,7 @@ class CreateList extends Component {
               </View>
             )
           }}
-        />
+        /> */}
         <Button
           onPress={this.onClickCreateList}
           title="Create List"
