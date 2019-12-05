@@ -8,7 +8,6 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-
 import { createList } from '../../actions/list';
 
 class CreateList extends Component {
@@ -51,32 +50,16 @@ class CreateList extends Component {
   render() {
     console.log(this.state);
     return (
-      <View style={{width: '100%', backgroundColor: 'lightgreen', color: 'black' }}>
+      <View style={styles.createList}>
         <TextInput
-          style={{ height: 40 }}
+          style={styles.title}
           placeholder="Title"
           onChangeText={(text) => this.setState({ title: text })}
           value={this.state.title}
         />
         <TextInput
-          style={{height: 30 }}
+          style={styles.inputRow}
         />
-        {/* <FlatList
-          data={this.state.entries}
-          keyExtractor={(e) => `${e.index}-${e.title}`}
-          renderItem={(item, index) => {
-            return (
-              <View>
-                <TextInput
-                  style={{ height: 40 }}
-                  placeholder="entry..."
-                  onChangeText={this.editEntry.bind(index, this)}
-                  value={item.title}
-                />
-              </View>
-            )
-          }}
-        /> */}
         <Button
           onPress={this.onClickCreateList}
           title="Create List"
@@ -87,13 +70,26 @@ class CreateList extends Component {
 }
 
 const styles = StyleSheet.create({
-  splash: {
+  createList: {
     flex: 1,
+    flexDirection: 'column',
     width: '100%',
-    backgroundColor: 'lightslategray',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'steelblue',
+    color: 'black',
+    alignItems: 'stretch',
   },
+  title: {
+    height: 40,
+    width: '100%',
+    fontSize: 32,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  inputRow: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: 'white',
+  }
 });
 
 export default connect()(CreateList);
