@@ -51,18 +51,23 @@ class CreateList extends Component {
     console.log(this.state);
     return (
       <View style={styles.createList}>
-        <TextInput
-          style={styles.title}
-          placeholder="Title"
-          onChangeText={(text) => this.setState({ title: text })}
-          value={this.state.title}
-        />
-        <TextInput
-          style={styles.inputRow}
-        />
+        <View style={styles.upper}>
+          <TextInput
+            style={styles.title}
+            placeholder="Title..."
+            onChangeText={(text) => this.setState({ title: text })}
+            value={this.state.title}
+          />
+          <View style={styles.inputRow}>
+            <TextInput
+              style={styles.textBox}
+            />
+          </View>
+        </View>
         <Button
+          style={styles.button}
           onPress={this.onClickCreateList}
-          title="Create List"
+          title="Save List"
         />
       </View>
     )
@@ -77,6 +82,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'steelblue',
     color: 'black',
     alignItems: 'stretch',
+    justifyContent: 'space-between',
+  },
+  upper: {
+    flex: 4,
   },
   title: {
     height: 40,
@@ -88,7 +97,14 @@ const styles = StyleSheet.create({
   inputRow: {
     height: 40,
     borderWidth: 1,
+  },
+  textBox: {
     borderColor: 'white',
+  },
+  button: {
+    width: '50%',
+    flex: 2,
+    marginBottom: 20,
   }
 });
 
