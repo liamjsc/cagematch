@@ -53,7 +53,7 @@ function loadAllListsFail() {
  */
 export function loadList(id) {
   return (dispatch) => {
-    dispatch(loadListStart());
+    dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
       .then(response => response.json())
       .then(data => {
@@ -62,21 +62,21 @@ export function loadList(id) {
       })
       .catch((err) => {
         console.log(err);
-        dispatch(loadListFail());
+        dispatch(loadListFail(id));
       });
   }
 }
 
-function loadListStart() {
-  return { type: actionTypes.LOAD_LIST_START };
+function loadListStart(id) {
+  return { type: actionTypes.LOAD_LIST_START, id };
 }
 
-function loadListSuccess(list) {
-  return { type: actionTypes.LOAD_LIST_SUCCESS, list };
+function loadListSuccess(data) {
+  return { type: actionTypes.LOAD_LIST_SUCCESS, data };
 }
 
-function loadListFail() {
-  return { type: actionTypes.LOAD_LIST_FAIL };
+function loadListFail(id) {
+  return { type: actionTypes.LOAD_LIST_FAIL, id };
 }
 
 export function createList(list) {

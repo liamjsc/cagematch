@@ -9,7 +9,7 @@ class Splash extends Component {
         <Text>CAGE MATCH</Text>
         <Button
           title="Browse"
-          onPress={() => this.props.navigation.navigate('BrowseLists')}
+          onPress={() => this.props.navigation.navigate('Browse')}
         />
       </View>
     );

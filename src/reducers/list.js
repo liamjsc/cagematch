@@ -39,7 +39,7 @@ export default function listReducer(state = initialState, action = {}) {
             [action.list.id]: action.list,
           }
         }
-
+        return newState;
     default:
       return state;
   }

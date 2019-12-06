@@ -3,46 +3,73 @@ import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ListCard } from '../components';
-import { loadAllLists } from '../actions/list';
+import { loadList } from '../actions/list';
 
-class BrowseLists extends Component {
+class Cage extends Component {
+  state = {
+    entryAId: '',
+    entryBId: '',
+  }
+
+  getListId = () => {
+    return this.props.navigation.getParam('listId');
+  }
+
   componentDidMount() {
-    if (!this.props.loading) this.props.dispatch(loadAllLists());
+    const listId = this.getListId();
+    const { list, listRankings, dispatch } = this.props;
+    console.log('got list id', listId);
+    const { loading, loaded } = listRankings[listId] || {};
+
+    if (!loading && !loaded) dispatch(loadList(listId));
   }
 
   render() {
-    const { loaded, loading, listIds, byId } = this.props;
-    if (loading) return <Text>Loading</Text>;
+    const listId = this.getListId();
+    console.log('rendering', listId);
+    const { list, listRankings } = this.props;
+    console.log(listRankings);
+    const { loading, loaded } = listRankings[listId] || {};
+    const { entryAId, entryBId } = this.state;
 
+    console.log('cage render');
     console.log('loading', loading);
     console.log('loaded', loaded);
-    console.log('listIds', listIds);
+    console.log('listId', listId);
+    console.log('loaded', loaded);
+
+    if (loading || typeof loading === 'undefined') return <Text>Loading</Text>;
+
+    const { title } = list.byId[listId];
+
     return (
-      <FlatList
-        style={styles.list}
-        data={listIds}
-        renderItem={({ item }) => {
-          console.log('renderItem', item);
-          return <ListCard {...byId[item]} />
-        }}
-        keyExtractor={(item, idx) => `${idx}`}
-      />
+      <View style={styles.container}>
+        <Text style={styles.header}>{title}</Text>
+        <View style={styles.entryWrapper}>
+          <View style={styles.entry}></View>
+          <View style={styles.entry}></View>
+        </View>
+      </View>
     );
   }
 }
 const styles = StyleSheet.create({
-  list: {
+  container: {
     flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
     backgroundColor: 'lightslategray',
     width: '100%',
   },
+  header: {},
+  entryWrapper: {},
+  entry: {},
 });
 
-function mstp(state, { listId }) {
-  const { list } = state;
-  const { entries } = list.byId[listId];
-  return list;
+function mstp({ list, listRankings }) {
+  return {
+    list,
+    listRankings,
+  };
 }
-export default connect(mstp)(BrowseLists);
+export default connect(mstp)(Cage);

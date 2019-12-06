@@ -10,20 +10,29 @@ class BrowseLists extends Component {
     if (!this.props.loading) this.props.dispatch(loadAllLists());
   }
 
+  goToCage = (id) => {
+    console.log('go to cage', id);
+    console.log(this.props.navigation);
+    this.props.navigation.navigate('Cage', {
+      listId: id,
+    });
+  }
+
   render() {
     const { loaded, loading, listIds, byId } = this.props;
     if (loading) return <Text>Loading</Text>;
 
-    console.log('loading', loading);
-    console.log('loaded', loaded);
-    console.log('listIds', listIds);
     return (
       <FlatList
         style={styles.list}
         data={listIds}
         renderItem={({ item }) => {
-          console.log('renderItem', item);
-          return <ListCard {...byId[item]} />
+          return (
+            <ListCard
+              goToCage={this.goToCage}
+              {...byId[item]}
+            />
+          )
         }}
         keyExtractor={(item, idx) => `${idx}`}
       />

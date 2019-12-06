@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 
 class ListCard extends Component {
+  handlePress = () => {
+    const { goToCage, id: listId } = this.props;
+    console.log('go to cage', listId);
+    goToCage(listId);
+  }
+
   render() {
     const { title } = this.props;
     return (
-      <View style={styles.card}>
+      <TouchableHighlight style={styles.card} onPress={this.handlePress} underlayColor="white">
         <Text style={styles.title}>{title}</Text>
-      </View>
+      </TouchableHighlight>
     )
   }
 }
