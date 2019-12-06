@@ -3,23 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import { Splash, CreateList, BrowseLists } from '../../containers';
 
-// const styles = StyleSheet.create({
-//   app: {
-//     flex: 1,
-//     backgroundColor: 'lightslategray',
-//   },
-//   container: {
-//     flex: 10,
-//     backgroundColor: 'white',
-//     borderWidth: 1,
-//     borderColor: 'white',
-//   },
-// });
-
-const AppNavigator = createStackNavigator(
+const AppNavigator = createBottomTabNavigator(
   {
     Home: {
       screen: Splash,
@@ -33,6 +21,7 @@ const AppNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    headerMode: 'none',
   }
 );
 
