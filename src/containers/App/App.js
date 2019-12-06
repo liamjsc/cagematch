@@ -23,9 +23,9 @@ class App extends Component {
     console.log(this.props);
     return (
       <View style={styles.app}>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.headerText}>{headerText}</Text>
-        </View>
+        </View> */}
 
         <View style={styles.container}>
           {!listLoaded ? <Splash /> : <CreateList />}

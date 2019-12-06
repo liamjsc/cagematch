@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { createList } from '../../actions/list';
+import { white } from 'ansi-colors';
 
 class CreateList extends Component {
   constructor(props) {
@@ -17,10 +18,16 @@ class CreateList extends Component {
 
   state = {
     title: '',
-    entries: [],
+    entries: [
+      'entry 1',
+      'test 2',
+      'a third entry',
+      'number 4',
+    ],
+    pendingEntry: '',
     posting: false,
     posted: false,
-    error: {},
+    error: null,
   }
 
   onClickCreateList = (e) => {
@@ -28,7 +35,7 @@ class CreateList extends Component {
 
     const list = {
       title,
-      entries,
+      entries: entries.map((title) => ({ title })),
     }
     console.log('onClickCreateList', list);
     this.setState({ posting: true });
@@ -37,13 +44,11 @@ class CreateList extends Component {
       .catch((error) => this.setState({ posting: false, posted: false, error }))
   }
 
-  editEntry = (text, index) => {
-    console.log('onEditEntry', text, index);
+  onClickAddItem = () => {
+    if (!this.state.pendingEntry) return;
     this.setState({
-      entries: this.entries.map((entry, entryIndex) => {
-        if (entryIndex === index) return entry;
-        return { title: text }
-      })
+      entries: [...this.state.entries, this.state.pendingEntry],
+      pendingEntry: '',
     })
   }
 
@@ -54,16 +59,46 @@ class CreateList extends Component {
         <View style={styles.upper}>
           <TextInput
             style={styles.title}
-            placeholder="Title..."
+            placeholder="Nicolas Cage Movies..."
             onChangeText={(text) => this.setState({ title: text })}
             value={this.state.title}
+            selectionColor="white"
           />
-          <View style={styles.inputRow}>
+        </View>
+        <View style={styles.list}>
+          {this.state.entries.map((entry, idx) => {
+            return (
+              <Text key={idx + entry} style={styles.listItem}>
+                {`${idx + 1}: ${entry}`}
+              </Text>
+            )
+          })}
+        </View>
+        <View style={styles.inputRow}>
+          <Text style={{ padding: 10 }}>Add Item</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              width: '100%',
+            }}
+          >
             <TextInput
+              selectionColor="white"
               style={styles.textBox}
+              placeholder="..."
+              value={this.state.pendingEntry}
+              onChangeText={(text) => this.setState({ pendingEntry: text })}
+            />
+            <Button
+              title="Add"
+              onPress={this.onClickAddItem}
+              style={styles.addButton}
             />
           </View>
         </View>
+
+
         <Button
           style={styles.button}
           onPress={this.onClickCreateList}
@@ -82,12 +117,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'steelblue',
     color: 'black',
     alignItems: 'stretch',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    padding: 10,
   },
   upper: {
-    flex: 4,
+    flex: 2,
   },
   title: {
+    marginTop: 40,
     height: 40,
     width: '100%',
     fontSize: 32,
@@ -95,16 +132,35 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   inputRow: {
-    height: 40,
-    borderWidth: 1,
+    height: 80,
   },
   textBox: {
     borderColor: 'white',
+    borderWidth: 1,
+    paddingLeft: 10,
+    fontSize: 18,
+    flex: 8,
+  },
+  addButton: {
+    flex: 2,
   },
   button: {
     width: '50%',
     flex: 2,
     marginBottom: 20,
+  },
+  list: {
+    width: '100%',
+    flex: 8,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  listItem: {
+    // flex: 1,
+    height: 50,
+    fontSize: 18,
+
   }
 });
 
