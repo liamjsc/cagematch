@@ -2,54 +2,18 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+
 import { loadAllLists } from '../../actions/list';
-import { Splash, CreateList } from '../../containers';
+import { Splash, CreateList, BrowseLists } from '../../containers';
+import { NavigationBar } from '../../components';
 import { white } from 'ansi-colors';
-
-class App extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    setTimeout(() => {
-      dispatch(loadAllLists());
-    }, 1000);
-  }
-
-  render() {
-    const {
-      listLoaded,
-      headerText = 'Create',
-    } = this.props;
-    console.log('cage app render');
-    console.log(this.props);
-    return (
-      <View style={styles.app}>
-        {/* <View style={styles.header}>
-          <Text style={styles.headerText}>{headerText}</Text>
-        </View> */}
-
-        <View style={styles.container}>
-          {!listLoaded ? <Splash /> : <CreateList />}
-        </View>
-        <View style={styles.footer}></View>
-      </View>
-    );
-  }
-}
 
 const styles = StyleSheet.create({
   app: {
     flex: 1,
     backgroundColor: 'lightslategray',
-  },
-  header: {
-    flex: 2,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  headerText: {
-    fontSize: 48,
-    paddingBottom: 15,
   },
   container: {
     flex: 10,
@@ -57,23 +21,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
   },
-  footer: {
-    backgroundColor: 'lightslategray',
-    flex: 1,
-  }
 });
 
-const mapStateToProps = (state) => {
-  console.log('mapStateToProps')
-  console.log(state);
-  const { list: {
-    byId,
-    listIds,
-    loaded,
-    loading,
-  } } = state;
-  return {
-    listLoaded: loaded,
+const AppNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: Splash,
+    },
+    BrowseLists: {
+      screen: BrowseLists,
+    }
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
   }
 }
-export default connect(mapStateToProps)(App);

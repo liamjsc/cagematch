@@ -18,12 +18,7 @@ class CreateList extends Component {
 
   state = {
     title: '',
-    entries: [
-      'entry 1',
-      'test 2',
-      'a third entry',
-      'number 4',
-    ],
+    entries: [],
     pendingEntry: '',
     posting: false,
     posted: false,

@@ -1,12 +1,19 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function Splash() {
-  return (
-    <View style={styles.splash}>
-      <Text>CAGE MATCH</Text>
-    </View>
-  );
+class Splash extends Component {
+  render() {
+
+    return (
+      <View style={styles.splash}>
+        <Text>CAGE MATCH</Text>
+        <Button
+          title="Browse"
+          onPress={() => this.props.navigation.navigate('BrowseLists')}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -18,3 +25,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default Splash;
