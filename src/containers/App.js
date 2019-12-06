@@ -5,7 +5,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-import { Splash, CreateList, BrowseLists } from '../../containers';
+import { Splash, CreateList, BrowseLists } from './index';
 
 const AppNavigator = createBottomTabNavigator(
   {

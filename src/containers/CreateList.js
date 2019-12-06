@@ -8,7 +8,7 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { createList } from '../../actions/list';
+import { createList } from '../actions/list';
 import { white } from 'ansi-colors';
 
 class CreateList extends Component {
