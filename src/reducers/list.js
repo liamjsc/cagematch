@@ -21,7 +21,8 @@ export default function listReducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        listIds: [],
+        listIds: action.listIds,
+        byId: action.byId,
       };
       case actionTypes.LOAD_ALL_LISTS_FAIL:
         return {

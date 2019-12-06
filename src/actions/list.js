@@ -27,7 +27,21 @@ function loadAllListsStart() {
 }
 
 function loadAllListsSuccess(lists) {
-  return { type: actionTypes.LOAD_ALL_LISTS_SUCCESS, lists };
+  const byId = {};
+  const listIds = lists.map(list => {
+    console.log(list.title, typeof list.title);
+    if (list.title) {
+      byId[list.id] = list;
+      return list.id;
+    }
+  }).filter(Boolean);
+  console.log('filtered', listIds);
+
+  return {
+    type: actionTypes.LOAD_ALL_LISTS_SUCCESS,
+    listIds,
+    byId,
+  };
 }
 
 function loadAllListsFail() {
@@ -75,17 +89,17 @@ export function createList(list) {
         'Content-Type': 'application/json'
       },
     })
-    .then(data => data.json())
-    .then((results) => dispatch(addList(results)))
-    .catch(error => {
-      console.log(error);
-      return Promise.reject();
-    })
+      .then(data => data.json())
+      .then((results) => dispatch(addList(results)))
+      .catch(error => {
+        console.log(error);
+        return Promise.reject();
+      })
   }
 }
 
 function addList({ list, entries }) {
-  return { 
+  return {
     type: actionTypes.ADD_LIST,
     list,
     entries,
