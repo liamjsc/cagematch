@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
+import { Button, Text } from 'react-native-elements';
 
 class Splash extends Component {
-  render() {
+  goToBrowse = () => {
+    this.props.navigation.navigate('Browse');
+  }
 
+  render() {
     return (
       <View style={styles.splash}>
-        <Text>CAGE MATCH</Text>
+        <Text h1>CAGE MATCH</Text>
         <Button
           title="Browse"
-          onPress={() => this.props.navigation.navigate('Browse')}
+          onPress={this.goToBrowse}
         />
       </View>
     );
@@ -18,11 +22,11 @@ class Splash extends Component {
 
 const styles = StyleSheet.create({
   splash: {
+    alignItems: 'center',
     flex: 1,
     width: '100%',
     backgroundColor: 'lightslategray',
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
 });
 
