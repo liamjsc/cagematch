@@ -87,6 +87,7 @@ const theme = {
       borderWidth: 1,
       borderColor: 'gray',
       backgroundColor: 'white',
+      paddingLeft: 5,
     }
   },
   colors: {

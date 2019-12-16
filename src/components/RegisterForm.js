@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
 function validate({ email, username, passwordOne, passwordTwo }) {
@@ -18,7 +18,7 @@ class RegisterForm extends Component {
     console.log('onClickCreate');
     console.log(this.state);
     const valid = validate(this.state);
-    if (!valid) return this.setState({ error: 'Double check the form'})
+    if (!valid) return this.setState({ error: 'Double check the form' })
     const { email, username, passwordOne: password } = this.state;
     const credentials = {
       email,
@@ -43,10 +43,9 @@ class RegisterForm extends Component {
   }
 
   render() {
-    const styles = {};
     console.log('registerform -- render');
     return (
-      <View styles={styles.registerForm}>
+      <View style={styles.registerForm}>
         <Input
           label="Email"
           value={this.state.email}
@@ -68,10 +67,18 @@ class RegisterForm extends Component {
           onChange={this.onChangePasswordTwo}
         />
         <Button
+          containerStyle={styles.button}
           title="Create Account"
           onPress={this.onClickCreate}
           underlayColor='#99d9f4'
         />
+        <View style={styles.changeFormTextArea}>
+          <TouchableOpacity
+            onPress={this.props.changeForm}
+          >
+            <Text>Already have an account? Sign In</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -80,7 +87,16 @@ class RegisterForm extends Component {
 const styles = {
   registerForm: {
     flex: 1,
-    width: '100%'
+    width: '100%',
+    paddingBottom: 20,
+  },
+  button: {
+    margin: 10,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  changeFormTextArea: {
+    alignItems: 'center',
   }
 }
 

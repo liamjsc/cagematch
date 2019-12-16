@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { RegisterForm, LoginForm } from '../components';
@@ -15,6 +15,13 @@ class Splash extends Component {
     this.props.navigation.navigate('Browse');
   }
 
+  login = (creds) => {
+    return this.props.dispatch(login(creds))
+      .then(() => {
+        this.props.navigation.navigate('Browse');
+      })
+      .catch(error => console.log('should handle error better!', error));
+  }
   createAccount = (creds) => {
     return this.props.dispatch(createAccount(creds))
       .then(() => {
@@ -22,17 +29,30 @@ class Splash extends Component {
       })
       .catch(error => console.log('should handle error better!', error));
   }
+
+  changeForm = () => this.setState({ showRegister: !this.state.showRegister });
+
   render() {
     console.log('splash render');
     console.log(RegisterForm);
+    const { showRegister } = this.state;
     return (
       <View style={styles.splash}>
-        <View style={styles.center}>
+
+        <View style={styles.header}>
           <Text h1>CAGE MATCH</Text>
         </View>
-        <RegisterForm
-          createAccount={this.createAccount}
-        />
+
+        <View style={styles.formWrapper}>
+          {
+            showRegister ?
+              (
+                <RegisterForm createAccount={this.createAccount} changeForm={this.changeForm} />
+              ) : (
+                <LoginForm login={this.login} changeForm={this.changeForm} />
+              )
+          }
+        </View>
       </View>
     );
   }
@@ -47,10 +67,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     backgroundColor: 'lightslategray',
+    justifyContent: 'flex-start',
   },
-  center: {
+  header: {
+    flex: 1,
     alignItems: 'center',
-  }
+  },
+  formWrapper: {
+    flex: 6,
+  },
 });
 
 export default connect()(Splash);

@@ -1,36 +1,86 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
-import {
-  FormLabel,
-  FormInput,
-  FormValidationMessage,
-} from 'react-native-elements'
+import { TouchableOpacity, Text, View } from 'react-native';
+import { Input, Button } from 'react-native-elements';
 
-export default class LoginForm extends Component {
+function validate({ username, password }) {
+  return username && password;
+}
+
+class LoginForm extends Component {
+  state = {
+    username: 'a',
+    password: 'ab',
+  }
+
+  onClickLogin = () => {
+    console.log('onClickLogin');
+    console.log(this.state);
+    const valid = validate(this.state);
+    if (!valid) return this.setState({ error: 'Double check the form' })
+    const { email, username, password } = this.state;
+    const credentials = {
+      email,
+      username,
+      password,
+    }
+    this.props.login(credentials);
+  }
+
+  onChangeUsername = (e) => {
+    this.setState({ username: e.nativeEvent.text });
+  }
+  onChangepassword = (e) => {
+    this.setState({ password: e.nativeEvent.text });
+  }
+
   render() {
+    console.log('loginForm -- render');
     return (
-      <ScrollView>
-        <View>
-          <FormLabel>Username</FormLabel>
-          <FormInput onChangeText={someFunction} />
-          <FormValidationMessage>Error message</FormValidationMessage>
+      <View styles={styles.loginForm}>
+        <Input
+          label="Username or Email"
+          value={this.state.username}
+          onChange={this.onChangeUsername}
+        />
+        <Input
+          label="Password"
+          value={this.state.password}
+          onChange={this.onChangepassword}
+        />
+
+        <Button
+          title="Sign In"
+          containerStyle={styles.button}
+          onPress={this.onClickLogin}
+          underlayColor='#99d9f4'
+        />
+
+        <View style={styles.changeFormTextArea}>
+          <TouchableOpacity
+            onPress={this.props.changeForm}
+          >
+            <Text>Already have an account? Sign In</Text>
+          </TouchableOpacity>
         </View>
-        <View>
-          <FormLabel>Email</FormLabel>
-          <FormInput onChangeText={someFunction} />
-          <FormValidationMessage>Error message</FormValidationMessage>
-        </View>
-        <View>
-          <FormLabel>Password</FormLabel>
-          <FormInput onChangeText={someFunction} />
-          <FormValidationMessage>Error message</FormValidationMessage>
-        </View>
-        <View>
-          <FormLabel>Confirm Password</FormLabel>
-          <FormInput onChangeText={someFunction} />
-          <FormValidationMessage>Error message</FormValidationMessage>
-        </View>
-      </ScrollView>
-    )
+      </View>
+    );
   }
 }
+
+const styles = {
+  loginForm: {
+    flex: 1,
+    width: '100%',
+    paddingBottom: 20,
+  },
+  button: {
+    margin: 10,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  changeFormTextArea: {
+    alignItems: 'center',
+  },
+}
+
+export default LoginForm;
