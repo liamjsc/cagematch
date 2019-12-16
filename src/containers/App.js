@@ -62,7 +62,7 @@ const AppNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Browse',
+    initialRouteName: 'Home',
     headerMode: 'none',
   }
 );
@@ -74,6 +74,21 @@ const theme = {
     type: 'outline',
     raised: true,
   },
+  Input: {
+    containerStyle: {
+      marginTop: 3,
+      marginBottom: 3,
+    },
+    labelStyle: {
+      color: 'white',
+      fontWeight: 'normal',
+    },
+    inputStyle: {
+      borderWidth: 1,
+      borderColor: 'gray',
+      backgroundColor: 'white',
+    }
+  },
   colors: {
     ...Platform.select({
       default: colors.platform.android,
@@ -81,6 +96,7 @@ const theme = {
     }),
   },
 }
+
 export default class App extends React.Component {
   render() {
     return (

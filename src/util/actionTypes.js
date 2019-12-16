@@ -7,3 +7,5 @@ export const ADD_LIST = 'ADD_LIST';
 export const LOAD_LIST_START = 'LOAD_LIST_START';
 export const LOAD_LIST_SUCCESS = 'LOAD_LIST_SUCCESS';
 export const LOAD_LIST_FAIL = 'LOAD_LIST_FAIL';
+
+export const SET_USER = 'SET_USER';
