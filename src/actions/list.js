@@ -52,16 +52,24 @@ function loadAllListsFail() {
  * load single list by id with entries sorted
  */
 export function loadList(id) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { loaded, loading } = getState().listRankings[id] || {};
+    if (!loaded || loading) return Promise.resolve();
+
+    console.log('LOADLISTSTART');
     dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
       .then(response => response.json())
       .then(data => {
         console.log('list:', data);
+        console.log('LOADLISTSUCCESS');
+
         dispatch(loadListSuccess(data));
       })
       .catch((err) => {
         console.log(err);
+        console.log('LOADLISTFAIL');
+
         dispatch(loadListFail(id));
       });
   }
