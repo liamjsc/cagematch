@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { RegisterForm, LoginForm } from '../components';
-import { createAccount, login } from '../actions/auth';
+import {
+  createAccount,
+  login,
+  getUserFromDevice,
+  setUser,
+ } from '../actions/auth';
 
 
 class Splash extends Component {
   state = {
     showRegister: true,
+    authStatusLoaded: false,
+  }
+
+  async componentDidMount() {
+    console.log('CDM Splash');
+    // check if we have a user
+    const user = await getUserFromDevice();
+    this.props.dispatch(setUser(user || null));
+    if (user) return this.goToBrowse();
+    this.setState({ authStatusLoaded: true });
   }
 
   goToBrowse = () => {
@@ -35,7 +50,16 @@ class Splash extends Component {
   render() {
     console.log('splash render');
     console.log(RegisterForm);
-    const { showRegister } = this.state;
+    const { showRegister, authStatusLoaded } = this.state;
+
+    if (!authStatusLoaded) return (
+      <View style={styles.fullScreenSpinner}>
+        <ActivityIndicator
+          size="large"
+        />
+      </View>
+    );
+
     return (
       <View style={styles.splash}>
 
@@ -76,6 +100,10 @@ const styles = StyleSheet.create({
   formWrapper: {
     flex: 6,
   },
+  fullScreenSpinner: {
+    flex: 1,
+    justifyContent: 'center',
+  }
 });
 
 export default connect()(Splash);

@@ -1,7 +1,15 @@
 import * as actionTypes from '../util/actionTypes';
 import { api } from '../config'
+import { AsyncStorage } from 'react-native';
 
-function setUser(user) {
+export async function getUserFromDevice() {
+  const userString = await AsyncStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null;
+  console.log('getUserFromDevice', user);
+  return user;
+}
+
+export function setUser(user) {
   return { type: actionTypes.SET_USER, user };
 }
 
@@ -21,9 +29,10 @@ export function createAccount(credentials) {
       },
     })
       .then(data => data.json())
-      .then(results => {
+      .then(async results => {
         console.log('api register response');
         console.log(results);
+        await AsyncStorage.setItem('user', JSON.stringify(results)); // who is the user of this device
         return dispatch(setUser(results));
       })
       .catch(error => {
@@ -46,9 +55,10 @@ export function login(credentials) {
       },
     })
       .then(data => data.json())
-      .then(results => {
+      .then(async results => {
         console.log('api register response');
         console.log(results);
+        await AsyncStorage.setItem('user', JSON.stringify(results)); // who is the user of this device
         return dispatch(setUser(results));
       })
       .catch(error => {
