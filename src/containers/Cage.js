@@ -3,8 +3,8 @@ import { StyleSheet, View, TouchableHighlight } from 'react-native';
 import { Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { ListCard } from '../components';
 import { loadList } from '../actions/list';
+import { postMatchup } from '../actions/matchup';
 
 class Cage extends Component {
   // todo- make an entriesById map and access ID here
@@ -13,6 +13,7 @@ class Cage extends Component {
     entryBId: '',
     entryA: {},
     entryB: {},
+    loaded: false,
   }
 
   getListId = () => {
@@ -22,7 +23,7 @@ class Cage extends Component {
   selectTwoEntries = () => {
     const { list } = this.props;
     const listId = this.getListId();
-    const { entries } = list.byId[listId].entries;
+    const { entries } = list.byId[listId];
     // Object {
     //   "createdAt": "2019-11-26T02:38:28.866Z",
     //   "id": "d42cfd9f-1cba-44e5-9cea-7d4efc12bd40",
@@ -34,68 +35,91 @@ class Cage extends Component {
 
     const indexOne = Math.floor(Math.random() * entries.length);
     let indexTwo = Math.floor(Math.random() * entries.length);
-    while (indexOne === indexTwo) {
+    while (entries && entries.length && entries.length > 1 && indexOne === indexTwo) {
       indexTwo = Math.floor(Math.random() * entries.length);
     }
-    console.log('entries');
-    console.log(entries);
     return [entries[indexOne], entries[indexTwo]];
   }
 
   componentDidMount() {
-    console.log('CDM');
     const listId = this.getListId();
     const { list, listRankings, dispatch } = this.props;
     const { loading, loaded } = listRankings[listId] || {};
 
-    if (!loading && !loaded) {
-      console.log('cdm calling loadList again');
-      return dispatch(loadList(listId)).then(() => {
-        const entries = this.selectTwoEntries();
-        this.setState({
-          entryA: entries[0],
-          entryB: entries[1],
-        });
-      })
-    } else if (!loading) {
+    return dispatch(loadList(listId)).then(() => {
+      console.log(this.props);
       const entries = this.selectTwoEntries();
       this.setState({
+        loaded: true,
         entryA: entries[0],
         entryB: entries[1],
       });
+    });
+  }
+
+  handlePress = (winner, loser) => {
+    const listId = this.getListId();
+    const { entryA, entryB } = this.state;
+    const { id: userId } = this.props.user;
+    const entryAId = entryA.id; 
+    const entryBId = entryB.id; 
+    const matchupResults = {
+      entryA: entryAId,
+      entryB: entryBId,
+      winner,
+      loser,
+      listId,
+      userId,
     }
+    console.log('matchup results:', matchupResults);
+    
+    this.props.dispatch(postMatchup(matchupResults));
+    
+    const entries = this.selectTwoEntries();
+    this.setState({
+      loaded: true,
+      entryA: entries[0],
+      entryB: entries[1],
+    });
   }
 
   render() {
     const listId = this.getListId();
-    console.log('rendering', listId);
+
+    if (!this.state.loaded) {
+      return <Text>Loading {listId} </Text>;
+    }
     const { list, listRankings } = this.props;
-    console.log(listRankings);
     const { loading, loaded } = listRankings[listId] || {};
     const { entryA, entryB } = this.state;
 
     console.log('cage render');
-    console.log('loading', loading);
-    console.log('loaded', loaded);
-    console.log('listId', listId);
-    console.log(entryA);
-    console.log(entryB);
-
-
-    if (loading || typeof loading === 'undefined') return <Text>Loading</Text>;
+    console.log(this.state)
+    // console.log(this.props);
+    // console.log(this.state);
 
     const { title } = list.byId[listId];
 
     return (
       <View style={styles.container}>
         <Text h2 style={styles.header}>{title}</Text>
-        <View style={styles.entryWrapper}>
-          <View style={styles.entry}>
-            <Text>{entryA.title}</Text>
-          </View>
-          <View style={styles.entry}>
-            <Text>{entryB.title}</Text>
-          </View>
+        <View style={styles.entriesContainer}>
+          <TouchableHighlight
+            style={styles.entryWrapper}
+            onPress={() => this.handlePress(entryA.id, entryB.id)}
+          >
+            <View>
+              <Text>{(entryA || {}).title}</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.entryWrapper}
+            onPress={() => this.handlePress(entryB.id, entryA.id)}
+          >
+            <View>
+              <Text>{(entryB || {}).title}</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -111,15 +135,37 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'green',
   },
-  header: {},
-  entryWrapper: {},
-  entry: {},
+  header: {
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  entriesContainer: {
+    borderColor: 'yellow',
+    borderWidth: 1,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+  },
+  entryWrapper: {
+    borderColor: 'purple',
+    borderWidth: 1,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  entryTitle: {
+
+  }
 });
 
-function mstp({ list, listRankings }) {
+function mstp({ list, listRankings, auth }) {
+  console.log('cage mstp');
+  console.log(list, listRankings);
   return {
     list,
     listRankings,
+    user: auth.user,
   };
 }
 export default connect(mstp)(Cage);

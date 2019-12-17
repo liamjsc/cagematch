@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export default function listReducer(state = initialState, action = {}) {
-  console.log('reducer', action);
+  // console.log('reducer', action);
   switch (action.type) {
     case actionTypes.LOAD_ALL_LISTS_START:
       return {

@@ -11,6 +11,7 @@ import { Card, Text } from 'react-native-elements';
 
 class ListCard extends Component {
   handlePress = () => {
+    console.log('list card handlePress');
     const { goToCage, id: listId } = this.props;
     console.log('go to cage', listId);
     goToCage(listId);
@@ -19,7 +20,10 @@ class ListCard extends Component {
   render() {
     const { title } = this.props;
     return (
-      <TouchableHighlight style={{padding: 0, justifyContent: 'center', alignItems: 'stretch'}} onPress={this.handlePress}>
+      <TouchableHighlight
+        style={{ padding: 0, justifyContent: 'center', alignItems: 'stretch' }}
+        onPress={this.handlePress}
+      >
         <Card containerStyle={styles.card}>
           <Text h3>{title}</Text>
         </Card>
