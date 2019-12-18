@@ -14,15 +14,14 @@ export default function listRankingsReducer(state = initialState, action = {}) {
         },
       };
     case actionTypes.LOAD_LIST_SUCCESS:
-      console.log(action.list);
-      const { list, entries } = action.data;
+      const { list } = action.data;
       return {
         ...state,
         [list.id]: {
           loading: false,
           loaded: true,
           error: null,
-          rankings: entries.list,
+          children: list.entries.map(entry => entry.id),
         },
       };
     case actionTypes.LOAD_LIST_FAIL:

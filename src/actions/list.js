@@ -2,6 +2,8 @@ import * as actionTypes from '../util/actionTypes';
 import { api } from '../config'
 import { devLists, devList } from '../util/devData';
 
+import { insertEntries } from '../actions/entries';
+
 const dev = false;
 
 /**load all lists without sorted entries */
@@ -52,9 +54,12 @@ function loadAllListsFail() {
  * load single list by id with entries sorted
  */
 export function loadList(id) {
+  console.log('load list', id);
   return (dispatch, getState) => {
     const { loaded, loading } = getState().listRankings[id] || {};
-    if (!loaded || loading) return Promise.resolve();
+    console.log('loaded, loading', loaded, loading);
+    console.log(Object.keys(getState()));
+    // if (!loaded || loading) return Promise.resolve();
 
     console.log('LOADLISTSTART');
     dispatch(loadListStart(id));
@@ -62,8 +67,9 @@ export function loadList(id) {
       .then(response => response.json())
       .then(data => {
         console.log('list:', data);
+        console.log(data.list.entries);
         console.log('LOADLISTSUCCESS');
-
+        dispatch(insertEntries(data.list.entries));
         dispatch(loadListSuccess(data));
       })
       .catch((err) => {

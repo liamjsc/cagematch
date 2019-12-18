@@ -11,3 +11,5 @@ export const LOAD_LIST_FAIL = 'LOAD_LIST_FAIL';
 export const SET_USER = 'SET_USER';
 
 export const POST_MATCHUP = 'POST_MATCHUP';
+
+export const INSERT_ENTRIES = 'INSERT_ENTRIES';

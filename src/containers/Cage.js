@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
 
 function mstp({ list, listRankings, auth }) {
   console.log('cage mstp');
-  console.log(list, listRankings);
+  // console.log(list, listRankings);
   return {
     list,
     listRankings,

@@ -12,7 +12,6 @@ class BrowseLists extends Component {
 
   goToCage = (id) => {
     console.log('go to cage', id);
-    console.log(this.props.navigation);
     this.props.navigation.navigate('Cage', {
       listId: id,
     });
