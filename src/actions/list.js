@@ -37,7 +37,6 @@ function loadAllListsSuccess(lists) {
       return list.id;
     }
   }).filter(Boolean);
-  console.log('filtered', listIds);
 
   return {
     type: actionTypes.LOAD_ALL_LISTS_SUCCESS,
@@ -56,26 +55,18 @@ function loadAllListsFail() {
 export function loadList(id) {
   console.log('load list', id);
   return (dispatch, getState) => {
-    const { loaded, loading } = getState().listRankings[id] || {};
-    console.log('loaded, loading', loaded, loading);
-    console.log(Object.keys(getState()));
-    // if (!loaded || loading) return Promise.resolve();
-
     console.log('LOADLISTSTART');
     dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
       .then(response => response.json())
       .then(data => {
-        console.log('list:', data);
-        console.log(data.list.entries);
-        console.log('LOADLISTSUCCESS');
+        console.log('list response:', data);
         dispatch(insertEntries(data.list.entries));
         dispatch(loadListSuccess(data));
       })
       .catch((err) => {
-        console.log(err);
         console.log('LOADLISTFAIL');
-
+        console.log(err);
         dispatch(loadListFail(id));
       });
   }
