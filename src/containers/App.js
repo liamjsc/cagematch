@@ -52,7 +52,7 @@ const AppNavigator = createBottomTabNavigator(
           <Icon
             type="material"
             focused={focused}
-            name="add"
+            name="create"
           />
         ),
         tabBarOptions: {
@@ -80,13 +80,13 @@ const theme = {
       marginBottom: 3,
     },
     labelStyle: {
-      color: 'white',
+      // color: 'white',
       fontWeight: 'normal',
     },
     inputStyle: {
-      borderWidth: 1,
-      borderColor: 'gray',
-      backgroundColor: 'white',
+      // borderWidth: 1,
+      // borderColor: 'gray',
+      // backgroundColor: 'white',
       paddingLeft: 5,
     }
   },

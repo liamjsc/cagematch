@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   FlatList,
 } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
 import { connect } from 'react-redux';
-import { createList } from '../actions/list';
+import { createList as postList } from '../actions/list';
 
 class CreateList extends Component {
   constructor(props) {
@@ -26,15 +25,17 @@ class CreateList extends Component {
   }
 
   onClickCreateList = (e) => {
+    console.log('click create');
     const { title, entries } = this.state;
 
+    console.log(this.state);
     const list = {
       title,
-      entries: entries.map((title) => ({ title })),
+      entries: entries.map((entryTitle) => ({ title: entryTitle })),
     }
     console.log('onClickCreateList', list);
     this.setState({ posting: true });
-    return this.props.dispatch(createList(list))
+    return this.props.dispatch(postList(list))
       .then(() => this.setState({ posted: true, posting: false }))
       .catch((error) => this.setState({ posting: false, posted: false, error }))
   }
@@ -48,16 +49,23 @@ class CreateList extends Component {
   }
 
   render() {
-    console.log(this.state);
+    if (this.state.error) console.log(error);
     return (
       <View style={styles.createList}>
 
         <View style={styles.titleArea}>
           <Input
             containerStyle={styles.titleContainer}
-            placeholder="Title..."
-            onChange={(text) => this.setState({ title: text })}
+            label="Title"
+            placeholder="Nic Cage Movies..."
+            onChange={(text) => {
+              console.log('input on change');
+              console.log(text);
+              this.setState({ title: text })
+          }}
             value={this.state.title}
+            selectionColor="white"
+            inputStyle={styles.titleInput}
           />
         </View>
 
@@ -65,17 +73,24 @@ class CreateList extends Component {
           <Input
             containerStyle={styles.addInputContainer}
             placeholder='New Entry'
-            leftIcon={{ type: 'material', name: 'add-circle-outline' }}
+            // leftIcon={{ type: 'material', name: 'add-circle-outline' }}
             value={this.state.pendingEntry}
-            onChangeText={(text) => this.setState({ pendingEntry: text })}
+            onChangeText={(text) => {
+              console.log('pending input on change');
+              console.log(text);
+              this.setState({ pendingEntry: text })}
+            }
           />
-          <Button
+          <View
             style={styles.addButton}
-            title="Add"
-            onPress={this.onClickAddItem}
-            style={styles.addButton}
-          />
+          >
+            <Button
+              title="Add"
+              onPress={this.onClickAddItem}
+            />
+          </View>
         </View>
+
         <View style={styles.list}>
           {this.state.entries.map((entry, idx) => {
             return (
@@ -87,9 +102,10 @@ class CreateList extends Component {
         </View>
 
         <Button
-          style={styles.button}
+          containerStyle={styles.saveListButton}
           onPress={this.onClickCreateList}
           title="Save List"
+          type="outline"
         />
       </View >
     )
@@ -98,69 +114,58 @@ class CreateList extends Component {
 
 const styles = StyleSheet.create({
   createList: {
-    borderWidth: 1,
-    borderColor: 'green',
-    flex: 1,
-    flexDirection: 'column',
+    // flex: 1,
+    // flexDirection: 'column',
     width: '100%',
-    backgroundColor: 'steelblue',
-    color: 'black',
-    alignItems: 'stretch',
+    backgroundColor: 'teal',
+    color: 'white',
+    // alignItems: 'stretch',
     // justifyContent: 'space-between',
     padding: 10,
+    paddingTop: 30,
+    height: '100%',
   },
   titleArea: {
-    borderWidth: 1,
-    borderColor: 'orange',
-    flex: 2,
+    // flex: 2,
+    height: 110,
+    borderBottomWidth: 2,
+    borderBottomColor: 'black',
+    marginBottom: 20,
   },
   titleContainer: {
     marginTop: 40,
     height: 40,
     width: '100%',
   },
+  titleInput: {
+    color: 'white',
+  },
   newEntryRow: {
-    borderWidth: 1,
-    borderColor: 'pink',
-    height: 80,
+    height: 50,
     flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
   addInputContainer: {
-    borderWidth: 1,
-    borderColor: 'yellow',
-    flex: 4,
+    flex: 3,
   },
   addButton: {
-    flex: 2,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  textBox: {
-    borderColor: 'white',
-    borderWidth: 1,
-    paddingLeft: 10,
-    fontSize: 18,
-    flex: 8,
-  },
-
-  button: {
-    width: '50%',
-    flex: 2,
-    marginBottom: 20,
+    flex: 1,
+    justifyContent: 'center',
   },
   list: {
     width: '100%',
-    flex: 8,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    // alignItems: 'center',
+    // justifyContent: 'flex-start',
+    paddingTop: 20,
   },
   listItem: {
-    // flex: 1,
-    height: 50,
+    height: 30,
     fontSize: 18,
-
-  }
+  },
+  saveListButton: {
+    marginTop: 20,
+  },
 });
 
 export default connect()(CreateList);

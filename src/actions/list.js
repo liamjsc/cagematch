@@ -85,6 +85,8 @@ function loadListFail(id) {
 }
 
 export function createList(list) {
+  console.log('create list');
+  console.log(list);
   return (dispatch) => {
     const url = `${api}/lists`;
     return fetch(url, {
