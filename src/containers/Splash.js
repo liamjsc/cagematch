@@ -21,6 +21,7 @@ class Splash extends Component {
     console.log('CDM Splash');
     // check if we have a user
     const user = await getUserFromDevice();
+    console.log('got user #', user);
     this.props.dispatch(setUser(user || null));
     if (user) return this.goToBrowse();
     this.setState({ authStatusLoaded: true });
@@ -49,7 +50,7 @@ class Splash extends Component {
 
   render() {
     console.log('splash render');
-    console.log(RegisterForm);
+    console.log(this.state);
     const { showRegister, authStatusLoaded } = this.state;
 
     if (!authStatusLoaded) return (

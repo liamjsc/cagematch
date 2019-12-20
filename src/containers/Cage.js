@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { loadList } from '../actions/list';
 import { postMatchup } from '../actions/matchup';
+import { Rankings } from '../components';
 
 class Cage extends Component {
   // todo- make an entriesById map and access ID here
@@ -121,6 +122,9 @@ class Cage extends Component {
             </View>
           </TouchableHighlight>
         </View>
+        <View style={styles.rankingsWrapper}>
+          <Rankings listId={listId}/>
+        </View>
       </View>
     );
   }
@@ -160,8 +164,6 @@ const styles = StyleSheet.create({
 });
 
 function mstp({ list, listRankings, auth }) {
-  console.log('cage mstp');
-  // console.log(list, listRankings);
   return {
     list,
     listRankings,
