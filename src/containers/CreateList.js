@@ -58,9 +58,7 @@ class CreateList extends Component {
             containerStyle={styles.titleContainer}
             label="Title"
             placeholder="Nic Cage Movies..."
-            onChange={(text) => {
-              console.log('input on change');
-              console.log(text);
+            onChangeText={(text) => {
               this.setState({ title: text })
           }}
             value={this.state.title}
@@ -72,12 +70,9 @@ class CreateList extends Component {
         <View style={styles.newEntryRow}>
           <Input
             containerStyle={styles.addInputContainer}
-            placeholder='New Entry'
-            // leftIcon={{ type: 'material', name: 'add-circle-outline' }}
+            placeholder='New Entry...'
             value={this.state.pendingEntry}
             onChangeText={(text) => {
-              console.log('pending input on change');
-              console.log(text);
               this.setState({ pendingEntry: text })}
             }
           />
@@ -107,6 +102,9 @@ class CreateList extends Component {
           title="Save List"
           type="outline"
         />
+        <Text>
+          {JSON.stringify(this.state)}
+        </Text>
       </View >
     )
   }
