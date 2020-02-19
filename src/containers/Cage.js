@@ -18,6 +18,7 @@ class Cage extends Component {
   }
 
   getListId = () => {
+    console.log('get list id');
     return this.props.navigation.getParam('listId');
   }
 
@@ -50,6 +51,7 @@ class Cage extends Component {
     return dispatch(loadList(listId)).then(() => {
       console.log(this.props);
       const entries = this.selectTwoEntries();
+      console.log('got 2 entries', entries);
       this.setState({
         loaded: true,
         entryA: entries[0],

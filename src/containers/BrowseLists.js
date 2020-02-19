@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import { StyleSheet, Text, Dimensions, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ListCard } from '../components';
 import { loadAllLists } from '../actions/list';
 
 class BrowseLists extends Component {
+  static navigationOptions = {
+    title: 'Browse',
+    headerTitleStyle : {width : Dimensions.get('window').width}
+  };
   componentDidMount() {
     if (!this.props.loading) this.props.dispatch(loadAllLists());
   }
