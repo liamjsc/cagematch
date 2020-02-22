@@ -3,14 +3,21 @@ import { api } from '../config'
 import { AsyncStorage } from 'react-native';
 
 export async function getUserFromDevice() {
+  console.log('getUserFromDevice');
   const userString = await AsyncStorage.getItem('user');
+  console.log('userString');
+
   const user = userString ? JSON.parse(userString) : null;
   console.log('getUserFromDevice', user);
   return user;
 }
 
 export function setUser(user) {
-  return { type: actionTypes.SET_USER, user };
+  console.log('setUser action', user);
+  return {
+    type: actionTypes.SET_USER,
+    user,
+  };
 }
 
 /**

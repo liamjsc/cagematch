@@ -38,6 +38,7 @@ class Splash extends Component {
       })
       .catch(error => console.log('should handle error better!', error));
   }
+
   createAccount = (creds) => {
     return this.props.dispatch(createAccount(creds))
       .then(() => {

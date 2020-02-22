@@ -6,11 +6,11 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-import { Splash, CreateList, BrowseLists, Cage } from './index';
+import { Home, CreateList, BrowseLists, Cage } from './index';
 
 const BrowseStack = createStackNavigator({
   Browse: BrowseLists,
-  Cage: Cage,
+  Cage,
 });
 
 BrowseStack.navigationOptions = {
@@ -30,7 +30,7 @@ BrowseStack.navigationOptions = {
 const AppNavigator = createBottomTabNavigator(
   {
     Home: {
-      screen: Splash,
+      screen: Home,
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
           <Icon
