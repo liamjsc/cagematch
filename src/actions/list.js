@@ -7,7 +7,7 @@ import { insertEntries } from '../actions/entries';
 const dev = false;
 
 /**load all lists without sorted entries */
-export function loadAllLists() {
+export function loadAllLists(user) {
   return (dispatch, getState) => {
     console.log('load all lists');
     dispatch(loadAllListsStart());

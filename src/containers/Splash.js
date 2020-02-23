@@ -10,21 +10,42 @@ import {
   setUser,
  } from '../actions/auth';
 
+ import { loadAllLists } from '../actions/list';
 
+/**
+ * Splash is rendered outside of the AppNavigator context
+ * Fetch user info and load all initial data for the app home view
+ * When data is loaded, call `props.onAppReady`
+ */
 class Splash extends Component {
   state = {
     showRegister: true,
     authStatusLoaded: false,
   }
 
+  /**
+   * check if we have a user
+   * load the app data
+   * when app data is loaded, call onAppReady
+   */
   async componentDidMount() {
-    console.log('CDM Splash');
-    // check if we have a user
+    const { dispatch, onAppReady } = this.props;
+
     const user = await getUserFromDevice();
-    console.log('got user #', user);
-    this.props.dispatch(setUser(user || null));
-    if (user) return this.goToBrowse();
-    this.setState({ authStatusLoaded: true });
+    dispatch(setUser(user || null));
+
+    console.log('set the user', user);
+    if (!user) return this.setState({ authStatusLoaded: true });
+
+    // there is a user, load app data then dismiss the splash screen
+    return dispatch(loadAllLists(user))
+      .then(() => {
+        console.log('calling onAppReady', onAppReady);
+        onAppReady && onAppReady();
+      })
+      .catch(() => {
+        console.log('CDM error Splash.js')
+      });
   }
 
   goToBrowse = () => {
@@ -56,6 +77,7 @@ class Splash extends Component {
 
     if (!authStatusLoaded) return (
       <View style={styles.fullScreenSpinner}>
+        <Text>Cagematch is loading</Text>
         <ActivityIndicator
           size="large"
         />
@@ -67,17 +89,6 @@ class Splash extends Component {
 
         <View style={styles.header}>
           <Text h1>CAGE MATCH</Text>
-        </View>
-
-        <View style={styles.formWrapper}>
-          {
-            showRegister ?
-              (
-                <RegisterForm createAccount={this.createAccount} changeForm={this.changeForm} />
-              ) : (
-                <LoginForm login={this.login} changeForm={this.changeForm} />
-              )
-          }
         </View>
       </View>
     );

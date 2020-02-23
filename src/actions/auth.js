@@ -2,14 +2,13 @@ import * as actionTypes from '../util/actionTypes';
 import { api } from '../config'
 import { AsyncStorage } from 'react-native';
 
+/**
+ * return user object or null
+ */
 export async function getUserFromDevice() {
   console.log('getUserFromDevice');
   const userString = await AsyncStorage.getItem('user');
-  console.log('userString');
-
-  const user = userString ? JSON.parse(userString) : null;
-  console.log('getUserFromDevice', user);
-  return user;
+  return userString ? JSON.parse(userString) : null;;
 }
 
 export function setUser(user) {

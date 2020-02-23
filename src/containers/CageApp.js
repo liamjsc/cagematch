@@ -6,7 +6,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
-import { Home, CreateList, BrowseLists, Cage } from './index';
+import { Home, Splash, CreateList, BrowseLists, Cage } from './index';
 
 const BrowseStack = createStackNavigator({
   Browse: BrowseLists,
@@ -30,7 +30,7 @@ BrowseStack.navigationOptions = {
 const AppNavigator = createBottomTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: BrowseLists,
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
           <Icon
@@ -99,10 +99,24 @@ const theme = {
 }
 
 export default class App extends React.Component {
+  state = {
+    showSplash: true,
+  }
+
+  dismissSplash = () => this.setState({ showSplash: false });
+  showSplash = () => this.setState({ showSplash: true });
+
   render() {
+    const { showSplash } = this.state;
     return (
       <ThemeProvider theme={theme}>
-        <AppContainer />
+        {
+          showSplash ? (
+          <Splash
+            onAppReady={this.dismissSplash}
+          />
+          ) : <AppContainer />
+        }
       </ThemeProvider>
     );
   }

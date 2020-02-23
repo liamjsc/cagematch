@@ -11,7 +11,8 @@ class BrowseLists extends Component {
     headerTitleStyle : {width : Dimensions.get('window').width}
   };
   componentDidMount() {
-    if (!this.props.loading) this.props.dispatch(loadAllLists());
+    const { loaded, loading } = this.props;
+    if (!loaded && !loading) this.props.dispatch(loadAllLists());
   }
 
   goToCage = (id) => {
@@ -52,6 +53,12 @@ const styles = StyleSheet.create({
   },
 });
 
+// const initialState = {
+//   loaded: false,
+//   loading: false,
+//   listIds: [],
+//   byId: {},
+// }
 function mstp(state) {
   const { list } = state;
   return list;
