@@ -3,31 +3,37 @@ import {
   StyleSheet,
   View,
   Button,
-  FlatList,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { Card, Text } from 'react-native-elements';
 
 class ListCard extends Component {
   handlePress = () => {
+    const { goToListDetail, id: listId } = this.props;
     console.log('list card handlePress');
-    const { goToCage, id: listId } = this.props;
-    console.log('go to cage', listId);
-    goToCage(listId);
+    console.log('go to listDetail', listId);
+    goToListDetail(listId);
   }
 
   render() {
-    const { title } = this.props;
+    const {
+      title,
+      description = 'Placeholder description to explain what the list is about'
+     } = this.props;
     return (
-      <TouchableHighlight
+      <TouchableWithoutFeedback
         style={{ padding: 0, justifyContent: 'center', alignItems: 'stretch' }}
         onPress={this.handlePress}
       >
-        <Card containerStyle={styles.card}>
-          <Text h3>{title}</Text>
+        <Card
+          title={title}
+          containerStyle={styles.card}
+        >
+          <Text>{description}</Text>
+          {/* <Text h3>{title}</Text> */}
         </Card>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
     )
   }
 }

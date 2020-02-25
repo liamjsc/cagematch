@@ -7,9 +7,11 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import { Home, Splash, CreateList, BrowseLists, Cage } from './index';
+import { ListFullDetail } from '../components'
 
 const BrowseStack = createStackNavigator({
   Browse: BrowseLists,
+  ListFullDetail: ListFullDetail,
   Cage,
 });
 
@@ -18,7 +20,7 @@ BrowseStack.navigationOptions = {
     <Icon
       type="material"
       focused={focused}
-      name="search"
+      name="list"
     />
   ),
   tabBarOptions: {
