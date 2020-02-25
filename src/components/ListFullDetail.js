@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import { loadList } from '../actions/list';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // import {
 // } from 'react-native-elements';
@@ -22,6 +23,9 @@ class ListFullDetail extends Component {
     dispatch(loadList(listId));
   }
 
+  goToCage = () => {
+    this.props.navigation.navigate('Cage', { listId: this.props.listId });
+  }
   render() {
     const {
       title,
@@ -37,8 +41,25 @@ class ListFullDetail extends Component {
         <Text>Created by: {createdBy}</Text>
         <Text>{description}</Text>
         <View>
-          <Text>Leader: </Text>
-          <Text>{rankedList[0].title}</Text>
+          <Text>Top 5</Text>
+          <View>
+            {
+              rankedList.map((item, index) => {
+                const rank = index + 1;
+                if (rank > 5) return null;
+                return (
+                  <View>
+                    <Text>{rank}: {item.title}</Text>
+                  </View>
+                );
+              })
+            }
+          </View>
+          <TouchableHighlight
+            onPress={this.goToCage}
+          >
+            <Text>Go To CAGE!!!</Text>
+          </TouchableHighlight>
         </View>
       </View>
     )
