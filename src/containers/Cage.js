@@ -124,9 +124,9 @@ class Cage extends Component {
             </View>
           </TouchableHighlight>
         </View>
-        <View style={styles.rankingsWrapper}>
+        {/* <View style={styles.rankingsWrapper}>
           <Rankings listId={listId}/>
-        </View>
+        </View> */}
       </View>
     );
   }
