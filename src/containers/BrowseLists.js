@@ -7,7 +7,7 @@ import { loadAllLists } from '../actions/list';
 
 class BrowseLists extends Component {
   static navigationOptions = {
-    title: 'Browse',
+    title: 'CAGEMATCH',
     headerTitleStyle : {width : Dimensions.get('window').width}
   };
   componentDidMount() {
@@ -15,10 +15,11 @@ class BrowseLists extends Component {
     if (!loaded && !loading) this.props.dispatch(loadAllLists());
   }
 
-  goToListDetail = (id) => {
-    console.log('BrowseLists.js - go to list full detail', id);
+  goToListDetail = ({ listId, title }) => {
+    console.log('BrowseLists.js - go to list full detail', listId);
     this.props.navigation.navigate('ListFullDetail', {
-      listId: id,
+      listId,
+      title
     });
   }
 

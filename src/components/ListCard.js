@@ -10,10 +10,10 @@ import { Card, Text } from 'react-native-elements';
 
 class ListCard extends Component {
   handlePress = () => {
-    const { goToListDetail, id: listId } = this.props;
+    const { goToListDetail, id: listId, title } = this.props;
     console.log('list card handlePress');
     console.log('go to listDetail', listId);
-    goToListDetail(listId);
+    goToListDetail({ listId, title });
   }
 
   render() {

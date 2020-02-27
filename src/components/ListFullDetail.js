@@ -6,16 +6,24 @@ import {
   Dimensions,
   Text,
 } from 'react-native';
+import {
+  Card,
+  Button,
+  Icon,
+} from 'react-native-elements';
 
 import { loadList } from '../actions/list';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // import {
 // } from 'react-native-elements';
 
 class ListFullDetail extends Component {
-  static navigationOptions = {
-    headerTitleStyle : { width : Dimensions.get('window').width }
+  static navigationOptions = ({ navigation, screenProps }) => {
+    const title = navigation.getParam('title');
+    return {
+      title,
+      headerTitleStyle : { width : Dimensions.get('window').width }
+    };
   };
 
   componentDidMount() {
@@ -26,9 +34,9 @@ class ListFullDetail extends Component {
   goToCage = () => {
     this.props.navigation.navigate('Cage', { listId: this.props.listId });
   }
+
   render() {
     const {
-      title,
       createdBy = 'cage_fan_l27',
       description = 'best cage movie',
       rankedList,
@@ -37,30 +45,50 @@ class ListFullDetail extends Component {
     console.log(rankedList);
     return (
       <View>
-        <Text h2>{title}</Text>
-        <Text>Created by: {createdBy}</Text>
-        <Text>{description}</Text>
-        <View>
-          <Text>Top 5</Text>
-          <View>
-            {
-              rankedList.map((item, index) => {
-                const rank = index + 1;
-                if (rank > 5) return null;
-                return (
-                  <View>
-                    <Text>{rank}: {item.title}</Text>
-                  </View>
-                );
-              })
-            }
-          </View>
-          <TouchableHighlight
+        <Card
+          image={{uri: 'https://s22928.pcdn.co/wp-content/uploads/2016/05/Kobe-Shaq.jpg' }}
+        >
+          <Text style={{marginBottom: 10}}>
+            {description}
+          </Text>
+
+          <Text style={{marginBottom: 10}}>
+            Created by: {createdBy}
+          </Text>
+
+          <Button
+            icon={<Icon name='assessment' color='#ffffff' />}
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='RANK NOW'
             onPress={this.goToCage}
-          >
-            <Text>Go To CAGE!!!</Text>
-          </TouchableHighlight>
-        </View>
+          />
+        </Card>
+        <Card title="STANDINGS">
+          {
+            rankedList.slice(0, 3).map((item, i) => {
+              const rank = i+1;
+              return (
+                <View key={rank}>
+                  <Text>{rank}: {item.title}</Text>
+                </View>
+              );
+            })
+          }
+        </Card>
+        <Card title="STATS">
+          <View>
+            <Text>319 Matchups</Text>
+            <Text>4 Contributors</Text>
+          </View>
+        </Card>
+        <Card>
+          <Button
+            icon={<Icon name='assessment' color='#ffffff' />}
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='RANK NOW'
+            onPress={this.goToCage}
+          />
+        </Card>
       </View>
     )
   }
