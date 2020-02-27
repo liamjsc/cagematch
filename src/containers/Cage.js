@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableHighlight } from 'react-native';
-import { Text } from 'react-native-elements';
+import { 
+  Text,
+  Card,
+ } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { loadList } from '../actions/list';
@@ -96,11 +99,6 @@ class Cage extends Component {
     const { loading, loaded } = listRankings[listId] || {};
     const { entryA, entryB } = this.state;
 
-    console.log('cage render');
-    console.log(this.state)
-    // console.log(this.props);
-    // console.log(this.state);
-
     const { title } = list.byId[listId];
 
     return (
@@ -111,9 +109,11 @@ class Cage extends Component {
             style={styles.entryWrapper}
             onPress={() => this.handlePress(entryA.id, entryB.id)}
           >
-            <View>
-              <Text>{(entryA || {}).title}</Text>
-            </View>
+          <Card
+            image={{uri: entryA.image }}
+            title={(entryA || {}).title}
+          >
+          </Card>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.entryWrapper}
@@ -154,11 +154,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   entryWrapper: {
+    padding: 0, justifyContent: 'center', alignItems: 'stretch',
     borderColor: 'purple',
     borderWidth: 1,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   entryTitle: {
 
