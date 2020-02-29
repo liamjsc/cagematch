@@ -51,15 +51,10 @@ class Cage extends Component {
   selectTwoEntries = () => {
     const { list, hiddenEntries } = this.props;
     const listId = this.getListId();
-    console.log('selecting 2 entries##');
-    console.log(hiddenEntries);
-    console.log(list.byId[listId].title);
     const { entries } = list.byId[listId];
     const candidates = entries.filter(entry => {
-      console.log(entry);
       return hiddenEntries.indexOf(entry.id) < 0;;
     });
-    console.log(candidates);
     // Object {
     //   "createdAt": "2019-11-26T02:38:28.866Z",
     //   "id": "d42cfd9f-1cba-44e5-9cea-7d4efc12bd40",
@@ -135,36 +130,44 @@ class Cage extends Component {
       <View style={styles.container}>
         <Text h2 style={styles.header}>{title}</Text>
         <View style={styles.entriesContainer}>
-          <TouchableHighlight
+          <View
             style={styles.entryWrapper}
-            onPress={() => this.handlePress(entryA.id, entryB.id)}
           >
-          <Card
-            image={{uri: entryA.image }}
-            title={(entryA || {}).title}
-          >
-          </Card>
-          </TouchableHighlight>
-          <Button
-            title="Hide this entry"
-            onPress={() => {
-              this.hide(entryA.id);
-            }}
-          />
-          <TouchableHighlight
+            <TouchableHighlight
+              onPress={() => this.handlePress(entryA.id, entryB.id)}
+            >
+              <Card
+                image={{uri: entryA.image }}
+                title={(entryA || {}).title}
+              >
+              </Card>
+            </TouchableHighlight>
+            <Button
+              title="Hide this entry"
+              onPress={() => {
+                this.hide(entryA.id);
+              }}
+            />
+          </View>
+          
+          <View
             style={styles.entryWrapper}
-            onPress={() => this.handlePress(entryB.id, entryA.id)}
           >
-            <View>
-              <Text>{(entryB || {}).title}</Text>
-            </View>
-          </TouchableHighlight>
-          <Button
-            title="Hide this entry"
-            onPress={() => {
-              this.hide(entryB.id);
-            }}
-          />
+            <TouchableHighlight
+              onPress={() => this.handlePress(entryB.id, entryA.id)}
+            >
+              <View>
+                <Text>{(entryB || {}).title}</Text>
+              </View>
+            </TouchableHighlight>
+            <Button
+              title="Hide this entry"
+              onPress={() => {
+                this.hide(entryB.id);
+              }}
+            />
+          </View>
+          
         </View>
         {/* <View style={styles.rankingsWrapper}>
           <Rankings listId={listId}/>
@@ -196,12 +199,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   entryWrapper: {
-    padding: 0, justifyContent: 'center', alignItems: 'stretch',
+    padding: 0,
+    justifyContent: 'center',
     borderColor: 'purple',
     borderWidth: 1,
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   entryTitle: {
 
