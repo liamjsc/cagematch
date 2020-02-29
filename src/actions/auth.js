@@ -74,3 +74,51 @@ export function login(credentials) {
       });
   }
 }
+
+export function getExclusions() {
+  return function(dispatch, getState) {
+    const { auth } = getState();
+    if (!auth.user) return;
+
+    const { user: userId } = auth;
+    const url = `${api}/exclusion/${userId}`;
+    return fetch(url)
+      .then(response => response.json())
+      .then(exclusions => {
+        // [listId]: [ array of entryIds ]
+        console.log(exclusions);
+        dispatch({
+          type: actionTypes.SET_EXCLUSIONS,
+          exclusions,
+        });
+      });
+  }
+}
+
+export function exclude({ listId, entryIds }) {
+  return function(dispatch, getState) {
+    const { auth: { user: { id: userId } } } = getState();
+    const exclusion = {
+      listId,
+      entryIds,
+      userId,
+    };
+    const url = `${api}/exclusion`;
+    console.log('exclude action', exclusion);
+
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(exclusion),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.PUSH_EXCLUSIONS,
+        listId,
+        entryIds,
+      })
+    })  
+  }
+}

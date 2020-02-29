@@ -3,6 +3,7 @@ import * as actionTypes from '../util/actionTypes';
 const initialState = {
   user: null, // { email, id, username }
   authStatusResolved: false,
+  exclusions: {} // { [listId]: [array of entryIds ]}
 }
 
 export default function authReducer(state = initialState, action = {}) {
@@ -12,9 +13,28 @@ export default function authReducer(state = initialState, action = {}) {
       console.log('set user', action);
       return {
         ...state,
-        user: action.user || null, // null is valid here
+        user: action.user ? { ...action.user, id: 1 } : null, // null is valid here
         authStatusResolved: true,
       };
+    case actionTypes.SET_EXCLUSIONS:
+      return {
+        ...state,
+        exclusions: {
+          ...state.exclusions,
+          ...action.exclusions,
+        },
+      };
+    case actionTypes.PUSH_EXCLUSIONS:
+      return {
+        ...state,
+        exclusions: {
+          ...state.exclusions,
+          [action.listId]: [
+            ...(state.exclusions[action.listId] || []),
+            ...action.entryIds,
+          ],
+        },
+      }
     default:
       return state;
   }
