@@ -5,8 +5,10 @@ import {
   ScrollView,
   TouchableHighlight,
   Dimensions,
+  RefreshControl,
  } from 'react-native';
-import { 
+
+ import { 
   Text,
   Button,
   Image,
@@ -23,7 +25,8 @@ const CageEntry = (props) => {
     id,
     handlePress,
     image,
-    hide
+    hide,
+    title,
   } = props;
 
   return (
@@ -32,10 +35,15 @@ const CageEntry = (props) => {
         style={styles.entry}
         onPress={handlePress}
       >
-        <Image
-          source={{ uri: image }}
-          style={{ width: '95%', aspectRatio: 182 / 268 }}
-        />
+        <View style={styles.touchableEntry}>
+          {
+            !image ? null : (<Image
+              source={{ uri: image }}
+              style={{ width: '95%', aspectRatio: 182 / 268 }}
+            />)
+          }
+          <Text>{title}</Text>
+        </View>
       </TouchableHighlight>
       <Button
         titleProps={{ style: { color: 'white' } }}
@@ -67,9 +75,12 @@ class Cage extends Component {
   }
 
   componentDidMount() {
+    this.loadCage();
+  }
+
+  loadCage = () => {
     const listId = this.getListId();
     const { user, listRankings, dispatch } = this.props;
-    const { loading, loaded } = listRankings[listId] || {};
 
     const userId = user.id;
     return dispatch(getExclusions())
@@ -157,23 +168,37 @@ class Cage extends Component {
     this.resetEntries();
   }
 
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.loadCage()
+      .then(() => this.setState({ refreshing: false }));
+  }
+
   render() {
     const listId = this.getListId();
 
     if (!this.state.loaded) {
-      return <Text>Loading {listId} </Text>;
+      return <Text>Preparing the cage</Text>;
     }
     const { list } = this.props;
     const { entryA, entryB } = this.state;
 
-    const { title } = list.byId[listId];
+    const { title: listTitle } = list.byId[listId];
 
     console.log('cage render');
     console.log(this.state);
     console.log(this.props.hiddenEntries);
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
+      >
         <View style={styles.entriesContainer}>
           <CageEntry
             handlePress={() => this.handlePress(entryA.id, entryB.id)}
@@ -202,9 +227,11 @@ class Cage extends Component {
           />
         </View>
         <View style={styles.rankingsWrapper}>
+          <Text h4>Rankings</Text>
           <Rankings 
             listId={listId}
             userId={this.props.user.id}
+            length={5}
           />
         </View>
       </ScrollView>
@@ -215,14 +242,15 @@ class Cage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
+    // paddingLeft: 15,
+    // paddingRight: 15,
     backgroundColor: 'lightslategray',
     width: '100%',
     borderWidth: 1,
     borderColor: 'green',
   },
   entriesContainer: {
+    width: '100%',
     paddingTop: 10,
     borderColor: 'yellow',
     borderWidth: 1,
@@ -243,6 +271,11 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
+  touchableEntry: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 120,
+  },
   skip: {
     paddingTop: 15,
     alignItems: 'center',
@@ -253,6 +286,10 @@ const styles = StyleSheet.create({
   hideButton: {
     paddingTop: 10,
     paddingBottom: 10,
+  },
+  rankingsWrapper: {
+    alignItems: 'center',
+    width: '100%',
   }
 });
 

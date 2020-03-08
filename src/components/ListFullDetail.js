@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
+  ScrollView,
   Dimensions,
   Text,
 } from 'react-native';
@@ -13,6 +14,7 @@ import {
 } from 'react-native-elements';
 
 import { loadList } from '../actions/list';
+import Rankings from '../components/Rankings';
 
 class ListFullDetail extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
@@ -41,11 +43,13 @@ class ListFullDetail extends Component {
       createdBy = 'cage_fan_l27',
       description = 'best cage movie',
       rankedList,
+      listId,
     } = this.props;
+
     if (!rankedList || !rankedList.length) return null;
-    console.log(rankedList);
+
     return (
-      <View>
+      <ScrollView>
         <Card
           image={{uri: 'https://s22928.pcdn.co/wp-content/uploads/2016/05/Kobe-Shaq.jpg' }}
         >
@@ -64,18 +68,14 @@ class ListFullDetail extends Component {
             onPress={this.goToCage}
           />
         </Card>
+
         <Card title="STANDINGS">
-          {
-            rankedList.slice(0, 3).map((item, i) => {
-              const rank = i+1;
-              return (
-                <View key={rank}>
-                  <Text>{rank}: {item.title}</Text>
-                </View>
-              );
-            })
-          }
+          <Rankings 
+            listId={listId}
+            length={5}
+          />
         </Card>
+
         <Card title="STATS">
           <View>
             <Text>319 Matchups</Text>
@@ -90,7 +90,7 @@ class ListFullDetail extends Component {
             onPress={this.goToCage}
           />
         </Card>
-      </View>
+      </ScrollView>
     )
   }
 }

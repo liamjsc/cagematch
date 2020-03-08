@@ -13,26 +13,33 @@ class Rankings extends Component {
   render() {
     const {
       rankedList,
+      length,
     } = this.props;
+    const items = length ? rankedList.slice(0, length) : rankedList;
     return (
-      <View>
-        {rankedList.map((item, i) => {
-          const { title, score } = item;
-          return (
-            <ListItem
-              key={i}
-              title={title}
-              subtitle={'' + score}
-              bottomDivider
-            />
-          )
-        })}
+      <View style={styles.rankings}>
+        {
+          items.map((item, i) => {
+            const { title, score } = item;
+            return (
+              <ListItem
+                key={i}
+                title={title}
+                subtitle={'' + score}
+                bottomDivider
+              />
+            )
+          })      
+        }
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  rankings: {
+    width: '100%',
+  }
 });
 
 function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
