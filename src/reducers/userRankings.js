@@ -9,7 +9,7 @@ const initialState = {}
  * }
  */
 
-export default function listRankingsReducer(state = initialState, action = {}) {
+export default function userRankingsReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.SET_USER_LIST_RANKINGS:
       return {

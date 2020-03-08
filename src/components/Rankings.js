@@ -35,10 +35,22 @@ class Rankings extends Component {
 const styles = StyleSheet.create({
 });
 
-function mstp({ listRankings, entries }, { listId }) {
-  console.log('####');
-  console.log(listRankings);
+function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
+  console.log('MSTP Rankings');
+  console.log('userId', userId);
+  console.log(userRankings);
   console.log(entries);
+  if (userId) {
+    const items = userRankings[userId][listId];
+    const rankedList = items.map(({ id, score }) => {
+      return {
+        ...entries.byId[id],
+        score,
+      }
+    });
+    return { rankedList }
+  }
+  
   const listEntries = listRankings[listId].children;
   return {
     rankedList: listEntries.map(id => entries.byId[id]).sort(function (a, b) {

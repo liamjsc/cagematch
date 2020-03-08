@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet, 
-  View, 
+  View,
+  ScrollView,
   TouchableHighlight,
   Dimensions,
  } from 'react-native';
@@ -12,7 +13,7 @@ import {
  } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { loadList } from '../actions/list';
+import { loadList, fetchUserListRankings } from '../actions/list';
 import { exclude, getExclusions } from '../actions/auth';
 import { postMatchup } from '../actions/matchup';
 import { Rankings } from '../components';
@@ -67,13 +68,15 @@ class Cage extends Component {
 
   componentDidMount() {
     const listId = this.getListId();
-    const { list, listRankings, dispatch } = this.props;
+    const { user, listRankings, dispatch } = this.props;
     const { loading, loaded } = listRankings[listId] || {};
 
+    const userId = user.id;
     return dispatch(getExclusions())
       .then(() => {
         return dispatch(loadList(listId));
       })
+      .then(() => dispatch(fetchUserListRankings({ listId, userId })))
       .then(() => {
         console.log(this.props);
         const entries = this.selectTwoEntries();
@@ -160,8 +163,7 @@ class Cage extends Component {
     if (!this.state.loaded) {
       return <Text>Loading {listId} </Text>;
     }
-    const { list, listRankings } = this.props;
-    const { loading, loaded } = listRankings[listId] || {};
+    const { list } = this.props;
     const { entryA, entryB } = this.state;
 
     const { title } = list.byId[listId];
@@ -171,7 +173,7 @@ class Cage extends Component {
     console.log(this.props.hiddenEntries);
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.entriesContainer}>
           <CageEntry
             handlePress={() => this.handlePress(entryA.id, entryB.id)}
@@ -199,10 +201,13 @@ class Cage extends Component {
             type="clear"
           />
         </View>
-        {/* <View style={styles.rankingsWrapper}>
-          <Rankings listId={listId}/>
-        </View> */}
-      </View>
+        <View style={styles.rankingsWrapper}>
+          <Rankings 
+            listId={listId}
+            userId={this.props.user.id}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -251,7 +256,7 @@ const styles = StyleSheet.create({
   }
 });
 
-function mstp({ list, listRankings, auth }, { navigation }) {
+function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
   const { exclusions, user } = auth;
   const listId = navigation.getParam('listId');
 

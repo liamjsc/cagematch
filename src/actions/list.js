@@ -114,22 +114,23 @@ function addList({ list, entries }) {
   }
 }
 
-function fetchUserListRankings({ userId, listId, }) {
+export function fetchUserListRankings({ userId, listId }) {
   return (dispatch, getState) => {
     return fetch(`${api}/user/${userId}/list/${listId}`)
       .then(response => response.json())
-      .then(data => {
-        const { items } = data;
-        dispatch(actionTypes.SET_USER_LIST_RANKINGS, {
+      .then(items => {
+        console.log('got user rankings');
+        console.log(items);
+        dispatch({
+          type: actionTypes.SET_USER_LIST_RANKINGS,
           userId,
           listId,
           items,
-        });      })
+        });      
+      })
       .catch((err) => {
         console.log(err);
-        if (dev) return dispatch(loadAllListsSuccess(devLists))
-        console.log(err);
-        dispatch(loadAllListsFail());
+        return Promise.reject(err);
       });
   };
 }
