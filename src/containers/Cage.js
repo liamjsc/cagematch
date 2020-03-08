@@ -7,7 +7,6 @@ import {
  } from 'react-native';
 import { 
   Text,
-  Card,
   Button,
   Image,
  } from 'react-native-elements';
@@ -17,6 +16,36 @@ import { loadList } from '../actions/list';
 import { exclude, getExclusions } from '../actions/auth';
 import { postMatchup } from '../actions/matchup';
 import { Rankings } from '../components';
+
+const CageEntry = (props) => {
+  const {
+    id,
+    handlePress,
+    image,
+    hide
+  } = props;
+
+  return (
+    <View style={styles.entryWrapper}>
+      <TouchableHighlight
+        style={styles.entry}
+        onPress={handlePress}
+      >
+        <Image
+          source={{ uri: image }}
+          style={{ width: '95%', aspectRatio: 182 / 268 }}
+        />
+      </TouchableHighlight>
+      <Button
+        titleProps={{ style: { color: 'white' } }}
+        buttonStyle={styles.hideButton}
+        title="Hide this entry"
+        onPress={hide}
+        type="clear"
+      />
+    </View>
+  )
+}
 
 class Cage extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -144,46 +173,20 @@ class Cage extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.entriesContainer}>
-          <View style={styles.entryWrapper}>
-            <TouchableHighlight
-              style={styles.entry}
-              onPress={() => this.handlePress(entryA.id, entryB.id)}
-            >
-              <Image
-                source={{ uri: entryA.image }}
-                style={{ width: '95%', aspectRatio: 182 / 268 }}
-              />
-            </TouchableHighlight>
-            <Button
-              buttonStyle={styles.hideButton}
-              titleProps={{ style: { color: 'white' } }}
-              title="Hide this entry"
-              onPress={() => {
-                this.hide(entryA.id);
-              }}
-              type="clear"
-            />
-          </View>
-          <View style={styles.entryWrapper}>
-            <TouchableHighlight
-              style={styles.entry}
-              onPress={() => this.handlePress(entryB.id, entryA.id)}
-            >
-              <Image
-                source={{ uri: entryB.image }}
-                style={{ width: '95%', aspectRatio: 182 / 268 }}
-              />
-            </TouchableHighlight>
-            <Button
-              titleProps={{ style: { color: 'white' } }}
-              buttonStyle={styles.hideButton}
-              title="Hide this entry"
-              onPress={() => {
-                this.hide(entryB.id);
-              }}
-              type="clear"
-            />
-          </View>
+          <CageEntry
+            handlePress={() => this.handlePress(entryA.id, entryB.id)}
+            hide={() => this.hide(entryA.id)}
+            image={entryA.image}
+            title={entryA.title}
+            id={entryA.id}
+          />
+          <CageEntry
+            handlePress={() => this.handlePress(entryB.id, entryA.id)}
+            hide={() => this.hide(entryB.id)}
+            image={entryB.image}
+            title={entryB.title}
+            id={entryB.id}
+          />
         </View>
         <View style={styles.skip}>
           <Button

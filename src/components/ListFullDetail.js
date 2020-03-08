@@ -14,9 +14,6 @@ import {
 
 import { loadList } from '../actions/list';
 
-// import {
-// } from 'react-native-elements';
-
 class ListFullDetail extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
     const title = navigation.getParam('title');

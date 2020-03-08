@@ -1,6 +1,16 @@
 import * as actionTypes from '../util/actionTypes';
 
 const initialState = {}
+/**
+ * { 
+ *   listId: {
+ *     loading,
+ *     loaded,
+ *     error,
+ *     children, (array of ID's)
+ *   }
+ * }
+ */
 
 export default function listRankingsReducer(state = initialState, action = {}) {
   switch (action.type) {
