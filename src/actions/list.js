@@ -9,7 +9,7 @@ const dev = false;
 /**load all lists without sorted entries */
 export function loadAllLists(user) {
   return (dispatch, getState) => {
-    console.log('load all lists');
+    console.log('load all lists', api);
     dispatch(loadAllListsStart());
     return fetch(`${api}/lists`)
       .then(response => response.json())
@@ -17,6 +17,7 @@ export function loadAllLists(user) {
         dispatch(loadAllListsSuccess(data));
       })
       .catch((err) => {
+        console.log(err);
         if (dev) return dispatch(loadAllListsSuccess(devLists))
         console.log(err);
         dispatch(loadAllListsFail());

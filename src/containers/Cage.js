@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
+import {
+  StyleSheet, 
+  View, 
+  TouchableHighlight,
+  Dimensions,
+ } from 'react-native';
 import { 
   Text,
   Card,
   Button,
+  Image,
  } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -13,6 +19,14 @@ import { postMatchup } from '../actions/matchup';
 import { Rankings } from '../components';
 
 class Cage extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const title = navigation.getParam('title');
+    return {
+      title,
+      headerTitleStyle : { width : Dimensions.get('window').width }
+    };
+  }
+
   // todo- make an entriesById map and access ID here
   state = {
     entryAId: '',
@@ -126,48 +140,61 @@ class Cage extends Component {
     console.log('cage render');
     console.log(this.state);
     console.log(this.props.hiddenEntries);
+
     return (
       <View style={styles.container}>
-        <Text h2 style={styles.header}>{title}</Text>
         <View style={styles.entriesContainer}>
-          <View
-            style={styles.entryWrapper}
-          >
+          <View style={styles.entryWrapper}>
             <TouchableHighlight
+              style={styles.entry}
               onPress={() => this.handlePress(entryA.id, entryB.id)}
             >
-              <Card
-                image={{uri: entryA.image }}
-                title={(entryA || {}).title}
-              >
-              </Card>
+              <Image
+                source={{ uri: entryA.image }}
+                style={{ width: '95%', aspectRatio: 182 / 268 }}
+              />
             </TouchableHighlight>
             <Button
+              buttonStyle={styles.hideButton}
+              titleProps={{ style: { color: 'white' } }}
               title="Hide this entry"
               onPress={() => {
                 this.hide(entryA.id);
               }}
+              type="clear"
             />
           </View>
-          
-          <View
-            style={styles.entryWrapper}
-          >
+          <View style={styles.entryWrapper}>
             <TouchableHighlight
+              style={styles.entry}
               onPress={() => this.handlePress(entryB.id, entryA.id)}
             >
-              <View>
-                <Text>{(entryB || {}).title}</Text>
-              </View>
+              <Image
+                source={{ uri: entryB.image }}
+                style={{ width: '95%', aspectRatio: 182 / 268 }}
+              />
             </TouchableHighlight>
             <Button
+              titleProps={{ style: { color: 'white' } }}
+              buttonStyle={styles.hideButton}
               title="Hide this entry"
               onPress={() => {
                 this.hide(entryB.id);
               }}
+              type="clear"
             />
           </View>
-          
+        </View>
+        <View style={styles.skip}>
+          <Button
+            titleProps={{ style: { color: 'white' } }}
+            buttonStyle={styles.skip}
+            title="Skip"
+            onPress={() => {
+              this.resetEntries()
+            }}
+            type="clear"
+          />
         </View>
         {/* <View style={styles.rankingsWrapper}>
           <Rankings listId={listId}/>
@@ -176,6 +203,7 @@ class Cage extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -186,26 +214,37 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'green',
   },
-  header: {
-    borderColor: 'black',
-    borderWidth: 1,
-  },
   entriesContainer: {
+    paddingTop: 10,
     borderColor: 'yellow',
     borderWidth: 1,
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center',
   },
   entryWrapper: {
     padding: 0,
     justifyContent: 'center',
+    alignItems: 'center',
     borderColor: 'purple',
     borderWidth: 1,
+    flex: 1,
   },
-  entryTitle: {
-
+  entry: {
+    borderColor: 'black',
+    borderWidth: 1,
+    width: '100%',
+    alignItems: 'center',
+  },
+  skip: {
+    paddingTop: 15,
+    alignItems: 'center',
+  },
+  skipText: {
+    color: 'white',
+  },
+  hideButton: {
+    paddingTop: 10,
+    paddingBottom: 10,
   }
 });
 

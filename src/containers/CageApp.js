@@ -64,7 +64,7 @@ const AppNavigator = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'CreateList',
+    initialRouteName: 'Browse',
     headerMode: 'none',
   }
 );

@@ -32,7 +32,11 @@ class ListFullDetail extends Component {
   }
 
   goToCage = () => {
-    this.props.navigation.navigate('Cage', { listId: this.props.listId });
+    const params = {
+      listId: this.props.listId,
+      title: this.props.title,
+    }
+    this.props.navigation.navigate('Cage', params);
   }
 
   render() {
