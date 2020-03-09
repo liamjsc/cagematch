@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@shoutem/ui": "^1.0.4",
+    "arpad": "^1.0.2",
     "expo": "^35.0.0",
     "react": "16.8.3",
     "react-dom": "16.8.3",

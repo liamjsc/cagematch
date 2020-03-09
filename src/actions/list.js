@@ -118,14 +118,13 @@ export function fetchUserListRankings({ userId, listId }) {
   return (dispatch, getState) => {
     return fetch(`${api}/user/${userId}/list/${listId}`)
       .then(response => response.json())
-      .then(items => {
-        console.log('got user rankings');
-        console.log(items);
+      .then(({ rankings, scores }) => {
         dispatch({
           type: actionTypes.SET_USER_LIST_RANKINGS,
           userId,
           listId,
-          items,
+          rankings,
+          scores,
         });      
       })
       .catch((err) => {

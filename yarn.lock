@@ -1174,6 +1174,11 @@ argsarray@^0.0.1:
   resolved "https://registry.yarnpkg.com/argsarray/-/argsarray-0.0.1.tgz#6e7207b4ecdb39b0af88303fa5ae22bda8df61cb"
   integrity sha1-bnIHtOzbObCviDA/pa4ivajfYcs=
 
+arpad@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/arpad/-/arpad-1.0.2.tgz#be940619ec16560fe8748b8f98fc3d48653c59e3"
+  integrity sha1-vpQGGewWVg/odIuPmPw9SGU8WeM=
+
 arr-diff@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/arr-diff/-/arr-diff-1.1.0.tgz#687c32758163588fef7de7b36fabe495eb1a399a"

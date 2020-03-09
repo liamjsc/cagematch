@@ -141,7 +141,7 @@ class Cage extends Component {
   handlePress = (winner, loser) => {
     const listId = this.getListId();
     const { entryA, entryB } = this.state;
-    const { id: userId } = this.props.user;
+    const { dispatch, user: { id: userId } } = this.props;
     const entryAId = entryA.id; 
     const entryBId = entryB.id; 
     const matchupResults = {
@@ -153,8 +153,8 @@ class Cage extends Component {
       userId,
     }
     console.log('matchup results:', matchupResults);
-    
-    this.props.dispatch(postMatchup(matchupResults));
+
+    dispatch(postMatchup(matchupResults));
     
     this.resetEntries();
   }
