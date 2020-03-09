@@ -97,7 +97,7 @@ const theme = {
       marginBottom: 3,
     },
     labelStyle: {
-      // color: 'white',
+      color: 'white',
       fontWeight: 'normal',
     },
     inputStyle: {
@@ -123,16 +123,26 @@ class App extends React.Component {
   dismissSplash = () => this.setState({ showSplash: false });
   showSplash = () => this.setState({ showSplash: true });
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, state) {
+    console.log('Cage App CWRP');
     console.log(nextProps);
-    if (nextProps.user === null && this.props.user) {
-      this.showSplash();
+
+    if (nextProps.user === null && state.showSplash === false) {
+      return {
+        showSplash: true,
+      }
     }
+
+    return null;
   }
 
   render() {
     const { showSplash } = this.state;
     const { user } = this.props;
+    console.log('CageApp Render');
+    console.log(React.version);
+    console.log(this.props);
+    console.log(this.state);
     return (
       <ThemeProvider theme={theme}>
         {

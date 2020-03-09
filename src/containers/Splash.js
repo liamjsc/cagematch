@@ -53,9 +53,15 @@ class Splash extends Component {
   }
 
   login = (creds) => {
-    return this.props.dispatch(login(creds))
+    const { dispatch, onAppReady } = this.props;
+    return dispatch(login(creds))
+      .then((user) => {
+        console.log('login success', user);
+        return dispatch(loadAllLists(user))
+      })
       .then(() => {
-        this.props.navigation.navigate('Browse');
+        console.log('calling onAppReady', onAppReady);
+        onAppReady && onAppReady();
       })
       .catch(error => console.log('should handle error better!', error));
   }

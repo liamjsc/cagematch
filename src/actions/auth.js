@@ -63,13 +63,12 @@ export function login(credentials) {
     })
       .then(data => data.json())
       .then(async results => {
-        console.log('api register response');
-        console.log(results);
         await AsyncStorage.setItem('user', JSON.stringify(results)); // who is the user of this device
-        return dispatch(setUser(results));
+        dispatch(setUser(results))
+        return results;
       })
       .catch(error => {
-        console.log('error register');
+        console.log('error login action');
         console.log(error);
         return Promise.reject(error);
       });
