@@ -8,6 +8,7 @@ import { AsyncStorage } from 'react-native';
 export async function getUserFromDevice() {
   console.log('getUserFromDevice');
   const userString = await AsyncStorage.getItem('user');
+  console.log(userString);
   return userString ? JSON.parse(userString) : null;;
 }
 
@@ -75,6 +76,15 @@ export function login(credentials) {
   }
 }
 
+export function signOut() {
+  return async function (dispatch, getState) {
+    console.log('signing out');
+    await AsyncStorage.removeItem('user', () => {
+      return dispatch(setUser(null));
+    });
+  };
+}
+
 export function getExclusions() {
   return function(dispatch, getState) {
     const { auth } = getState();
@@ -85,8 +95,6 @@ export function getExclusions() {
     return fetch(url)
       .then(response => response.json())
       .then(exclusions => {
-        // [listId]: [ array of entryIds ]
-        console.log(exclusions);
         dispatch({
           type: actionTypes.SET_EXCLUSIONS,
           exclusions,

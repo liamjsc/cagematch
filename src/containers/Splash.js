@@ -73,7 +73,11 @@ class Splash extends Component {
   render() {
     console.log('splash render');
     console.log(this.state);
+    console.log(this.props);
+    const { user } = this.props;
     const { showRegister, authStatusLoaded } = this.state;
+
+    const isLoggedIn = !!user;
 
     if (!authStatusLoaded) return (
       <View style={styles.fullScreenSpinner}>
@@ -88,8 +92,20 @@ class Splash extends Component {
       <View style={styles.splash}>
 
         <View style={styles.header}>
-          <Text h1>CAGE MATCH</Text>
+          <Text h1>CAGE MATCHH</Text>
         </View>
+
+        <View style={styles.formWrapper}>
+            {
+              showRegister ?
+                (
+                  <RegisterForm createAccount={this.createAccount} changeForm={this.changeForm} />
+                ) : (
+                  <LoginForm login={this.login} changeForm={this.changeForm} />
+                )
+            }
+          </View>
+
       </View>
     );
   }

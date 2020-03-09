@@ -7,7 +7,6 @@ const elo = new Elo({
 });
 
 function findDiff(winnerScore, loserScore) {
-  // todo - use ELO calculation here
   console.log(winnerScore, loserScore);
   const newWinner = elo.newRatingIfWon(winnerScore, loserScore);
   const newLoser = elo.newRatingIfLost(loserScore, winnerScore);

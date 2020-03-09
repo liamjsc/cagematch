@@ -5,8 +5,9 @@ import { ThemeProvider, colors, Icon } from 'react-native-elements';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { connect } from 'react-redux';
 
-import { Home, Splash, CreateList, BrowseLists, Cage } from './index';
+import { Home, Splash, CreateList, BrowseLists, Cage, Account, } from './index';
 import { ListFullDetail } from '../components'
 
 const BrowseStack = createStackNavigator({
@@ -26,42 +27,56 @@ BrowseStack.navigationOptions = {
   tabBarOptions: {
     showLabel: false,
   },
-  
+}
+
+const AccountStack = createStackNavigator({
+  Account,
+});
+
+AccountStack.navigationOptions = {
+  tabBarIcon: ({ focused }) => (
+    <Icon
+      type="material"
+      focused={focused}
+      name="person"
+    />
+  ),
 }
 
 const AppNavigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: BrowseLists,
-      navigationOptions: {
-        tabBarIcon: ({ focused }) => (
-          <Icon
-            type="material"
-            focused={focused}
-            name="home"
-          />
-        ),
-        tabBarOptions: {
-          showLabel: false,
-        },
-      }
-    },
+    // Home: {
+    //   screen: BrowseLists,
+    //   navigationOptions: {
+    //     tabBarIcon: ({ focused }) => (
+    //       <Icon
+    //         type="material"
+    //         focused={focused}
+    //         name="home"
+    //       />
+    //     ),
+    //     tabBarOptions: {
+    //       showLabel: false,
+    //     },
+    //   }
+    // },
+    Account: AccountStack,
     Browse: BrowseStack,
-    CreateList: {
-      screen: CreateList,
-      navigationOptions: {
-        tabBarIcon: ({ focused }) => (
-          <Icon
-            type="material"
-            focused={focused}
-            name="create"
-          />
-        ),
-        tabBarOptions: {
-          showLabel: false,
-        },
-      }
-    }
+    // CreateList: {
+    //   screen: CreateList,
+    //   navigationOptions: {
+    //     tabBarIcon: ({ focused }) => (
+    //       <Icon
+    //         type="material"
+    //         focused={focused}
+    //         name="create"
+    //       />
+    //     ),
+    //     tabBarOptions: {
+    //       showLabel: false,
+    //     },
+    //   }
+    // }
   },
   {
     initialRouteName: 'Browse',
@@ -100,7 +115,7 @@ const theme = {
   },
 }
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     showSplash: true,
   }
@@ -108,14 +123,23 @@ export default class App extends React.Component {
   dismissSplash = () => this.setState({ showSplash: false });
   showSplash = () => this.setState({ showSplash: true });
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.user === null && this.props.user) {
+      this.showSplash();
+    }
+  }
+
   render() {
     const { showSplash } = this.state;
+    const { user } = this.props;
     return (
       <ThemeProvider theme={theme}>
         {
           showSplash ? (
           <Splash
             onAppReady={this.dismissSplash}
+            user={user}
           />
           ) : <AppContainer />
         }
@@ -123,3 +147,10 @@ export default class App extends React.Component {
     );
   }
 }
+
+function mstp({ auth: { user } }) {
+  return {
+    user,
+  }
+}
+export default connect(mstp)(App);
