@@ -7,7 +7,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { connect } from 'react-redux';
 
-import { Home, Splash, CreateList, BrowseLists, Cage, Account, } from './index';
+import { Splash, CreateList, BrowseLists, Cage, Account, } from './index';
 import { ListFullDetail } from '../components'
 
 const BrowseStack = createStackNavigator({
@@ -45,21 +45,6 @@ AccountStack.navigationOptions = {
 
 const AppNavigator = createBottomTabNavigator(
   {
-    // Home: {
-    //   screen: BrowseLists,
-    //   navigationOptions: {
-    //     tabBarIcon: ({ focused }) => (
-    //       <Icon
-    //         type="material"
-    //         focused={focused}
-    //         name="home"
-    //       />
-    //     ),
-    //     tabBarOptions: {
-    //       showLabel: false,
-    //     },
-    //   }
-    // },
     Account: AccountStack,
     Browse: BrowseStack,
     // CreateList: {
