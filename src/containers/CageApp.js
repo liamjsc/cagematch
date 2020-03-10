@@ -7,13 +7,21 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { connect } from 'react-redux';
 
-import { Splash, CreateList, BrowseLists, Cage, Account, } from './index';
+import {
+  Account,
+  BrowseLists,
+  Cage,
+  CreateList,
+  ManageListEntries,
+  Splash,
+} from './index';
 import { ListFullDetail } from '../components'
 
 const BrowseStack = createStackNavigator({
   Browse: BrowseLists,
-  ListFullDetail: ListFullDetail,
+  ListFullDetail,
   Cage,
+  ManageListEntries,
 });
 
 BrowseStack.navigationOptions = {

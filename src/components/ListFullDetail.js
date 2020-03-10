@@ -14,6 +14,7 @@ import {
 } from 'react-native-elements';
 
 import { loadList } from '../actions/list';
+import { getExclusions } from '../actions/auth';
 import Rankings from '../components/Rankings';
 
 class ListFullDetail extends Component {
@@ -27,7 +28,11 @@ class ListFullDetail extends Component {
 
   componentDidMount() {
     const { listId, dispatch } = this.props;
-    dispatch(loadList(listId));
+    const promises = [
+      dispatch(loadList(listId)),
+      dispatch(getExclusions()),
+    ];
+    Promise.all(promises);
   }
 
   goToCage = () => {
@@ -36,6 +41,14 @@ class ListFullDetail extends Component {
       title: this.props.title,
     }
     this.props.navigation.navigate('Cage', params);
+  }
+
+  goToManageEntries = () => {
+    const params = {
+      listId: this.props.listId,
+      title: this.props.title,
+    }
+    this.props.navigation.navigate('ManageListEntries', params);
   }
 
   render() {
@@ -64,8 +77,14 @@ class ListFullDetail extends Component {
           <Button
             icon={<Icon name='assessment' color='#ffffff' />}
             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-            title='RANK NOW'
+            title='Rank'
             onPress={this.goToCage}
+          />
+          <Button
+            icon={<Icon name='assessment' color='#ffffff' />}
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='Manage Entries'
+            onPress={this.goToManageEntries}
           />
         </Card>
 
@@ -81,14 +100,6 @@ class ListFullDetail extends Component {
             <Text>319 Matchups</Text>
             <Text>4 Contributors</Text>
           </View>
-        </Card>
-        <Card>
-          <Button
-            icon={<Icon name='assessment' color='#ffffff' />}
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-            title='RANK NOW'
-            onPress={this.goToCage}
-          />
         </Card>
       </ScrollView>
     )
