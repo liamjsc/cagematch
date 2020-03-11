@@ -9,7 +9,7 @@ import {
  import { 
   Text,
   Button,
-  Image,
+  Card,
  } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -32,18 +32,18 @@ class Account extends Component {
     const { email, username } = user;
     return (
       <ScrollView style={styles.container}>
-        <View>
-          <Text>
+        <Card>
+          <Text style={styles.cardText}>
             Email: {email}
           </Text>
-          <Text>
+          <Text style={styles.cardText}>
             Username: {username}
           </Text>
-        </View>
-        <Button
-          title='Sign Out'
-          onPress={this.signOut}
-        />
+          <Button
+            title='Sign Out'
+            onPress={this.signOut}
+          />
+        </Card>
       </ScrollView>
     );
   }
@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'green',
   },
+  cardText: {
+    marginBottom: 10,
+  }
 });
 
 function mstp({ auth: { user } }) {

@@ -51,37 +51,42 @@ class ListFullDetail extends Component {
     this.props.navigation.navigate('ManageListEntries', params);
   }
 
+  goToFullStandings = () => {
+    const params = {
+      listId: this.props.listId,
+      title: this.props.title,
+    }
+    this.props.navigation.navigate('Standings', params);
+  }
+
   render() {
     const {
-      createdBy = 'cage_fan_l27',
+      // createdBy = 'cage_fan_l27',
       description = 'best cage movie',
       rankedList,
       listId,
+      image,
     } = this.props;
 
     if (!rankedList || !rankedList.length) return null;
 
     return (
       <ScrollView>
-        <Card
-          image={{uri: 'https://s22928.pcdn.co/wp-content/uploads/2016/05/Kobe-Shaq.jpg' }}
-        >
+        <Card>
           <Text style={{marginBottom: 10}}>
             {description}
           </Text>
-
+          {/* 
           <Text style={{marginBottom: 10}}>
             Created by: {createdBy}
-          </Text>
+          </Text> */}
 
           <Button
-            icon={<Icon name='assessment' color='#ffffff' />}
             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
             title='Rank'
             onPress={this.goToCage}
           />
           <Button
-            icon={<Icon name='assessment' color='#ffffff' />}
             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
             title='Manage Entries'
             onPress={this.goToManageEntries}
@@ -93,26 +98,28 @@ class ListFullDetail extends Component {
             listId={listId}
             length={5}
           />
+          <Button
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='View Full Standings'
+            onPress={this.goToFullStandings}
+          />
         </Card>
 
-        <Card title="STATS">
+        {/* <Card title="STATS">
           <View>
             <Text>319 Matchups</Text>
             <Text>4 Contributors</Text>
           </View>
-        </Card>
+        </Card> */}
       </ScrollView>
     )
   }
 }
 
-const styles = StyleSheet.create({
-});
+// const styles = StyleSheet.create({
+// });
 
-// TODO NEXT!!
-// LIST ID IS UNDEFINED
 function mstp(state, ownProps) {
-  // const { listId } = ownProps || {};
   const { list, listRankings, entries } = state;
   const listId = ownProps.navigation.getParam('listId');
   const {

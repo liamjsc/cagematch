@@ -14,6 +14,7 @@ import {
   CreateList,
   ManageListEntries,
   Splash,
+  Standings,
 } from './index';
 import { ListFullDetail } from '../components'
 
@@ -22,6 +23,7 @@ const BrowseStack = createStackNavigator({
   ListFullDetail,
   Cage,
   ManageListEntries,
+  Standings
 });
 
 BrowseStack.navigationOptions = {
@@ -56,8 +58,8 @@ AccountStack.navigationOptions = {
 
 const AppNavigator = createBottomTabNavigator(
   {
-    Account: AccountStack,
     Browse: BrowseStack,
+    Account: AccountStack,
     // CreateList: {
     //   screen: CreateList,
     //   navigationOptions: {
