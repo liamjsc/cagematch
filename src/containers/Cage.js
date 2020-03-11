@@ -46,7 +46,7 @@ const CageEntry = (props) => {
         </View>
       </TouchableHighlight>
       <Button
-        titleProps={{ style: { color: 'white' } }}
+        titleProps={{ style: { color: 'gray' } }}
         buttonStyle={styles.hideButton}
         title="Hide this entry"
         onPress={hide}
@@ -244,16 +244,16 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingLeft: 15,
     // paddingRight: 15,
-    backgroundColor: 'lightslategray',
+    // backgroundColor: 'lightslategray',
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: 'green',
   },
   entriesContainer: {
     width: '100%',
     paddingTop: 10,
     borderColor: 'yellow',
-    borderWidth: 1,
+    borderWidth: 0,
     // flex: 1,
     flexDirection: 'row',
   },
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'purple',
-    borderWidth: 1,
+    borderWidth: 0,
     flex: 1,
   },
   entry: {
