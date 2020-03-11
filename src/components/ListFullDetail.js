@@ -82,7 +82,8 @@ class ListFullDetail extends Component {
           </Text> */}
 
           <Button
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            containerStyle={{ marginBottom: 10 }}
+            buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
             title='Rank'
             onPress={this.goToCage}
           />

@@ -9,8 +9,7 @@ import {
 import { 
   Text,
   Button,
-  Image,
-  ListItem,
+  Divider,
 } from 'react-native-elements';
 
 import { connect } from 'react-redux';
@@ -123,18 +122,22 @@ class ManageListEntries extends Component {
         />
         <View>
           {
-            items.map(entryId => {
+            items.map((entryId, i) => {
               const entry = entriesById[entryId];
               const isPending = typeof this.state[entryId] !== 'undefined';
               const isExcluded = isPending ? this.state[entryId] : !!exclusionById[entryId];
               return (
-                <RowItem
+                <View
                   key={entry.id}
-                  id={entry.id}
-                  title={entry.title}
-                  isExcluded={isExcluded}
-                  onToggle={this.onToggle}
-                />
+                >
+                  <RowItem
+                    id={entry.id}
+                    title={entry.title}
+                    isExcluded={isExcluded}
+                    onToggle={this.onToggle}
+                  />
+                  { i === items.length -1 ? null : <Divider/> }
+                </View>
               )
             })
           }

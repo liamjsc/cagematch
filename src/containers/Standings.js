@@ -55,7 +55,13 @@ class Standings extends Component {
 
     return (
       <View>
-        <Text h3>{title}</Text>
+        <View style={{
+          justifyContent: 'center',
+          flexDirection: 'row',
+          width: '100%',
+        }}>
+          <Text h3>{title}</Text>
+        </View>
         <ButtonGroup
           onPress={(idx) => this.setState({ selectedIndex: idx })}
           selectedIndex={selectedIndex}

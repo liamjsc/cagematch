@@ -2,12 +2,43 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 
 import {
-  ListItem,
+  Divider,
 } from 'react-native-elements';
+
+const RankingRow = ({ id, title, score, rank}) => {
+  return (
+    <View style={rowStyle.rankingRow}>
+      <Text style={rowStyle.rank}>{rank}</Text>
+      <Text style={rowStyle.title}>{title}</Text>
+      <Text style={rowStyle.score}>{score}</Text>
+    </View>
+  )
+}
+
+const rowStyle = StyleSheet.create({
+  rankingRow: {
+    width: '100%',
+    flexDirection: 'row',
+    height: 50,
+    padding: 10,
+    alignItems: 'center',
+  },
+  rank: {
+    color: 'gray',
+    flex: 1,
+  },
+  title: {
+    flex: 6,
+  },
+  score: {
+    flex: 2,
+  }
+});
 
 class Rankings extends Component {
   render() {
@@ -22,12 +53,19 @@ class Rankings extends Component {
           items.map((item, i) => {
             const { title, score } = item;
             return (
-              <ListItem
+              <View 
+                style={{
+                  width: '100%',
+                }}
                 key={i}
-                title={title}
-                subtitle={'' + score}
-                bottomDivider
-              />
+              >
+                <RankingRow
+                  title={title}
+                  score={'' + score}
+                  rank={i+1}
+                />
+                { i === items.length -1 ? null : <Divider/> }
+              </View>
             )
           })      
         }
