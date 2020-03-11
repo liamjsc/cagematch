@@ -49,6 +49,9 @@ AccountStack.navigationOptions = {
       name="person"
     />
   ),
+  tabBarOptions: {
+    showLabel: false,
+  },
 }
 
 const AppNavigator = createBottomTabNavigator(
