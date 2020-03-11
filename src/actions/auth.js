@@ -126,6 +126,49 @@ export function exclude({ listId, entryIds }) {
         listId,
         entryIds,
       })
-    })  
+    });
+  }
+}
+
+export function batchUpdateExclusions(actionData) {
+  const { toExclude, toInclude, listId, userId } = actionData;
+  console.log('batchUpdateExclusions');
+  console.log(actionData);
+  return function(dispatch, getState) {
+    const url = `${api}/exclusion/${listId}`;
+    const data = {
+      toInclude,
+      toExclude,
+      userId,
+    }
+    console.log(url, data);
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(() => {
+      console.log('post success!');
+      const { auth: { exclusions } } = getState();
+      const previousExclusions = exclusions[listId];
+      // remove `toInclude` from this list
+      console.log('previous Exclusions');
+      console.log(listId);
+      console.log(previousExclusions);
+      console.log('removing', toInclude);
+      const newExclusions = previousExclusions.filter(oldExclusion => {
+        return toInclude.indexOf(oldExclusion) < 0;
+      });
+      console.log(newExclusions);
+
+      dispatch({
+        type: actionTypes.SET_EXCLUSIONS,
+        exclusions: {
+          [listId]: newExclusions.concat(toExclude),
+        }
+      })
+    });
   }
 }

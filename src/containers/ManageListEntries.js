@@ -16,6 +16,8 @@ import {
 import { connect } from 'react-redux';
 
 import ToggleSwitch from 'toggle-switch-react-native';
+import { batchUpdateExclusions } from '../actions/auth';
+
 
 class RowItem extends Component {
   onToggle = (id) => {
@@ -66,11 +68,25 @@ class ManageListEntries extends Component {
   // map of id: excludeBool
   state = {}
 
+  saveChanges = () => {
+    console.log('@saveChanges')
+    const { dispatch, listId, user: { id: userId } } = this.props;
+    const toExclude = [];
+    const toInclude = [];
+    Object.keys(this.state).forEach(id => {
+      this.state[id] ? toExclude.push(id) : toInclude.push(id);
+    });
+    const data = {
+      toExclude,
+      toInclude,
+      listId,
+      userId,
+    };
+    console.log(data);
+    dispatch(batchUpdateExclusions(data))
+  }
+
   onToggle = (id) => {
-    console.log('on toggle', id);
-    console.log(this.state);
-    console.log(this.state.id);
-    console.log('update state');
     const isPending = typeof this.state[id] !== 'undefined';
 
     let excludeBool;
@@ -97,26 +113,33 @@ class ManageListEntries extends Component {
 
   render() {
     const { entriesById, items, exclusionById } = this.props;
-    console.log(this.state);
     return (
       <ScrollView style={styles.container}>
-        {
-          items.map(entryId => {
-            const entry = entriesById[entryId];
-            const isPending = typeof this.state[entryId] !== 'undefined';
-            console.log('isPending', isPending);
-            const isExcluded = isPending ? this.state[entryId] : !!exclusionById[entryId];
-            return (
-              <RowItem
-                key={entry.id}
-                id={entry.id}
-                title={entry.title}
-                isExcluded={isExcluded}
-                onToggle={this.onToggle}
-              />
-            )
-          })
-        }
+
+        <Button
+          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+          title='Save Changes'
+          onPress={this.saveChanges}
+        />
+        <View>
+          {
+            items.map(entryId => {
+              const entry = entriesById[entryId];
+              const isPending = typeof this.state[entryId] !== 'undefined';
+              const isExcluded = isPending ? this.state[entryId] : !!exclusionById[entryId];
+              return (
+                <RowItem
+                  key={entry.id}
+                  id={entry.id}
+                  title={entry.title}
+                  isExcluded={isExcluded}
+                  onToggle={this.onToggle}
+                />
+              )
+            })
+          }
+        </View>
+        
       </ScrollView>
     );
   }
@@ -153,6 +176,7 @@ function mstp({
     entriesById: entries.byId,
     items,
     exclusionById,
+    listId,
   };
 }
 export default connect(mstp)(ManageListEntries);

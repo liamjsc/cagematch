@@ -115,9 +115,6 @@ function mstp(state, ownProps) {
   // const { listId } = ownProps || {};
   const { list, listRankings, entries } = state;
   const listId = ownProps.navigation.getParam('listId');
-  console.log(state);
-  console.log('LFD mstp', listId);
-  // console.log(list.byId);
   const {
     title,
     createdBy,
