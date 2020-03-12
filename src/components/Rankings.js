@@ -47,12 +47,10 @@ class Rankings extends Component {
       length,
     } = this.props;
     const items = length ? rankedList.slice(0, length) : rankedList;
-    console.log('$$$RANKINGS')
     return (
       <View style={styles.rankings}>
         {
           items.map((item, i) => {
-            console.log(item);
             const { title, score } = item;
             return (
               <View 

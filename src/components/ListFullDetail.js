@@ -66,6 +66,7 @@ class ListFullDetail extends Component {
       rankedList,
       listId,
       image,
+      matchupCount,
     } = this.props;
 
     if (!rankedList || !rankedList.length) return null;
@@ -76,6 +77,11 @@ class ListFullDetail extends Component {
           <Text style={{marginBottom: 10}}>
             {description}
           </Text>
+          {
+            matchupCount ? (<Text style={{marginBottom: 10}}>
+              {matchupCount} matchup{matchupCount === 1 ? '' : 's'} counted
+            </Text>) : null
+          }
           {/* 
           <Text style={{marginBottom: 10}}>
             Created by: {createdBy}
@@ -127,17 +133,20 @@ function mstp(state, ownProps) {
     title,
     createdBy,
     description,
+    matchupCount,
   } = list.byId[listId];
   const listEntries = (listRankings[listId] || {}).children || [];
   const rankedList = listEntries.map(id => entries.byId[id]).sort(function (a, b) {
     return a.score > b.score ? -1 : 1;
   });
+  console.log('mstp::', list.byId[listId]);
   return {
     rankedList,
     title,
     createdBy,
     description,
     listId,
+    matchupCount,
   }
 }
 
