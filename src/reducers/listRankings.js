@@ -24,7 +24,7 @@ export default function listRankingsReducer(state = initialState, action = {}) {
         },
       };
     case actionTypes.LOAD_LIST_SUCCESS:
-      const { list } = action.data;
+      const { data: list } = action;
       return {
         ...state,
         [list.id]: {

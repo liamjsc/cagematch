@@ -62,7 +62,7 @@ export function loadList(id) {
       .then(response => response.json())
       .then(data => {
         console.log('list response:', data);
-        dispatch(insertEntries(data.list.entries));
+        dispatch(insertEntries(data.entries));
         dispatch(loadListSuccess(data));
       })
       .catch((err) => {
