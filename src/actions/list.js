@@ -56,7 +56,6 @@ function loadAllListsFail() {
 export function loadList(id) {
   console.log('load list', id);
   return (dispatch, getState) => {
-    console.log('LOADLISTSTART');
     dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
       .then(response => response.json())

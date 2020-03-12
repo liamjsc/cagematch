@@ -48,10 +48,6 @@ class Splash extends Component {
       });
   }
 
-  goToBrowse = () => {
-    this.props.navigation.navigate('Browse');
-  }
-
   login = (creds) => {
     const { dispatch, onAppReady } = this.props;
     return dispatch(login(creds))
@@ -69,7 +65,9 @@ class Splash extends Component {
   createAccount = (creds) => {
     return this.props.dispatch(createAccount(creds))
       .then(() => {
-        this.props.navigation.navigate('Browse');
+        console.log('!!!');
+        console.log(this.props);
+        this.props.onAppReady && this.props.onAppReady();
       })
       .catch(error => console.log('should handle error better!', error));
   }
