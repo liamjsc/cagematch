@@ -60,10 +60,10 @@ export function loadList(id) {
     dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
       .then(response => response.json())
-      .then(data => {
-        console.log('list response:', data);
-        dispatch(insertEntries(data.entries));
-        dispatch(loadListSuccess(data));
+      .then(({ list, entryIdMap }) => {
+        console.log('list response:', list, entryIdMap);
+        dispatch(insertEntries(entryIdMap));
+        dispatch(loadListSuccess(list));
       })
       .catch((err) => {
         console.log('LOADLISTFAIL');

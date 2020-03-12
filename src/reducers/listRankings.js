@@ -25,13 +25,15 @@ export default function listRankingsReducer(state = initialState, action = {}) {
       };
     case actionTypes.LOAD_LIST_SUCCESS:
       const { data: list } = action;
+      console.log('LOAD_LIST_SUCCESS===');
+      console.log(list);
       return {
         ...state,
         [list.id]: {
           loading: false,
           loaded: true,
           error: null,
-          children: list.entries.map(entry => entry.id),
+          children: list.entries,
         },
       };
     case actionTypes.LOAD_LIST_FAIL:
