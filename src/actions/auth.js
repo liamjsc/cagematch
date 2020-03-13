@@ -152,7 +152,7 @@ export function batchUpdateExclusions(actionData) {
     .then(() => {
       console.log('post success!');
       const { auth: { exclusions } } = getState();
-      const previousExclusions = exclusions[listId];
+      const previousExclusions = exclusions[listId] || [];
       // remove `toInclude` from this list
       console.log('previous Exclusions');
       console.log(listId);
