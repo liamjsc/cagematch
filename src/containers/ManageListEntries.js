@@ -67,6 +67,11 @@ class ManageListEntries extends Component {
   // map of id: excludeBool
   state = {}
 
+  componentWillUnmount() {
+    console.log('unmounting, saving', this.state);
+    this.saveChanges();
+  }
+
   saveChanges = () => {
     console.log('@saveChanges')
     const { dispatch, listId, user: { id: userId } } = this.props;
@@ -117,12 +122,6 @@ class ManageListEntries extends Component {
     });
     return (
       <ScrollView style={styles.container}>
-
-        <Button
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='Save Changes'
-          onPress={this.saveChanges}
-        />
         <View>
           {
             sortedItems.map((entryId, i) => {
