@@ -54,10 +54,8 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingLeft: 15,
     // paddingRight: 15,
-    backgroundColor: 'lightslategray',
+    // backgroundColor: 'lightblue',
     width: '100%',
-    borderWidth: 1,
-    borderColor: 'green',
   },
   cardText: {
     marginBottom: 10,

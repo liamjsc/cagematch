@@ -126,7 +126,7 @@ const theme = {
     }
   },
   // Card: {
-  //   containerStyle: styles.cardContainer,
+  //   containerStyle: { width: '99%'},
   // },
   colors: {
     ...Platform.select({

@@ -153,12 +153,8 @@ class ManageListEntries extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingLeft: 15,
-    // paddingRight: 15,
-    backgroundColor: 'lightslategray',
     width: '100%',
-    borderWidth: 1,
-    borderColor: 'green',
+    // backgroundColor: 'lightslategray',
   },
 });
 
