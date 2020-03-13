@@ -39,9 +39,6 @@ BrowseStack.navigationOptions = {
       name="list"
     />
   ),
-  tabBarOptions: {
-    showLabel: false,
-  },
 }
 
 const AccountStack = createStackNavigator({
@@ -56,11 +53,16 @@ AccountStack.navigationOptions = {
       name="person"
     />
   ),
-  tabBarOptions: {
-    showLabel: false,
-  },
 }
 
+const tabNavigatorOptions = {
+  initialRouteName: 'Browse',
+  headerMode: 'none',
+  tabBarOptions: {
+    activeBackgroundColor: 'lightsteelblue',
+    showLabel: false,
+  },
+};
 const AppNavigator = createBottomTabNavigator(
   {
     Browse: BrowseStack,
@@ -81,10 +83,7 @@ const AppNavigator = createBottomTabNavigator(
     //   }
     // }
   },
-  {
-    initialRouteName: 'Browse',
-    headerMode: 'none',
-  }
+  tabNavigatorOptions,
 );
 
 const AppContainer = createAppContainer(AppNavigator);

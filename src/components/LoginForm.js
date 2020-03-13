@@ -8,8 +8,8 @@ function validate({ username, password }) {
 
 class LoginForm extends Component {
   state = {
-    username: 'a',
-    password: 'ab',
+    username: 'streetlight27',
+    password: 'cage',
   }
 
   onClickLogin = () => {

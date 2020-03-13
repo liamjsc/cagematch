@@ -107,21 +107,7 @@ class Cage extends Component {
   }
 
   selectTwoEntries = () => {
-    const { list, hiddenEntries } = this.props;
-    const listId = this.getListId();
-    const { entries } = list.byId[listId];
-    const candidates = entries.filter(entry => {
-      return hiddenEntries.indexOf(entry.id) < 0;;
-    });
-    // Object {
-    //   "createdAt": "2019-11-26T02:38:28.866Z",
-    //   "id": "d42cfd9f-1cba-44e5-9cea-7d4efc12bd40",
-    //   "listId": "9d0098ed-d07c-43ff-a3f3-3ce958858b6b",
-    //   "list_id": "9d0098ed-d07c-43ff-a3f3-3ce958858b6b",
-    //   "title": "Shaq",
-    //   "updatedAt": "2019-11-26T02:38:28.866Z",
-    // },
-
+    const { candidates } = this.props;
     const indexOne = Math.floor(Math.random() * candidates.length);
     let indexTwo = Math.floor(Math.random() * candidates.length);
     while (candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo) {
@@ -181,14 +167,11 @@ class Cage extends Component {
     if (!this.state.loaded) {
       return <Text>Preparing the cage</Text>;
     }
-    const { list } = this.props;
+    const { hiddenEntries, candidates } = this.props;
     const { entryA, entryB } = this.state;
 
-    const { title: listTitle } = list.byId[listId];
-
-    console.log('cage render');
-    console.log(this.state);
-    console.log(this.props.hiddenEntries);
+    const hiddenCount = hiddenEntries.length;
+    const candidatesLength = candidates.length;
 
     return (
       <ScrollView
@@ -217,6 +200,7 @@ class Cage extends Component {
             id={entryB.id}
           />
         </View>
+
         <View style={styles.skip}>
           <Button
             titleProps={{ style: { color: 'white' } }}
@@ -228,6 +212,23 @@ class Cage extends Component {
             type="clear"
           />
         </View>
+
+        <View style={{ flexDirection: 'row' }}>
+          {
+            candidatesLength ? (
+              <Text>
+                {candidatesLength} candidates     
+              </Text>
+            ) : null
+          }
+          {
+            hiddenCount ? (
+              <Text>
+                {hiddenCount} hidden     
+              </Text>
+            ) : null
+          }
+        </View>
         <View style={styles.rankingsWrapper}>
           <Card title="Your Rankings">
             <Rankings 
@@ -237,6 +238,7 @@ class Cage extends Component {
             />
           </Card>
         </View>
+
       </ScrollView>
     );
   }
@@ -305,11 +307,16 @@ function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
   const listId = navigation.getParam('listId');
 
   const hiddenEntries = exclusions[listId] || [];
+  const { entries } = list.byId[listId];
+  const candidates = entries.filter(entry => {
+    return hiddenEntries.indexOf(entry.id) < 0;;
+  });
   return {
     list,
     listRankings,
     user,
     hiddenEntries,
+    candidates,
   };
 }
 export default connect(mstp)(Cage);
