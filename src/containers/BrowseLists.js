@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { ListCard } from '../components';
 import { loadAllLists } from '../actions/list';
+import * as constants from '../util/constants';
 
 class BrowseLists extends Component {
   static navigationOptions = {
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
-    backgroundColor: 'lightslategray',
+    // backgroundColor: 'black' || 'lightslategray',
     width: '100%',
   },
 });

@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { 
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import { ThemeProvider, colors, Icon } from 'react-native-elements';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { connect } from 'react-redux';
+
+import * as constants from '../util/constants';
 
 import {
   Account,
@@ -84,6 +89,21 @@ const AppNavigator = createBottomTabNavigator(
 
 const AppContainer = createAppContainer(AppNavigator);
 
+const styles = StyleSheet.create({
+  cardContainer: {
+    // flex: 1,
+    // width: '100%',
+    backgroundColor: constants.secondary_sub,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    minHeight: 200,
+    // padding: 0,
+    // width: '100%',
+    // marginBottom: 5,
+    // marginTop: 5,
+  },
+});
+
 const theme = {
   Button: {
     type: 'outline',
@@ -105,6 +125,9 @@ const theme = {
       paddingLeft: 5,
     }
   },
+  // Card: {
+  //   containerStyle: styles.cardContainer,
+  // },
   colors: {
     ...Platform.select({
       default: colors.platform.android,

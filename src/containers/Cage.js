@@ -6,13 +6,14 @@ import {
   TouchableHighlight,
   Dimensions,
   RefreshControl,
- } from 'react-native';
+} from 'react-native';
 
- import { 
+import { 
+  Card,
   Text,
   Button,
   Image,
- } from 'react-native-elements';
+} from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { loadList, fetchUserListRankings } from '../actions/list';
@@ -80,7 +81,7 @@ class Cage extends Component {
 
   loadCage = () => {
     const listId = this.getListId();
-    const { user, listRankings, dispatch } = this.props;
+    const { user, dispatch } = this.props;
 
     const userId = user.id;
     return dispatch(getExclusions())
@@ -207,6 +208,7 @@ class Cage extends Component {
             title={entryA.title}
             id={entryA.id}
           />
+          <View style={styles.spacing}/>
           <CageEntry
             handlePress={() => this.handlePress(entryB.id, entryA.id)}
             hide={() => this.hide(entryB.id)}
@@ -227,12 +229,13 @@ class Cage extends Component {
           />
         </View>
         <View style={styles.rankingsWrapper}>
-          <Text h4>Rankings</Text>
-          <Rankings 
-            listId={listId}
-            userId={this.props.user.id}
-            length={5}
-          />
+          <Card title="Your Rankings">
+            <Rankings 
+              listId={listId}
+              length={5}
+              userId={this.props.user.id}
+            />
+          </Card>
         </View>
       </ScrollView>
     );
@@ -251,7 +254,8 @@ const styles = StyleSheet.create({
   },
   entriesContainer: {
     width: '100%',
-    paddingTop: 10,
+    // paddingTop: 10,
+    padding: 15,
     borderColor: 'yellow',
     borderWidth: 0,
     // flex: 1,
@@ -263,6 +267,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'purple',
     borderWidth: 0,
+    flex: 9,
+  },
+  spacing: {
     flex: 1,
   },
   entry: {
@@ -288,7 +295,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   rankingsWrapper: {
-    alignItems: 'center',
+    // alignItems: 'center',
     width: '100%',
   }
 });

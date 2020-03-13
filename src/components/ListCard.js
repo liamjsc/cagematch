@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { Card, Text } from 'react-native-elements';
+import * as constants from '../util/constants';
 
 class ListCard extends Component {
   handlePress = () => {
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   card: {
     // flex: 1,
     // width: '100%',
-    // backgroundColor: 'lightgray',
+    // backgroundColor: constants.secondary_sub,
     // alignItems: 'center',
     // justifyContent: 'center',
     height: 200,
