@@ -112,6 +112,9 @@ class ManageListEntries extends Component {
 
   render() {
     const { entriesById, items, exclusionById } = this.props;
+    const sortedItems = items.slice().sort((a, b) => {
+      return entriesById[b].title.toLowerCase() < entriesById[a].title.toLowerCase() ? 1 : -1;
+    });
     return (
       <ScrollView style={styles.container}>
 
@@ -122,7 +125,7 @@ class ManageListEntries extends Component {
         />
         <View>
           {
-            items.map((entryId, i) => {
+            sortedItems.map((entryId, i) => {
               const entry = entriesById[entryId];
               const isPending = typeof this.state[entryId] !== 'undefined';
               const isExcluded = isPending ? this.state[entryId] : !!exclusionById[entryId];
