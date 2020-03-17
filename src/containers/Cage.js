@@ -3,7 +3,7 @@ import {
   StyleSheet, 
   View,
   ScrollView,
-  TouchableHighlight,
+  TouchableOpacity,
   Dimensions,
   RefreshControl,
 } from 'react-native';
@@ -32,7 +32,7 @@ const CageEntry = (props) => {
 
   return (
     <View style={styles.entryWrapper}>
-      <TouchableHighlight
+      <TouchableOpacity
         style={styles.entry}
         onPress={handlePress}
       >
@@ -45,7 +45,7 @@ const CageEntry = (props) => {
           }
           <Text>{title}</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
       <Button
         titleProps={{ style: { color: 'gray' } }}
         buttonStyle={styles.hideButton}
@@ -170,8 +170,8 @@ class Cage extends Component {
     const { hiddenEntries, candidates } = this.props;
     const { entryA, entryB } = this.state;
 
-    const hiddenCount = hiddenEntries.length;
-    const candidatesLength = candidates.length;
+    // const hiddenCount = hiddenEntries.length;
+    // const candidatesLength = candidates.length;
 
     return (
       <ScrollView
@@ -201,9 +201,9 @@ class Cage extends Component {
           />
         </View>
 
-        <View style={styles.skip}>
+        <View style={styles.lrPad}>
           <Button
-            titleProps={{ style: { color: 'white' } }}
+            titleProps={{ style: { color: 'gray' } }}
             buttonStyle={styles.skip}
             title="Skip"
             onPress={() => {
@@ -213,7 +213,7 @@ class Cage extends Component {
           />
         </View>
 
-        <View style={{ flexDirection: 'row' }}>
+        {/* <View style={styles.lrPad}>
           {
             candidatesLength ? (
               <Text>
@@ -228,7 +228,8 @@ class Cage extends Component {
               </Text>
             ) : null
           }
-        </View>
+        </View> */}
+
         <View style={styles.rankingsWrapper}>
           <Card title="Your Rankings">
             <Rankings 
@@ -245,6 +246,10 @@ class Cage extends Component {
 }
 
 const styles = StyleSheet.create({
+  lrPad: {
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
   container: {
     flex: 1,
     // paddingLeft: 15,
@@ -284,13 +289,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 120,
+
   },
   skip: {
-    paddingTop: 15,
+    paddingTop: 5,
     alignItems: 'center',
-  },
-  skipText: {
-    color: 'white',
   },
   hideButton: {
     paddingTop: 10,
