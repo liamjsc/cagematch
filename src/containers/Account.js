@@ -29,7 +29,7 @@ class Account extends Component {
 
   render() {
     const { user } = this.props;
-    const { email, username } = user;
+    const { email, username, id } = user;
     return (
       <ScrollView style={styles.container}>
         <Card>
@@ -38,6 +38,9 @@ class Account extends Component {
           </Text>
           <Text style={styles.cardText}>
             Username: {username}
+          </Text>
+          <Text style={styles.cardText}>
+            ID: {id}
           </Text>
           <Button
             title='Sign Out'

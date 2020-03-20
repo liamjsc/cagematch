@@ -10,10 +10,10 @@ export default function authReducer(state = initialState, action = {}) {
   console.log('reducer', action, state);
   switch (action.type) {
     case actionTypes.SET_USER:
-      console.log('set user', action);
+      console.log('set user reducer', action);
       return {
         ...state,
-        user: action.user ? { ...action.user } : null, // null is valid here
+        user: (action.user) ? { ...action.user } : null, // null is valid here
         authStatusResolved: true,
       };
     case actionTypes.SET_EXCLUSIONS:
