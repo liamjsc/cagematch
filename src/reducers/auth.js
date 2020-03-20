@@ -13,7 +13,7 @@ export default function authReducer(state = initialState, action = {}) {
       console.log('set user', action);
       return {
         ...state,
-        user: action.user ? { ...action.user, id: 1 } : null, // null is valid here
+        user: action.user ? { ...action.user } : null, // null is valid here
         authStatusResolved: true,
       };
     case actionTypes.SET_EXCLUSIONS:
