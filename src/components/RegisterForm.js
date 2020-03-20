@@ -8,10 +8,10 @@ function validate({ email, username, passwordOne, passwordTwo }) {
 
 class RegisterForm extends Component {
   state = {
-    email: 'a',
-    username: 'a',
-    passwordOne: 'ab',
-    passwordTwo: 'ab',
+    email: '',
+    username: '',
+    passwordOne: '',
+    passwordTwo: '',
   }
 
   onClickCreate = () => {
