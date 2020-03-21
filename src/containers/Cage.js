@@ -68,8 +68,6 @@ class Cage extends Component {
 
   // todo- make an entriesById map and access ID here
   state = {
-    entryAId: '',
-    entryBId: '',
     entryA: {},
     entryB: {},
     loaded: false,
@@ -108,9 +106,12 @@ class Cage extends Component {
 
   selectTwoEntries = () => {
     const { candidates } = this.props;
+    const { entryA: { id: entryAId }, entryB: { id: entryBId } } = this.state;
+
     const indexOne = Math.floor(Math.random() * candidates.length);
     let indexTwo = Math.floor(Math.random() * candidates.length);
-    while (candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo) {
+    while (
+      candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo && ([indexOne, indexTwo].indexOf(entryA) < 0 || [indexOne, indexTwo].indexOf(entryB) < 0)) {
       indexTwo = Math.floor(Math.random() * candidates.length);
     }
     return [candidates[indexOne], candidates[indexTwo]];
@@ -148,11 +149,31 @@ class Cage extends Component {
 
   // hides entry for this user
   hide = (entryId) => {
+    const { entryA, entryB } = this.state;
+    const { candidates } = this.props;
     const listId = this.getListId();
+    if (candidates.length <= 3) {
+      console.log('handle small lists better');
+      return;
+    }
+
+    // find the index in state
+    const hideIndex = entryId === entryA.id ? 0 : 1;
+
+    let randomIndex = Math.floor(Math.random() * candidates.length);
+    while (candidates[randomIndex].id === entryA.id || candidates[randomIndex].id === entryB.id) {
+      console.log('finding new index');
+      randomIndex = Math.floor(Math.random() * candidates.length);
+    }
+
+    // pick a random number from candidates until the id is neither a or b
     this.props.dispatch(exclude({
       listId, entryIds: [entryId]
     }));
-    this.resetEntries();
+
+    this.setState({
+      [hideIndex === 0 ? 'entryA' : 'entryB']: candidates[randomIndex],
+    });
   }
 
   onRefresh = () => {
@@ -314,6 +335,9 @@ function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
   const candidates = entries.filter(entry => {
     return hiddenEntries.indexOf(entry.id) < 0;;
   });
+
+  console.log('#Cage mstp');
+  console.log(entries);
   return {
     list,
     listRankings,
