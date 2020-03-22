@@ -77,6 +77,19 @@ class Cage extends Component {
     this.loadCage();
   }
 
+  goToListDetail = () => {
+    const listId = this.getListId();
+
+    const { list: { title } } = this.props;
+    console.log('!!!!')
+    console.log(this.props);
+    console.log('BrowseLists.js - go to list full detail', listId, title);
+    this.props.navigation.navigate('ListFullDetail', {
+      listId,
+      title
+    });
+  }
+
   loadCage = () => {
     const listId = this.getListId();
     const { user, dispatch } = this.props;
@@ -88,9 +101,7 @@ class Cage extends Component {
       })
       .then(() => dispatch(fetchUserListRankings({ listId, userId })))
       .then(() => {
-        console.log(this.props);
         const entries = this.selectTwoEntries();
-        console.log('got 2 entries', entries);
         this.setState({
           loaded: true,
           entryA: entries[0],
@@ -226,7 +237,25 @@ class Cage extends Component {
           />
         </View>
 
-        <View style={styles.lrPad}>
+        <View>
+          <Button
+            titleProps={{ style: { color: 'gray' } }}
+            buttonStyle={styles.skip}
+            title="Skip"
+            onPress={() => {
+              this.resetEntries()
+            }}
+            type="clear"
+          />        
+          <Button
+            title="List Details"
+            onPress={() => {
+              this.goToListDetail()
+            }}
+            // type="clear"
+          /> 
+        </View>
+        {/* <View style={styles.lrPad}>
           <Button
             titleProps={{ style: { color: 'gray' } }}
             buttonStyle={styles.skip}
@@ -236,7 +265,7 @@ class Cage extends Component {
             }}
             type="clear"
           />
-        </View>
+        </View> */}
 
         {/* <View style={styles.lrPad}>
           {

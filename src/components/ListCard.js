@@ -11,16 +11,14 @@ import * as constants from '../util/constants';
 
 class ListCard extends Component {
   handlePress = () => {
-    const { goToListDetail, id: listId, title } = this.props;
-    console.log('list card handlePress');
-    console.log('go to listDetail', listId);
-    goToListDetail({ listId, title });
+    const { goToCage, id: listId, title } = this.props;
+    goToCage({ listId, title });
   }
 
   render() {
     const {
       title,
-      description = 'Placeholder description to explain what the list is about'
+      description,
      } = this.props;
     return (
       <TouchableWithoutFeedback
@@ -32,7 +30,6 @@ class ListCard extends Component {
           containerStyle={styles.card}
         >
           <Text>{description}</Text>
-          {/* <Text h3>{title}</Text> */}
         </Card>
       </TouchableWithoutFeedback>
     )

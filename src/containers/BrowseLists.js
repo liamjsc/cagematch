@@ -16,6 +16,14 @@ class BrowseLists extends Component {
     if (!loaded && !loading) this.props.dispatch(loadAllLists());
   }
 
+  goToCage = ({ listId, title }) => {
+    console.log('BrowseLists.js - go to cage', listId);
+    this.props.navigation.navigate('Cage', {
+      listId,
+      title
+    });
+  }
+
   goToListDetail = ({ listId, title }) => {
     console.log('BrowseLists.js - go to list full detail', listId);
     this.props.navigation.navigate('ListFullDetail', {
@@ -36,6 +44,7 @@ class BrowseLists extends Component {
           return (
             <ListCard
               goToListDetail={this.goToListDetail}
+              goToCage={this.goToCage}
               {...byId[item]}
             />
           )

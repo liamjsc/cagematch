@@ -20,6 +20,7 @@ import Rankings from '../components/Rankings';
 class ListFullDetail extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
     const title = navigation.getParam('title');
+    console.log('get title on full detail', title)
     return {
       title,
       headerTitleStyle : { width : Dimensions.get('window').width }
@@ -139,7 +140,6 @@ function mstp(state, ownProps) {
   const rankedList = listEntries.map(id => entries.byId[id]).sort(function (a, b) {
     return a.score > b.score ? -1 : 1;
   });
-  console.log('mstp::', list.byId[listId]);
   return {
     rankedList,
     title,
