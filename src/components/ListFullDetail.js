@@ -96,7 +96,7 @@ class ListFullDetail extends Component {
           />
           <Button
             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-            title='Manage Entries'
+            title='Show/Hide Entries'
             onPress={this.goToManageEntries}
           />
         </Card>
