@@ -83,6 +83,7 @@ class Standings extends Component {
 function mstp(state, ownProps) {
   const { list, auth: { user } } = state;
   const listId = ownProps.navigation.getParam('listId');
+  console.log('mstp--', listId);
   const {
     title,
   } = list.byId[listId];

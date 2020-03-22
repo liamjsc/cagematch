@@ -126,7 +126,7 @@ class Cage extends Component {
     // make sure they arent the same index
     // make sure they are nt just repeating the previous two indices
     while (
-      candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo && ([indexOne, indexTwo].indexOf(entryA) < 0 || [indexOne, indexTwo].indexOf(entryB) < 0)) {
+      candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo && ([indexOne, indexTwo].indexOf(entryAId) < 0 || [indexOne, indexTwo].indexOf(entryBId) < 0)) {
       indexTwo = Math.floor(Math.random() * candidates.length);
     }
     return [candidates[indexOne], candidates[indexTwo]];
@@ -191,6 +191,18 @@ class Cage extends Component {
     });
   }
 
+  goToFullStandings = () => {
+    console.log('CAGE- go to full standings');
+    const { listId, list } = this.props;
+    const { title } = list.byId[listId];
+    const params = {
+      listId,
+      title,
+    }
+    console.log(params);
+    this.props.navigation.navigate('Standings', params);
+  }
+
   onRefresh = () => {
     this.setState({ refreshing: true });
     this.loadCage()
@@ -248,9 +260,7 @@ class Cage extends Component {
             />
             <Button
               title="List Details"
-              onPress={() => {
-                this.goToListDetail()
-              }}
+              onPress={this.goToListDetail}
             /> 
           </View>      
         </View>
@@ -278,6 +288,11 @@ class Cage extends Component {
               listId={listId}
               length={5}
               userId={this.props.user.id}
+            />
+            <Button
+              title="Full Standings"
+              onPress={this.goToFullStandings}
+              type="clear"
             />
           </Card>
         </View>
@@ -360,6 +375,7 @@ function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
   console.log('#Cage mstp');
   console.log(entries);
   return {
+    listId,
     list,
     listRankings,
     user,
