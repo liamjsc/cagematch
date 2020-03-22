@@ -43,7 +43,7 @@ const CageEntry = (props) => {
               style={{ width: '95%', aspectRatio: 182 / 268 }}
             />)
           }
-          <Text>{title}</Text>
+          <Text style={{ fontSize: 18, paddingTop: 5, paddingBottom: 5 }}>{title}</Text>
         </View>
       </TouchableOpacity>
       <Button
@@ -238,34 +238,22 @@ class Cage extends Component {
         </View>
 
         <View>
-          <Button
-            titleProps={{ style: { color: 'gray' } }}
-            buttonStyle={styles.skip}
-            title="Skip"
-            onPress={() => {
-              this.resetEntries()
-            }}
-            type="clear"
-          />        
-          <Button
-            title="List Details"
-            onPress={() => {
-              this.goToListDetail()
-            }}
-            // type="clear"
-          /> 
+          <View style={styles.lrPad}>
+            <Button
+              titleProps={{ style: { color: 'gray' } }}
+              buttonStyle={styles.skip}
+              title="Skip"
+              onPress={() => this.resetEntries()}
+              type="clear"
+            />
+            <Button
+              title="List Details"
+              onPress={() => {
+                this.goToListDetail()
+              }}
+            /> 
+          </View>      
         </View>
-        {/* <View style={styles.lrPad}>
-          <Button
-            titleProps={{ style: { color: 'gray' } }}
-            buttonStyle={styles.skip}
-            title="Skip"
-            onPress={() => {
-              this.resetEntries()
-            }}
-            type="clear"
-          />
-        </View> */}
 
         {/* <View style={styles.lrPad}>
           {
@@ -327,14 +315,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'purple',
-    borderWidth: 0,
     flex: 9,
+    height: 350,
   },
   spacing: {
     flex: 1,
   },
   entry: {
-    borderColor: 'black',
+    borderColor: 'gray',
     borderWidth: 1,
     width: '100%',
     alignItems: 'center',
@@ -350,7 +338,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hideButton: {
-    paddingTop: 10,
+    paddingTop: 15,
     paddingBottom: 10,
   },
   rankingsWrapper: {

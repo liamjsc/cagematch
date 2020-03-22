@@ -54,7 +54,7 @@ class Standings extends Component {
     if (loading) return null;
 
     return (
-      <View>
+      <View style={{ paddingBottom: 20 }}>
         <View style={{
           justifyContent: 'center',
           flexDirection: 'row',

@@ -19,7 +19,10 @@ class ListCard extends Component {
     const {
       title,
       description,
-     } = this.props;
+      entries,
+    } = this.props;
+    const count = entries.length;
+
     return (
       <TouchableWithoutFeedback
         style={{ padding: 0, justifyContent: 'center', alignItems: 'stretch' }}
@@ -30,6 +33,7 @@ class ListCard extends Component {
           containerStyle={styles.card}
         >
           <Text>{description}</Text>
+          <Text>{count} entries</Text>
         </Card>
       </TouchableWithoutFeedback>
     )
