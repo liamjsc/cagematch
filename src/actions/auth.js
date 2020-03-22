@@ -35,7 +35,13 @@ export function createAccount(credentials) {
         'Content-Type': 'application/json'
       },
     })
-      .then(data => data.json())
+      .then(data => {
+        if (!data.ok) {
+          const error = 'Auth Error';
+          return Promise.reject(error);
+        }
+        return data.json();
+      })
       .then(async results => {
         console.log('api register response');
         console.log(results);
@@ -52,6 +58,7 @@ export function createAccount(credentials) {
 
 export function login(credentials) {
   return function (dispatch, getState) {
+    console.log('loginaction');
     const url = `${api}/users/login`;
     console.log(url, 'post', credentials);
     return fetch(url, {
@@ -61,14 +68,22 @@ export function login(credentials) {
         'Content-Type': 'application/json'
       },
     })
-      .then(data => data.json())
+      .then(data => {
+        if (!data.ok) {
+          const error = 'Auth Error';
+          return Promise.reject(error);
+        }
+        return data.json();
+      })
       .then(async results => {
+        console.log('loginaction login results...');
+        console.log(results);
         await AsyncStorage.setItem('user', JSON.stringify(results)); // who is the user of this device
         dispatch(setUser(results))
         return results;
       })
       .catch(error => {
-        console.log('error login action');
+        console.log('loginaction error login action');
         console.log(error);
         return Promise.reject(error);
       });

@@ -110,6 +110,10 @@ class Cage extends Component {
 
     const indexOne = Math.floor(Math.random() * candidates.length);
     let indexTwo = Math.floor(Math.random() * candidates.length);
+
+    // handle some cases here
+    // make sure they arent the same index
+    // make sure they are nt just repeating the previous two indices
     while (
       candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo && ([indexOne, indexTwo].indexOf(entryA) < 0 || [indexOne, indexTwo].indexOf(entryB) < 0)) {
       indexTwo = Math.floor(Math.random() * candidates.length);

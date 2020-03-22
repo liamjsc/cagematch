@@ -21,6 +21,7 @@ class Splash extends Component {
   state = {
     showRegister: true,
     authStatusLoaded: false,
+    error: '',
   }
 
   /**
@@ -59,7 +60,12 @@ class Splash extends Component {
         console.log('calling onAppReady', onAppReady);
         onAppReady && onAppReady();
       })
-      .catch(error => console.log('should handle error better!', error));
+      .catch(error => {
+        console.log('should handle error better!', error);
+        this.setState({
+          error,
+        });
+      });
   }
 
   createAccount = (creds) => {
@@ -69,7 +75,12 @@ class Splash extends Component {
         console.log(this.props);
         this.props.onAppReady && this.props.onAppReady();
       })
-      .catch(error => console.log('should handle error better!', error));
+      .catch(error => {
+        console.log('should handle error better!', error);
+        this.setState({
+          error,
+        });
+      });
   }
 
   changeForm = () => this.setState({ showRegister: !this.state.showRegister });
@@ -78,10 +89,7 @@ class Splash extends Component {
     console.log('splash render');
     console.log(this.state);
     console.log(this.props);
-    const { user } = this.props;
-    const { showRegister, authStatusLoaded } = this.state;
-
-    const isLoggedIn = !!user;
+    const { showRegister, authStatusLoaded, error } = this.state;
 
     if (!authStatusLoaded) return (
       <View style={styles.fullScreenSpinner}>
@@ -100,15 +108,22 @@ class Splash extends Component {
         </View>
 
         <View style={styles.formWrapper}>
-            {
-              showRegister ?
-                (
-                  <RegisterForm createAccount={this.createAccount} changeForm={this.changeForm} />
-                ) : (
-                  <LoginForm login={this.login} changeForm={this.changeForm} />
-                )
-            }
-          </View>
+          {
+            showRegister ?
+              (
+                <RegisterForm createAccount={this.createAccount} changeForm={this.changeForm} />
+              ) : (
+                <LoginForm login={this.login} changeForm={this.changeForm} />
+              )
+          }
+          {
+            (error && error.length) ? (
+              <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', paddingTop: 15 }}>
+                <Text style={{ color: 'red' }}>{error}</Text>
+              </View>
+            ) : null
+          }
+        </View>
 
       </View>
     );
@@ -136,6 +151,7 @@ const styles = StyleSheet.create({
   fullScreenSpinner: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   }
 });
 
