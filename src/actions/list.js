@@ -115,15 +115,24 @@ function addList({ list, entries }) {
 
 export function fetchUserListRankings({ userId, listId }) {
   return (dispatch, getState) => {
-    return fetch(`${api}/user/${userId}/list/${listId}`)
-      .then(response => response.json())
-      .then(({ rankings, scores }) => {
+    console.log('##inside fetchUserListRankings action');
+    const url = `${api}/user/${userId}/list/${listId}`;
+    console.log(url);
+    return fetch(url)
+      .then(response => {
+        console.log('## got raw response');
+        console.log(response);
+        return response.json();
+      })
+      .then(({ rankings, records }) => {
+        console.log('##got response');
+
         dispatch({
           type: actionTypes.SET_USER_LIST_RANKINGS,
           userId,
           listId,
           rankings,
-          scores,
+          records,
         });      
       })
       .catch((err) => {

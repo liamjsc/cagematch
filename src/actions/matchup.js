@@ -16,10 +16,6 @@ function findDiff(winnerScore, loserScore) {
   return [winnerDiff, loserDiff];
 }
 
-/**
- * 
- * @param {username, password, email} credentials 
- */
 export function postMatchup(matchupDetails) {
   return function (dispatch, getState) {
     console.log(url, 'post', matchupDetails);
@@ -27,9 +23,9 @@ export function postMatchup(matchupDetails) {
     const { userRankings } = getState();
 
     // update local
-    const { rankings, scores } = userRankings[userId][listId];
-    const winnerScore = scores[winner];
-    const loserScore = scores[loser];
+    const { rankings, records } = userRankings[userId][listId];
+    const winnerScore = records[winner].score;
+    const loserScore = records[loser].score;
     const [winnerDiff, loserDiff] = findDiff(winnerScore, loserScore)
     const action = {
       type: actionTypes.UPDATE_LOCAL_SCORE,

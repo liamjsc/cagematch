@@ -22,20 +22,28 @@ export default function userRankingsReducer(state = initialState, action = {}) {
           ...state[action.userId],
           [action.listId]: {
             rankings: action.rankings,
-            scores: action.scores,
+            records: action.records,
           }
         }
       };
     case actionTypes.UPDATE_LOCAL_SCORE:
       const copyRankings = state[action.userId][action.listId].rankings.slice();
-      const initialScores = state[action.userId][action.listId].scores;
-      const newScores = {
-        ...state[action.userId][action.listId].scores,
-        [action.winner]: initialScores[action.winner] += action.winnerDiff,
-        [action.loser]: initialScores[action.loser] += action.loserDiff,
+      const initialRecords = state[action.userId][action.listId].records;
+      const newRecords = {
+        ...state[action.userId][action.listId].records,
+        [action.winner]: {
+          ...initialRecords[action.winner],
+          score: initialRecords[action.winner].score += action.winnerDiff,
+          winCount: initialRecords[action.winner].winCount += 1,
+        },
+        [action.loser]: {
+          ...initialRecords[action.loser],
+          score: initialRecords[action.loser].score += action.loserDiff,
+          lossCount: initialRecords[action.loser].lossCount += 1,
+        },
       }
       const newRankings = copyRankings.sort((a, b) => {
-        return newScores[b] - newScores[a];
+        return newRecords[b].score - newRecords[a].score;
       });
       return {
         ...state,
@@ -43,7 +51,7 @@ export default function userRankingsReducer(state = initialState, action = {}) {
           ...state[action.userId],
           [action.listId]: {
             rankings: newRankings,
-            scores: newScores,
+            records: newRecords,
           }
         }
       }

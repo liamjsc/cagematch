@@ -66,22 +66,22 @@ const tabNavigatorOptions = {
 const AppNavigator = createBottomTabNavigator(
   {
     Browse: BrowseStack,
+    CreateList: {
+      screen: CreateList,
+      navigationOptions: {
+        tabBarIcon: ({ focused }) => (
+          <Icon
+            type="material"
+            focused={focused}
+            name="create"
+          />
+        ),
+        tabBarOptions: {
+          showLabel: false,
+        },
+      }
+    },
     Account: AccountStack,
-    // CreateList: {
-    //   screen: CreateList,
-    //   navigationOptions: {
-    //     tabBarIcon: ({ focused }) => (
-    //       <Icon
-    //         type="material"
-    //         focused={focused}
-    //         name="create"
-    //       />
-    //     ),
-    //     tabBarOptions: {
-    //       showLabel: false,
-    //     },
-    //   }
-    // }
   },
   tabNavigatorOptions,
 );

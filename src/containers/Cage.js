@@ -81,9 +81,6 @@ class Cage extends Component {
     const listId = this.getListId();
 
     const { list: { title } } = this.props;
-    console.log('!!!!')
-    console.log(this.props);
-    console.log('BrowseLists.js - go to list full detail', listId, title);
     this.props.navigation.navigate('ListFullDetail', {
       listId,
       title
@@ -111,7 +108,6 @@ class Cage extends Component {
   }
 
   getListId = () => {
-    console.log('get list id');
     return this.props.navigation.getParam('listId');
   }
 
@@ -122,12 +118,15 @@ class Cage extends Component {
     const indexOne = Math.floor(Math.random() * candidates.length);
     let indexTwo = Math.floor(Math.random() * candidates.length);
 
+    console.log('selecting two entries');
     // handle some cases here
     // make sure they arent the same index
     // make sure they are nt just repeating the previous two indices
-    while (
-      candidates && candidates.length && candidates.length > 1 && indexOne === indexTwo && ([indexOne, indexTwo].indexOf(entryAId) < 0 || [indexOne, indexTwo].indexOf(entryBId) < 0)) {
+    const validLength = candidates && candidates.length && candidates.length > 2;
+    let isRepeat = [indexOne, indexTwo].indexOf(entryAId) >= 0 && [indexOne, indexTwo].indexOf(entryBId) >= 0;
+    while (validLength && (indexOne === indexTwo || isRepeat)) {
       indexTwo = Math.floor(Math.random() * candidates.length);
+      isRepeat = [indexOne, indexTwo].indexOf(entryAId) >= 0 && [indexOne, indexTwo].indexOf(entryBId) >= 0;
     }
     return [candidates[indexOne], candidates[indexTwo]];
   }
@@ -199,7 +198,6 @@ class Cage extends Component {
       listId,
       title,
     }
-    console.log(params);
     this.props.navigation.navigate('Standings', params);
   }
 
@@ -372,8 +370,6 @@ function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
     return hiddenEntries.indexOf(entry.id) < 0;;
   });
 
-  console.log('#Cage mstp');
-  console.log(entries);
   return {
     listId,
     list,

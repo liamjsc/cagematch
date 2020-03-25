@@ -110,8 +110,7 @@ class CreateList extends Component {
   }
 }
 
-const styles = {};
-const stylesOld = StyleSheet.create({
+const styles = StyleSheet.create({
   createList: {
     // flex: 1,
     // flexDirection: 'column',

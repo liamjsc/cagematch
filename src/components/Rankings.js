@@ -47,6 +47,8 @@ class Rankings extends Component {
       length,
     } = this.props;
     const items = length ? rankedList.slice(0, length) : rankedList;
+    console.log('ranked##');
+    console.log(rankedList);
     return (
       <View style={styles.rankings}>
         {
@@ -84,13 +86,13 @@ function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
   console.log('MSTP Rankings');
   console.log('userId', userId);
   if (userId) {
-    const { scores, rankings } = userRankings[userId][listId];
+    const { records, rankings } = userRankings[userId][listId];
     const rankedList = rankings.map(id => {
       return {
         ...entries.byId[id],
-        score: scores[id],
+        ...records[id], // attaches score, winCount, lossCount
       }
-    });
+    }).filter(x => (x.winCount > 0 || x.lossCount > 0));
     return { rankedList }
   }
   
