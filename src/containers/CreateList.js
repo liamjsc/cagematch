@@ -3,20 +3,27 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { createList as postList } from '../actions/list';
 
+const TITLE = 'TITLE';
+const DESCRIPTION = 'DESCRIPTION';
+const ENTRIES = 'ENTRIES';
+
 class CreateList extends Component {
   constructor(props) {
     super(props);
+    this.pendingEntryEl = null;
   }
 
   state = {
+    section: TITLE,
     title: '',
+    description: '',
     entries: [],
     pendingEntry: '',
     posting: false,
@@ -48,60 +55,121 @@ class CreateList extends Component {
     })
   }
 
+  getPromptText() {
+    const { section } = this.state; // will be title, description, or entries
+    if (section === TITLE) return 'Give your list a title';
+    if (section === DESCRIPTION) return 'Add a description. What is the criteria?';
+    if (section === ENTRIES) return 'Add entries to your list';
+  }
+
+  goToTitle = () => {
+    this.setState({ section: TITLE });
+  }
+
+  goToDescription = () => {
+    this.setState({ section: DESCRIPTION });
+  }
+
+  goToEntries = () => {
+    this.setState({ section: ENTRIES });
+  }
+
+  pushEntry = () => {
+    this.setState({
+      entries: [...this.state.entries, this.state.pendingEntry],
+      pendingEntry: '',
+    });
+    this.pendingEntryEl.focus();
+  }
+
   render() {
     if (this.state.error) console.log(error);
+    const { section, title, description, pendingEntry } = this.state; // will be title, description, or entries
+
     return (
       <View style={styles.createList}>
-
-        <View style={styles.titleArea}>
-          <Input
-            containerStyle={styles.titleContainer}
-            label="Title"
-            placeholder="Nic Cage Movies..."
-            onChangeText={(text) => {
-              this.setState({ title: text })
-          }}
-            value={this.state.title}
-            selectionColor="white"
-            inputStyle={styles.titleInput}
-          />
-        </View>
-
-        <View style={styles.newEntryRow}>
-          <Input
-            containerStyle={styles.addInputContainer}
-            placeholder='New Entry...'
-            value={this.state.pendingEntry}
-            onChangeText={(text) => {
-              this.setState({ pendingEntry: text })}
-            }
-          />
-          <View
-            style={styles.addButton}
-          >
-            <Button
-              title="Add"
-              onPress={this.onClickAddItem}
-            />
+        <View style={styles.outline}>
+          <View style={[styles.outlineBox, section === TITLE && styles.outlineActive]}>
+            <TouchableOpacity style={styles.touch} onPress={this.goToTitle}>
+              <Text style={styles.outlineText}>Title</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.outlineBox, section === DESCRIPTION && styles.outlineActive]}>
+            <TouchableOpacity style={styles.touch} onPress={this.goToDescription}>
+              <Text style={styles.outlineText}>Description</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.outlineBox, section === ENTRIES && styles.outlineActive]}>
+            <TouchableOpacity style={styles.touch} onPress={this.goToEntries}>
+              <Text style={styles.outlineText}>Entries</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
-        <View style={styles.list}>
-          {this.state.entries.map((entry, idx) => {
-            return (
-              <Text key={idx + entry} style={styles.listItem}>
-                {`${idx + 1}: ${entry}`}
-              </Text>
-            )
-          })}
+        <View style={styles.promptBox}>
+          <Text style={styles.promptText}>
+            {this.getPromptText()}
+          </Text>
         </View>
 
-        <Button
-          containerStyle={styles.saveListButton}
-          onPress={this.onClickCreateList}
-          title="Save List"
-          type="outline"
-        />
+        { section === TITLE && (
+          <View style={styles.titleInputBox}>
+            <Input
+              label="Title"
+              onChangeText={(text) => {
+                this.setState({ title: text })
+              }}
+              value={title}      
+            />
+            <Button
+              title="Continue"
+              onPress={this.goToDescription}
+              type="clear"
+            />
+          </View>
+        )}
+
+        { section === DESCRIPTION && (
+          <View style={styles.titleInputBox}>
+            <Input
+              label="Description"
+              onChangeText={(text) => {
+                this.setState({ description: text })
+              }}
+              value={description}      
+            />
+            <Button
+              title="Continue"
+              onPress={this.goToEntries}
+              type="clear"
+            />
+          </View>
+        )}
+
+        { section === ENTRIES && (
+          <View style={styles.titleInputBox}>
+            <Input
+              key="Entries"
+              label="Entries"
+              onChangeText={(text) => {
+                this.setState({ pendingEntry: text })
+              }}
+              onSubmitEditing={this.pushEntry}
+              value={pendingEntry}  
+              ref={(el) => this.pendingEntryEl = el}    
+            />
+            <Button
+              title="Add to list"
+              onPress={this.pushEntry}
+              type="clear"
+            />
+            <Button
+              title="Start ranking"
+              onPress={this.saveList}
+              type="clear"
+            />
+          </View>
+        )}
         <Text>
           {JSON.stringify(this.state)}
         </Text>
@@ -110,61 +178,43 @@ class CreateList extends Component {
   }
 }
 
-const styles = {};
-const stylesOld = StyleSheet.create({
+const styles = StyleSheet.create({
   createList: {
-    // flex: 1,
-    // flexDirection: 'column',
     width: '100%',
-    backgroundColor: 'teal',
-    color: 'white',
-    // alignItems: 'stretch',
-    // justifyContent: 'space-between',
     padding: 10,
     paddingTop: 30,
     height: '100%',
   },
-  titleArea: {
-    // flex: 2,
-    height: 110,
-    borderBottomWidth: 2,
-    borderBottomColor: 'black',
-    marginBottom: 20,
-  },
-  titleContainer: {
-    marginTop: 40,
-    height: 40,
-    width: '100%',
-  },
-  titleInput: {
-    color: 'white',
-  },
-  newEntryRow: {
-    height: 50,
+  outline: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'center',
+    alignItems: 'center',
   },
-  addInputContainer: {
-    flex: 3,
-  },
-  addButton: {
+  outlineBox: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
+    // borderWidth: 1,
+    borderColor: 'black',
+    height: 40,
   },
-  list: {
-    width: '100%',
-    // alignItems: 'center',
-    // justifyContent: 'flex-start',
-    paddingTop: 20,
+  outlineActive: {
+    backgroundColor: 'lightsteelblue',
   },
-  listItem: {
-    height: 30,
+  outlineText: {
     fontSize: 18,
   },
-  saveListButton: {
-    marginTop: 20,
+  promptText: {
+    fontSize: 26,
   },
+  titleInputBox: {
+    width: '100%',
+  },
+  touch: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 export default connect()(CreateList);
