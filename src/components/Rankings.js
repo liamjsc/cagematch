@@ -87,8 +87,6 @@ const styles = StyleSheet.create({
 });
 
 function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
-  console.log('MSTP Rankings');
-  console.log('userId', userId);
   if (userId) {
     const { records, rankings } = userRankings[userId][listId];
     const rankedList = rankings.map(id => {
