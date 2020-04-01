@@ -36,7 +36,10 @@ export default function listReducer(state = initialState, action = {}) {
           listIds: [...state.listIds, action.list.id],
           byId: {
             ...state.byId,
-            [action.list.id]: action.list,
+            [action.list.id]: {
+              ...action.list,
+              entries: action.entries,
+            },
           }
         }
         return newState;

@@ -97,7 +97,10 @@ export function createList(list) {
       },
     })
       .then(data => data.json())
-      .then((results) => dispatch(addList(results)))
+      .then((results) => {
+        dispatch(addList(results));
+        return results;
+      })
       .catch(error => {
         console.log(error);
         return Promise.reject();
@@ -122,6 +125,7 @@ export function fetchUserListRankings({ userId, listId }) {
       .then(response => {
         console.log('## got raw response');
         console.log(response);
+        if (!response.ok) return Promise.reject(response);
         return response.json();
       })
       .then(({ rankings, records }) => {

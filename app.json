@@ -11,10 +11,10 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/cagelogosquare.png",
+    "icon": "./src/assets/cmlogosquare.png",
     "splash": {
       "image": "./src/assets/CageMatchLogo2_03.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {

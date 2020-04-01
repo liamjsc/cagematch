@@ -108,7 +108,10 @@ class Cage extends Component {
   }
 
   getListId = () => {
-    return this.props.navigation.getParam('listId');
+    console.log('cage getListId');
+    const listId = this.props.navigation.getParam('listId');
+    console.log(listId);
+    return listId;
   }
 
   selectTwoEntries = () => {
@@ -365,7 +368,7 @@ function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
   const listId = navigation.getParam('listId');
 
   const hiddenEntries = exclusions[listId] || [];
-  const { entries } = list.byId[listId];
+  const { entries = [] } = (list.byId[listId] || {});
   const candidates = entries.filter(entry => {
     return hiddenEntries.indexOf(entry.id) < 0;;
   });

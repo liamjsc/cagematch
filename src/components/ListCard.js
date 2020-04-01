@@ -21,6 +21,8 @@ class ListCard extends Component {
       description,
       entries,
     } = this.props;
+    console.log('browse list');
+    console.log(this.props);
     const count = entries.length;
 
     return (

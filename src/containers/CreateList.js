@@ -43,8 +43,26 @@ class CreateList extends Component {
     console.log('onClickCreateList', list);
     this.setState({ posting: true });
     return this.props.dispatch(postList(list))
-      .then(() => this.setState({ posted: true, posting: false }))
-      .catch((error) => this.setState({ posting: false, posted: false, error }))
+      .then((newListData) => {
+
+        console.log('newList');
+        console.log(newListData);
+        const cage = { listId: newListData.list.id, title };
+        console.log(cage)
+        this.goToCage(cage);
+      })
+      .catch((error) => {
+        console.log('error post list');
+        console.log(error);
+        this.setState({ posting: false, posted: false, error })
+      })
+  }
+
+  goToCage = ({ listId, title }) => {
+    this.props.navigation.navigate('Cage', {
+      listId,
+      title,
+    });
   }
 
   onClickAddItem = () => {
@@ -83,8 +101,16 @@ class CreateList extends Component {
   }
 
   render() {
-    if (this.state.error) console.log(error);
-    const { section, title, description, pendingEntry } = this.state; // will be title, description, or entries
+    if (this.state.error) console.log(this.state.error);
+    const { section, title, description, pendingEntry, posting } = this.state; // will be title, description, or entries
+
+    if (posting) {
+      return (
+        <View style={styles.posting}>
+          <Text>'posting'</Text>
+        </View>
+      )
+    }
 
     return (
       <View style={styles.createList}>
@@ -165,7 +191,7 @@ class CreateList extends Component {
             />
             <Button
               title="Start ranking"
-              onPress={this.saveList}
+              onPress={this.onClickCreateList}
               type="clear"
             />
           </View>
