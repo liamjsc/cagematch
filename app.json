@@ -11,7 +11,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/CageMatchLogo2_03.png",
+    "icon": "./src/assets/cagelogosquare.png",
     "splash": {
       "image": "./src/assets/CageMatchLogo2_03.png",
       "resizeMode": "cover",
