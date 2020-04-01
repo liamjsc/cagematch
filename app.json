@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/CageMatchLogo2_03.png",
     "splash": {
-      "image": "./src/assets/cage.png",
+      "image": "./src/assets/CageMatchLogo2_03.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "com.cagematch.cagematch",
-      "versionCode": 3
+      "versionCode": 4
     }
   }
 }
