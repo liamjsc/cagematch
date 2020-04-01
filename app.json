@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "com.cagematch.cagematch",
-      "versionCode": 4
+      "versionCode": 5
     }
   }
 }
