@@ -10,6 +10,7 @@ class LoginForm extends Component {
   state = {
     username: '',
     password: '',
+    hidePassword: true,
   }
 
   onClickLogin = () => {
@@ -33,8 +34,13 @@ class LoginForm extends Component {
     this.setState({ password: e.nativeEvent.text });
   }
 
+  toggleVisibility = () => {
+    this.setState({ hidePassword: !this.state.hidePassword });
+  }
+
   render() {
     console.log('loginForm -- render');
+    const { hidePassword } = this.state;
     return (
       <View styles={styles.loginForm}>
         <Input
@@ -46,6 +52,13 @@ class LoginForm extends Component {
           label="Password"
           value={this.state.password}
           onChange={this.onChangepassword}
+          secureTextEntry={hidePassword}
+          rightIcon={{
+            name: hidePassword ? 'visibility-off' : 'visibility',
+            type: 'material',
+            onPress: this.toggleVisibility,
+            underlayColor: 'ligtsteelblue',
+          }}
         />
 
         <Button

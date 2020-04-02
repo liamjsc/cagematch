@@ -12,6 +12,8 @@ class RegisterForm extends Component {
     username: '',
     passwordOne: '',
     passwordTwo: '',
+    p1Hidden: true,
+    p2Hidden: true,
   }
 
   onClickCreate = () => {
@@ -27,6 +29,9 @@ class RegisterForm extends Component {
     }
     this.props.createAccount(credentials);
   }
+
+  toggleP1Hidden = () => this.setState({ p1Hidden: !this.state.p1Hidden });
+  toggleP2Hidden = () => this.setState({ p2Hidden: !this.state.p2Hidden });
 
   onChangeEmail = (e) => {
     this.setState({ email: e.nativeEvent.text });
@@ -44,6 +49,7 @@ class RegisterForm extends Component {
 
   render() {
     console.log('registerform -- render');
+    const { p1Hidden, p2Hidden } = this.state;
     return (
       <View style={styles.registerForm}>
         <Input
@@ -60,11 +66,23 @@ class RegisterForm extends Component {
           label="Password"
           value={this.state.passwordOne}
           onChange={this.onChangePasswordOne}
+          rightIcon={{
+            name: p1Hidden ? 'visibility-off' : 'visibility',
+            type: 'material',
+            onPress: this.toggleP1Hidden,
+            underlayColor: 'ligtsteelblue',
+          }}
         />
         <Input
           label="Confirm Password"
           value={this.state.passwordTwo}
           onChange={this.onChangePasswordTwo}
+          rightIcon={{
+            name: p2Hidden ? 'visibility-off' : 'visibility',
+            type: 'material',
+            onPress: this.toggleP2Hidden,
+            underlayColor: 'ligtsteelblue',
+          }}
         />
         <Button
           containerStyle={styles.button}

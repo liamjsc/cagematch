@@ -56,7 +56,7 @@ AccountStack.navigationOptions = {
 }
 
 const tabNavigatorOptions = {
-  initialRouteName: 'CreateList',
+  initialRouteName: 'Browse',
   headerMode: 'none',
   tabBarOptions: {
     activeBackgroundColor: 'lightsteelblue',
