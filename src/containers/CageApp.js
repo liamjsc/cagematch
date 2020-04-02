@@ -55,6 +55,21 @@ AccountStack.navigationOptions = {
   ),
 }
 
+
+const CreateStack = createStackNavigator({
+  CreateList,
+});
+
+CreateStack.navigationOptions = {
+  tabBarIcon: ({ focused }) => (
+    <Icon
+      type="material"
+      focused={focused}
+      name="create"
+    />
+  ),
+}
+
 const tabNavigatorOptions = {
   initialRouteName: 'Browse',
   headerMode: 'none',
@@ -63,21 +78,11 @@ const tabNavigatorOptions = {
     showLabel: false,
   },
 };
+
 const AppNavigator = createBottomTabNavigator(
   {
     Browse: BrowseStack,
-    CreateList: {
-      screen: CreateList,
-      navigationOptions: {
-        tabBarIcon: ({ focused }) => (
-          <Icon
-            type="material"
-            focused={focused}
-            name="create"
-          />
-        ),
-      }
-    },
+    CreateList: CreateStack,
     Account: AccountStack,
   },
   tabNavigatorOptions,
@@ -87,16 +92,8 @@ const AppContainer = createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
   cardContainer: {
-    // flex: 1,
-    // width: '100%',
     backgroundColor: constants.secondary_sub,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     minHeight: 200,
-    // padding: 0,
-    // width: '100%',
-    // marginBottom: 5,
-    // marginTop: 5,
   },
 });
 

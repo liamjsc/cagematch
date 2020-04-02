@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import {
+  Dimensions,
   StyleSheet,
-  Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { 
+  Button,
+  Input,
+  ListItem,
+  Text,
+ } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { createList as postList } from '../actions/list';
@@ -15,6 +20,11 @@ const DESCRIPTION = 'DESCRIPTION';
 const ENTRIES = 'ENTRIES';
 
 class CreateList extends Component {
+  static navigationOptions = {
+    title: 'Create List',
+    headerTitleStyle : { width : Dimensions.get('window').width }
+  }
+
   constructor(props) {
     super(props);
     this.pendingEntryEl = null;
@@ -75,7 +85,7 @@ class CreateList extends Component {
 
   getPromptText() {
     const { section } = this.state; // will be title, description, or entries
-    if (section === TITLE) return 'Give your list a title';
+    if (section === TITLE) return 'Give your new list a title';
     if (section === DESCRIPTION) return 'Add a description. What is the criteria?';
     if (section === ENTRIES) return 'Add entries to your list';
   }
@@ -102,7 +112,14 @@ class CreateList extends Component {
 
   render() {
     if (this.state.error) console.log(this.state.error);
-    const { section, title, description, pendingEntry, posting } = this.state; // will be title, description, or entries
+    const {
+      section,
+      title,
+      description,
+      pendingEntry,
+      posting,
+      entries,
+    } = this.state; // will be title, description, or entries
 
     if (posting) {
       return (
@@ -131,6 +148,12 @@ class CreateList extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
+        {
+          (section !== TITLE && title) ? (
+            <Text h3>{title}</Text>
+          ) : null
+        }
 
         <View style={styles.promptBox}>
           <Text style={styles.promptText}>
@@ -189,16 +212,29 @@ class CreateList extends Component {
               onPress={this.pushEntry}
               type="clear"
             />
+            {
+              entries && entries.length ? (
+                <View>
+                  {
+                    entries.map((entryTitle, i) => {
+                      return (<ListItem
+                        key={i+1}
+                        title={entryTitle}
+                        bottomDivider
+                      />);
+                    })
+                  }
+                </View>
+              ) : <Text>Add at least 3 items</Text>
+            }
             <Button
-              title="Start ranking"
+              containerStyle={{marginTop: 50}}
+              title="Save & start ranking"
               onPress={this.onClickCreateList}
-              type="clear"
+              disabled={entries.length < 3}
             />
           </View>
         )}
-        <Text>
-          {JSON.stringify(this.state)}
-        </Text>
       </View >
     )
   }
@@ -229,6 +265,9 @@ const styles = StyleSheet.create({
   },
   outlineText: {
     fontSize: 18,
+  },
+  promptBox: {
+    marginTop: 25,
   },
   promptText: {
     fontSize: 26,

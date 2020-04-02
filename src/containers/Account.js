@@ -20,7 +20,7 @@ import { signOut } from '../actions/auth';
 class Account extends Component {
   static navigationOptions = {
     title: 'Profile',
-    headerTitleStyle : {width : Dimensions.get('window').width}
+    headerTitleStyle : { width : Dimensions.get('window').width }
   };
 
   signOut = () => {
