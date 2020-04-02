@@ -71,6 +71,7 @@ class Cage extends Component {
     entryA: {},
     entryB: {},
     loaded: false,
+    refreshing: false,
   }
 
   componentDidMount() {

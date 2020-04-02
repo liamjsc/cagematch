@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Dimensions, FlatList } from 'react-native';
+import { 
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import { ListCard } from '../components';
@@ -11,6 +18,11 @@ class BrowseLists extends Component {
     title: 'CAGEMATCH',
     headerTitleStyle : {width : Dimensions.get('window').width}
   };
+
+  state = {
+    refreshing: false,
+  }
+
   componentDidMount() {
     const { loaded, loading } = this.props;
     if (!loaded && !loading) this.props.dispatch(loadAllLists());
@@ -32,25 +44,44 @@ class BrowseLists extends Component {
     });
   }
 
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.props.dispatch(loadAllLists())
+      .then(() => this.setState({ refreshing: false }));
+  }
+
   render() {
     const { loaded, loading, listIds, byId } = this.props;
-    if (loading) return <Text>Loading</Text>;
+    if (loading) return (
+      <ActivityIndicator
+        style={{ paddingTop: 250 }}
+        size="large"
+      />
+    );
 
     return (
-      <FlatList
-        style={styles.list}
-        data={listIds}
-        renderItem={({ item }) => {
-          return (
-            <ListCard
-              goToListDetail={this.goToListDetail}
-              goToCage={this.goToCage}
-              {...byId[item]}
-            />
-          )
-        }}
-        keyExtractor={(item, idx) => `${idx}`}
-      />
+      <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh}
+        />
+      }>
+        <FlatList
+          style={styles.list}
+          data={listIds}
+          renderItem={({ item }) => {
+            return (
+              <ListCard
+                goToListDetail={this.goToListDetail}
+                goToCage={this.goToCage}
+                {...byId[item]}
+              />
+            )
+          }}
+          keyExtractor={(item, idx) => `${idx}`}
+        />
+      </ScrollView>
     );
   }
 }
