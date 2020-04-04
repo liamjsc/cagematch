@@ -24,7 +24,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.cagematch.cagematch",
+      "supportsTablet": true,
+      "buildNumber": "0.0.2"
     },
     "android": {
       "package": "com.cagematch.cagematch",
