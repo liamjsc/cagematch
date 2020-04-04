@@ -16,7 +16,7 @@ import * as constants from '../util/constants';
 class BrowseLists extends Component {
   static navigationOptions = {
     title: 'CAGEMATCH',
-    headerTitleStyle : {width : Dimensions.get('window').width}
+    headerTitleStyle: {width : Dimensions.get('window').width},
   };
 
   state = {

@@ -23,52 +23,61 @@ import {
 } from './index';
 import { ListFullDetail } from '../components'
 
+// https://reactnavigation.org/docs/4.x/stack-navigator/#stacknavigatorconfig
+const sharedStackNavigatorConfig = {
+  defaultNavigationOptions: {
+    headerBackTitle: ' ',
+  }
+}
+
 const BrowseStack = createStackNavigator({
   Browse: BrowseLists,
   ListFullDetail,
   Cage,
   ManageListEntries,
   Standings
+}, {
+  ...sharedStackNavigatorConfig,
+  navigationOptions: {
+    tabBarIcon: ({ focused }) => (
+      <Icon
+        type="material"
+        focused={focused}
+        name="list"
+      />
+    ),
+  }
 });
-
-BrowseStack.navigationOptions = {
-  tabBarIcon: ({ focused }) => (
-    <Icon
-      type="material"
-      focused={focused}
-      name="list"
-    />
-  ),
-}
 
 const AccountStack = createStackNavigator({
   Account,
+}, {
+  ...sharedStackNavigatorConfig,
+  navigationOptions: {
+    tabBarIcon: ({ focused }) => (
+      <Icon
+        type="material"
+        focused={focused}
+        name="person"
+      />
+    ),
+  }
 });
-
-AccountStack.navigationOptions = {
-  tabBarIcon: ({ focused }) => (
-    <Icon
-      type="material"
-      focused={focused}
-      name="person"
-    />
-  ),
-}
-
 
 const CreateStack = createStackNavigator({
   CreateList,
+}, { 
+  ...sharedStackNavigatorConfig,
+  navigationOptions: {
+    tabBarIcon: ({ focused }) => (
+      <Icon
+        type="material"
+        focused={focused}
+        name="create"
+      />
+    ),
+  },
 });
-
-CreateStack.navigationOptions = {
-  tabBarIcon: ({ focused }) => (
-    <Icon
-      type="material"
-      focused={focused}
-      name="create"
-    />
-  ),
-}
 
 const tabNavigatorOptions = {
   initialRouteName: 'Browse',

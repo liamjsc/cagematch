@@ -62,7 +62,8 @@ class Cage extends Component {
     const title = navigation.getParam('title');
     return {
       title,
-      headerTitleStyle : { width : Dimensions.get('window').width }
+      headerTitleStyle : { width : Dimensions.get('window').width },
+      headerBackTitleVisible: false,
     };
   }
 
