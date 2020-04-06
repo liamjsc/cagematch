@@ -2,20 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
-  View,
   ScrollView,
-  Dimensions,
-  Text,
 } from 'react-native';
 import {
   Card,
   Button,
-  Icon,
+  Text,
 } from 'react-native-elements';
 
 import { loadList } from '../actions/list';
 import { getExclusions } from '../actions/auth';
 import Rankings from '../components/Rankings';
+import * as constants from '../util/constants';
 
 class ListFullDetail extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
@@ -72,7 +70,7 @@ class ListFullDetail extends Component {
     if (!rankedList || !rankedList.length) return null;
 
     return (
-      <ScrollView>
+      <ScrollView style={style.container}>
         <Card>
           <Text style={{marginBottom: 10}}>
             {description}
@@ -123,8 +121,11 @@ class ListFullDetail extends Component {
   }
 }
 
-// const styles = StyleSheet.create({
-// });
+const style = StyleSheet.create({
+  container: {
+    backgroundColor: constants.background,
+  }
+});
 
 function mstp(state, ownProps) {
   const { list, listRankings, entries } = state;

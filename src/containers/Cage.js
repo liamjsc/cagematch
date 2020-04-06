@@ -83,7 +83,7 @@ class Cage extends Component {
   goToListDetail = () => {
     const listId = this.getListId();
 
-    const { list: { title } } = this.props;
+    const { title } = this.props.list.byId[listId];
     this.props.navigation.navigate('ListFullDetail', {
       listId,
       title
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   entry: {
-    borderColor: 'gray',
+    borderColor: constants.almostBlack,
     borderWidth: 1,
     width: '100%',
     alignItems: 'center',

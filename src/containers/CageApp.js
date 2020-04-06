@@ -27,6 +27,7 @@ import { ListFullDetail } from '../components'
 const sharedStackNavigatorConfig = {
   defaultNavigationOptions: {
     headerBackTitle: ' ',
+    headerTintColor: constants.white,
     headerStyle: {
       backgroundColor: constants.cardGray,
     },
@@ -132,6 +133,20 @@ const theme = {
     buttonStyle: {
       backgroundColor: constants.darkPurple,
       borderColor: constants.white,
+    },
+  },
+  ButtonGroup: {
+    containerStyle: {
+      borderWidth: 0,
+    },
+    selectedButtonStyle: {
+      backgroundColor: constants.lightPurple,
+    },
+    buttonStyle: {
+      backgroundColor: constants.lighterBlack,
+    },
+    textStyle: {
+      color: constants.textWhite,
     },
   },
   Input: {

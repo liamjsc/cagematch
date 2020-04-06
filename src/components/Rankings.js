@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
 import {
   Divider,
+  Text,
 } from 'react-native-elements';
 
 const RankingRow = ({ id, title, score, rank, winCount, lossCount}) => {
