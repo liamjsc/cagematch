@@ -20,6 +20,7 @@ import { loadList, fetchUserListRankings } from '../actions/list';
 import { exclude, getExclusions } from '../actions/auth';
 import { postMatchup } from '../actions/matchup';
 import { Rankings } from '../components';
+import * as constants from '../util/constants';
 
 const CageEntry = (props) => {
   const {
@@ -62,7 +63,6 @@ class Cage extends Component {
     const title = navigation.getParam('title');
     return {
       title,
-      headerTitleStyle : { width : Dimensions.get('window').width },
       headerBackTitleVisible: false,
     };
   }
@@ -314,25 +314,18 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingLeft: 15,
     // paddingRight: 15,
-    // backgroundColor: 'lightslategray',
+    backgroundColor: constants.background,
     width: '100%',
-    borderWidth: 0,
-    borderColor: 'green',
   },
   entriesContainer: {
     width: '100%',
-    // paddingTop: 10,
     padding: 15,
-    borderColor: 'yellow',
-    borderWidth: 0,
-    // flex: 1,
     flexDirection: 'row',
   },
   entryWrapper: {
     padding: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'purple',
     flex: 9,
     height: 350,
   },

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     // backgroundColor: constants.secondary_sub,
     // alignItems: 'center',
     // justifyContent: 'center',
-    height: 200,
+    height: 180,
     // padding: 0,
     // width: '100%',
     // marginBottom: 5,

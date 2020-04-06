@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 
 import ToggleSwitch from 'toggle-switch-react-native';
 import { batchUpdateExclusions } from '../actions/auth';
-
+import * as constants from '../util/constants';
 
 class RowItem extends Component {
   onToggle = (id) => {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    // backgroundColor: 'lightslategray',
+    backgroundColor: constants.background,
   },
 });
 

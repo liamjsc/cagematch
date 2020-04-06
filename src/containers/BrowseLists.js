@@ -16,7 +16,6 @@ import * as constants from '../util/constants';
 class BrowseLists extends Component {
   static navigationOptions = {
     title: 'CAGEMATCH',
-    headerTitleStyle: {width : Dimensions.get('window').width},
   };
 
   state = {
@@ -61,12 +60,14 @@ class BrowseLists extends Component {
 
     return (
       <ScrollView
-      refreshControl={
-        <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh}
-        />
-      }>
+        style={styles.browseLists}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
+      >
         <FlatList
           style={styles.list}
           data={listIds}
@@ -86,6 +87,9 @@ class BrowseLists extends Component {
   }
 }
 const styles = StyleSheet.create({
+  browseLists: {
+    backgroundColor: constants.background,
+  },
   list: {
     flex: 1,
     paddingLeft: 15,

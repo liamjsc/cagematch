@@ -16,6 +16,7 @@ import {
 import { loadList, fetchUserListRankings } from '../actions/list';
 import { getExclusions } from '../actions/auth';
 import Rankings from '../components/Rankings';
+import * as constants from '../util/constants';
 
 class Standings extends Component {
   static navigationOptions = {
@@ -56,6 +57,7 @@ class Standings extends Component {
     return (
       <View style={{
         paddingBottom: 100,
+        backgroundColor: constants.background,
        }}>
         <View style={{
           justifyContent: 'center',

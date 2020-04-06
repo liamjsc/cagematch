@@ -27,6 +27,13 @@ import { ListFullDetail } from '../components'
 const sharedStackNavigatorConfig = {
   defaultNavigationOptions: {
     headerBackTitle: ' ',
+    headerStyle: {
+      backgroundColor: constants.cardGray,
+    },
+    headerTitleStyle: {
+      color: constants.lightPurple,
+      width: '100%',
+    }
   }
 }
 
@@ -39,11 +46,12 @@ const BrowseStack = createStackNavigator({
 }, {
   ...sharedStackNavigatorConfig,
   navigationOptions: {
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({ focused, tintColor }) => (
       <Icon
         type="material"
         focused={focused}
         name="list"
+        color={tintColor}
       />
     ),
   }
@@ -54,11 +62,12 @@ const AccountStack = createStackNavigator({
 }, {
   ...sharedStackNavigatorConfig,
   navigationOptions: {
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({ focused, tintColor }) => (
       <Icon
         type="material"
         focused={focused}
         name="person"
+        color={tintColor}
       />
     ),
   }
@@ -69,11 +78,12 @@ const CreateStack = createStackNavigator({
 }, { 
   ...sharedStackNavigatorConfig,
   navigationOptions: {
-    tabBarIcon: ({ focused }) => (
+    tabBarIcon: ({ focused, tintColor }) => (
       <Icon
         type="material"
         focused={focused}
         name="create"
+        color={tintColor}
       />
     ),
   },
@@ -83,8 +93,14 @@ const tabNavigatorOptions = {
   initialRouteName: 'Browse',
   headerMode: 'none',
   tabBarOptions: {
-    activeBackgroundColor: 'lightsteelblue',
-    showLabel: false,
+    inactiveBackgroundColor: constants.cardGray,
+    activeBackgroundColor: constants.lightPurple,
+    activeTintColor: constants.darkPurple,
+    inactiveTintColor: constants.white,
+    showLabel: true,
+    labelStyle: {
+      color: constants.white,
+    },
   },
 };
 
@@ -117,25 +133,31 @@ const theme = {
       marginBottom: 3,
     },
     labelStyle: {
-      color: 'white',
+      color: constants.textWhite,
       fontWeight: 'normal',
     },
     inputStyle: {
-      // borderWidth: 1,
-      // borderColor: 'gray',
-      // backgroundColor: 'white',
       paddingLeft: 5,
     }
   },
-  // Card: {
-  //   containerStyle: { width: '99%'},
-  // },
-  colors: {
-    ...Platform.select({
-      default: colors.platform.android,
-      ios: colors.platform.ios,
-    }),
+  Text: {
+    style: {
+      color: constants.textWhite,
+    }
   },
+  Card: {
+    containerStyle: {
+      backgroundColor: constants.cardGray,
+      borderColor: constants.raisinBlack,
+    },
+    titleStyle: { color: 'white' },
+  },
+  // colors: {
+  //   ...Platform.select({
+  //     default: colors.platform.android,
+  //     ios: colors.platform.ios,
+  //   }),
+  // },
 }
 
 class App extends React.Component {

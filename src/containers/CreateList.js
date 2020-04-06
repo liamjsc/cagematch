@@ -16,6 +16,7 @@ import {
 
 import { connect } from 'react-redux';
 import { createList as postList } from '../actions/list';
+import * as constants from '../util/constants';
 
 const TITLE = 'TITLE';
 const DESCRIPTION = 'DESCRIPTION';
@@ -273,10 +274,8 @@ class CreateList extends Component {
 
 const styles = StyleSheet.create({
   outer: {
-    // borderWidth: 1,
-    // borderColor: 'green',
     height: '100%',
-    // paddingBottom: 100,
+    backgroundColor: constants.background,
   },
   createList: {
     width: '100%',

@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 
 import { loadList, fetchUserListRankings } from '../actions/list';
 import { signOut } from '../actions/auth';
+import * as constants from '../util/constants';
 
 
 class Account extends Component {
@@ -55,9 +56,7 @@ class Account extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingLeft: 15,
-    // paddingRight: 15,
-    // backgroundColor: 'lightblue',
+    backgroundColor: constants.background,
     width: '100%',
   },
   cardText: {
