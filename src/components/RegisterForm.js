@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { TouchableOpacity, View } from 'react-native';
+import {
+  Button,
+  Input,
+  Text,
+} from 'react-native-elements';
+
+import * as constants from '../util/constants';
 
 function validate({ email, username, passwordOne, passwordTwo }) {
   return email && username && passwordOne && passwordOne === passwordTwo;
@@ -70,7 +76,8 @@ class RegisterForm extends Component {
             name: p1Hidden ? 'visibility-off' : 'visibility',
             type: 'material',
             onPress: this.toggleP1Hidden,
-            underlayColor: 'ligtsteelblue',
+            underlayColor: constants.background,
+            color: constants.lightPurple,
           }}
         />
         <Input
@@ -81,7 +88,8 @@ class RegisterForm extends Component {
             name: p2Hidden ? 'visibility-off' : 'visibility',
             type: 'material',
             onPress: this.toggleP2Hidden,
-            underlayColor: 'ligtsteelblue',
+            underlayColor: constants.background,
+            color: constants.lightPurple,
           }}
         />
         <Button

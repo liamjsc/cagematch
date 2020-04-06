@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { TouchableOpacity, View } from 'react-native';
+import { 
+  Button,
+  Input,
+  Text,
+} from 'react-native-elements';
+
+import * as constants from '../util/constants';
 
 function validate({ username, password }) {
   return username && password;
@@ -47,6 +53,8 @@ class LoginForm extends Component {
           label="Username or Email"
           value={this.state.username}
           onChange={this.onChangeUsername}
+          // placeholder="Placeholder..."
+          // placeholderTextColor={constants.lightPurple}
         />
         <Input
           label="Password"
@@ -57,7 +65,8 @@ class LoginForm extends Component {
             name: hidePassword ? 'visibility-off' : 'visibility',
             type: 'material',
             onPress: this.toggleVisibility,
-            underlayColor: 'ligtsteelblue',
+            underlayColor: constants.cardGray,
+            color: constants.lightPurple,
           }}
         />
 
@@ -72,7 +81,7 @@ class LoginForm extends Component {
           <TouchableOpacity
             onPress={this.props.changeForm}
           >
-            <Text>Already have an account? Sign In</Text>
+            <Text>Don't have an account? Sign up</Text>
           </TouchableOpacity>
         </View>
       </View>

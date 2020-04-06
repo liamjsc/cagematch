@@ -150,9 +150,11 @@ const theme = {
     },
   },
   Input: {
+    placeholderTextColor: constants.textGrey,
     containerStyle: {
       marginTop: 3,
       marginBottom: 3,
+      backgroundColor: constants.background,
     },
     labelStyle: {
       color: constants.textGrey,
@@ -163,6 +165,10 @@ const theme = {
       color: constants.textWhite,
       backgroundColor: constants.cardGray,
     },
+    inputContainerStyle: {
+      backgroundColor: constants.cardGray,
+      borderBottomWidth: 0,
+    }
   },
   Text: {
     style: {
@@ -176,12 +182,6 @@ const theme = {
     },
     titleStyle: { color: 'white' },
   },
-  // colors: {
-  //   ...Platform.select({
-  //     default: colors.platform.android,
-  //     ios: colors.platform.ios,
-  //   }),
-  // },
 }
 
 class App extends React.Component {

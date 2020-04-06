@@ -22,12 +22,13 @@ export const darkerGrey = '#111111';
 // based on google material ui
 
 export const baseDarkGrey = '#121212';
-export const cardGray = '#1C1C1C'
+export const cardGray = '#1C1C1C';
 export const lightPurple = '#BB86FC';
 export const darkPurple = '#3700B3';
 export const textWhite = '#E1E1E1';
 export const textGrey = '#A5A5A5';
 
+export const googleTeal = '#03DAC5';
 
 export const green1 = '#007348';
 export const green2 = '#008755';

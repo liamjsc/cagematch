@@ -11,6 +11,7 @@ import {
  } from '../actions/auth';
 
  import { loadAllLists } from '../actions/list';
+ import * as constants from '../util/constants';
 
 /**
  * Splash is rendered outside of the AppNavigator context
@@ -104,7 +105,7 @@ class Splash extends Component {
       <View style={styles.splash}>
 
         <View style={styles.header}>
-          <Text h1>CAGE MATCH</Text>
+          <Text h3>CAGEMATCH</Text>
         </View>
 
         <View style={styles.formWrapper}>
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     flex: 1,
     width: '100%',
-    backgroundColor: 'lightslategray',
+    backgroundColor: constants.background,
     justifyContent: 'flex-start',
   },
   header: {
