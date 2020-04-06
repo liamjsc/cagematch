@@ -90,7 +90,7 @@ const CreateStack = createStackNavigator({
 });
 
 const tabNavigatorOptions = {
-  initialRouteName: 'Browse',
+  initialRouteName: 'CreateList',
   headerMode: 'none',
   tabBarOptions: {
     inactiveBackgroundColor: constants.cardGray,
@@ -126,6 +126,13 @@ const theme = {
   Button: {
     type: 'outline',
     raised: true,
+    titleStyle: {
+      color: constants.textWhite,
+    },
+    buttonStyle: {
+      backgroundColor: constants.darkPurple,
+      borderColor: constants.white,
+    },
   },
   Input: {
     containerStyle: {
@@ -133,12 +140,14 @@ const theme = {
       marginBottom: 3,
     },
     labelStyle: {
-      color: constants.textWhite,
+      color: constants.textGrey,
       fontWeight: 'normal',
     },
     inputStyle: {
       paddingLeft: 5,
-    }
+      color: constants.textWhite,
+      backgroundColor: constants.cardGray,
+    },
   },
   Text: {
     style: {
@@ -148,7 +157,7 @@ const theme = {
   Card: {
     containerStyle: {
       backgroundColor: constants.cardGray,
-      borderColor: constants.raisinBlack,
+      borderColor: constants.lighterBlack,
     },
     titleStyle: { color: 'white' },
   },

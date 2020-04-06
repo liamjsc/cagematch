@@ -192,6 +192,7 @@ class CreateList extends Component {
                 value={title}      
               />
               <Button
+                containerStyle={styles.button}
                 title="Continue"
                 onPress={this.goToDescription}
                 type="clear"
@@ -209,6 +210,7 @@ class CreateList extends Component {
                 value={description}      
               />
               <Button
+                containerStyle={styles.button}
                 title="Continue"
                 onPress={this.goToEntries}
                 type="clear"
@@ -220,7 +222,7 @@ class CreateList extends Component {
             <View style={styles.titleInputBox}>
               <Input
                 key="Entries"
-                label="Entries"
+                label="Entry"
                 onChangeText={(text) => {
                   this.setState({ pendingEntry: text })
                 }}
@@ -229,6 +231,7 @@ class CreateList extends Component {
                 ref={(el) => this.pendingEntryEl = el}    
               />
               <Button
+                containerStyle={styles.button}
                 title="Add to list"
                 onPress={this.pushEntry}
                 type="clear"
@@ -246,22 +249,29 @@ class CreateList extends Component {
                           key={i+1}
                           title={entryTitle}
                           bottomDivider
+                          containerStyle={styles.entry}
+                          titleStyle={styles.entryTitle}
                         />);
                       })
                     }
                   </View>
-                ) : <Text>Add at least 3 items</Text>
+                ) : null
               }
-              <Button
-                containerStyle={{
-                  marginTop: 10,
-                  marginBottom: 10,
-                }}
-                title="Save & start ranking"
-                onPress={this.onClickCreateList}
-                disabled={entries.length < 3}
-                type="solid"
-              />
+              <View style={styles.submitArea}>
+                { (entries && entries.length < 3) ? (
+                  <Text>Add at least 3 items</Text>
+                ) : null}
+                <Button
+                  containerStyle={{
+                    marginTop: 10,
+                    marginBottom: 10,
+                  }}
+                  title="Save & start ranking"
+                  onPress={this.onClickCreateList}
+                  disabled={entries.length < 3}
+                  type="solid"
+                />
+              </View>
             </View>
           )}
           <View style={styles.bottomPadding}/>
@@ -280,7 +290,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: 10,
     paddingRight: 10,
-    marginTop: 30,
+    paddingTop: 30,
     // borderWidth: 1,
     // borderColor: 'orange',
   },
@@ -288,17 +298,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   outlineBox: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     // borderWidth: 1,
     // borderColor: 'black',
     height: 40,
+    width: '30%',
   },
   outlineActive: {
-    backgroundColor: 'lightsteelblue',
+    borderBottomColor: constants.lightPurple,
+    borderColor: constants.background,
+    borderWidth: 1,
+    // color: constants.lightPurple,
   },
   outlineText: {
     fontSize: 18,
@@ -311,6 +325,18 @@ const styles = StyleSheet.create({
   },
   titleInputBox: {
     width: '100%',
+    alignItems: 'center',
+  },
+  button: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '80%',
+  },
+  entry: {
+    backgroundColor: constants.cardGray,
+  },
+  entryTitle: {
+    color: constants.textWhite,
   },
   touch: {
     width: '100%',
@@ -320,6 +346,9 @@ const styles = StyleSheet.create({
   entriesList: {
     // borderWidth: 1,
     // borderColor: 'orange',
+  },
+  submitArea: {
+    paddingTop: 20,
   },
   bottomPadding: {
     height: 30,
