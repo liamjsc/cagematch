@@ -20,6 +20,7 @@ import { loadList, fetchUserListRankings } from '../actions/list';
 import { exclude, getExclusions } from '../actions/auth';
 import { postMatchup } from '../actions/matchup';
 import { Rankings } from '../components';
+
 import * as constants from '../util/constants';
 
 const CageEntry = (props) => {
@@ -48,7 +49,7 @@ const CageEntry = (props) => {
         </View>
       </TouchableOpacity>
       <Button
-        titleProps={{ style: { color: 'gray' } }}
+        titleProps={{ style: { color: constants.textGrey } }}
         buttonStyle={styles.hideButton}
         title="Hide this entry"
         onPress={hide}
@@ -251,39 +252,29 @@ class Cage extends Component {
             id={entryB.id}
           />
         </View>
-
         <View>
           <View style={styles.lrPad}>
             <Button
-              titleProps={{ style: { color: 'gray' } }}
+              titleProps={{
+                style: {
+                  color: constants.textGrey,
+                },
+              }}
               buttonStyle={styles.skip}
               title="Skip"
               onPress={() => this.resetEntries()}
               type="clear"
             />
+          </View>      
+        </View>
+        <View>
+          <View style={styles.lrPad}>
             <Button
               title="List Details"
               onPress={this.goToListDetail}
             /> 
           </View>      
         </View>
-
-        {/* <View style={styles.lrPad}>
-          {
-            candidatesLength ? (
-              <Text>
-                {candidatesLength} candidates     
-              </Text>
-            ) : null
-          }
-          {
-            hiddenCount ? (
-              <Text>
-                {hiddenCount} hidden     
-              </Text>
-            ) : null
-          }
-        </View> */}
 
         <View style={styles.rankingsWrapper}>
           <Card title="Your Rankings">
@@ -299,6 +290,7 @@ class Cage extends Component {
             />
           </Card>
         </View>
+        <View style={styles.bottomPadding}/>
 
       </ScrollView>
     );
@@ -306,6 +298,9 @@ class Cage extends Component {
 }
 
 const styles = StyleSheet.create({
+  bottomPadding: {
+    height: 30,
+  },
   lrPad: {
     paddingLeft: 15,
     paddingRight: 15,
@@ -320,6 +315,7 @@ const styles = StyleSheet.create({
   entriesContainer: {
     width: '100%',
     padding: 15,
+    paddingBottom: 0,
     flexDirection: 'row',
   },
   entryWrapper: {
@@ -345,12 +341,21 @@ const styles = StyleSheet.create({
 
   },
   skip: {
-    paddingTop: 5,
+    marginTop: 10,
+    marginBottom: 10,
     alignItems: 'center',
-  },
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: constants.almostBlack,
+},
   hideButton: {
-    paddingTop: 15,
-    paddingBottom: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: constants.almostBlack,
+    // paddingTop: 15,
+    // paddingBottom: 10,
   },
   rankingsWrapper: {
     // alignItems: 'center',

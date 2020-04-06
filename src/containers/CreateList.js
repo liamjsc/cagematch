@@ -352,8 +352,6 @@ const styles = StyleSheet.create({
   },
   bottomPadding: {
     height: 30,
-    // borderWidth: 1,
-    // borderColor: 'blue',
   },
   posting: {
     width: '100%',

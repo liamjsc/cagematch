@@ -90,7 +90,7 @@ const CreateStack = createStackNavigator({
 });
 
 const tabNavigatorOptions = {
-  initialRouteName: 'CreateList',
+  initialRouteName: 'Browse',
   headerMode: 'none',
   tabBarOptions: {
     inactiveBackgroundColor: constants.cardGray,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
 
 const theme = {
   Button: {
-    type: 'outline',
+    type: 'solid',
     raised: true,
     titleStyle: {
       color: constants.textWhite,
