@@ -21,7 +21,6 @@ import * as constants from '../util/constants';
 class Standings extends Component {
   static navigationOptions = {
     title: 'Standings',
-    headerTitleStyle : { width : Dimensions.get('window').width }
   };
 
   state = {

@@ -94,8 +94,8 @@ const tabNavigatorOptions = {
   headerMode: 'none',
   tabBarOptions: {
     inactiveBackgroundColor: constants.cardGray,
-    activeBackgroundColor: constants.lightPurple,
-    activeTintColor: constants.darkPurple,
+    activeBackgroundColor: constants.darkPurple,
+    activeTintColor: constants.lightPurple,
     inactiveTintColor: constants.white,
     showLabel: true,
     labelStyle: {

@@ -49,7 +49,6 @@ function ListIsPosting({ title }) {
 class CreateList extends Component {
   static navigationOptions = {
     title: 'Create List',
-    headerTitleStyle : { width : Dimensions.get('window').width }
   }
 
   constructor(props) {

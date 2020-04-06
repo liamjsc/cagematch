@@ -61,7 +61,6 @@ const rowStyles = StyleSheet.create({
 class ManageListEntries extends Component {
   static navigationOptions = {
     title: 'Manage List',
-    headerTitleStyle : { width : Dimensions.get('window').width }
   };
 
   // map of id: excludeBool

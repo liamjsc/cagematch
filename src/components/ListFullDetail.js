@@ -23,7 +23,6 @@ class ListFullDetail extends Component {
     console.log('get title on full detail', title)
     return {
       title,
-      headerTitleStyle : { width : Dimensions.get('window').width }
     };
   };
 

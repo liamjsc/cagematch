@@ -21,7 +21,6 @@ import * as constants from '../util/constants';
 class Account extends Component {
   static navigationOptions = {
     title: 'Profile',
-    headerTitleStyle : { width : Dimensions.get('window').width }
   };
 
   signOut = () => {
