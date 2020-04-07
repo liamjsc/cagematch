@@ -20,6 +20,7 @@ class RegisterForm extends Component {
     passwordTwo: '',
     p1Hidden: true,
     p2Hidden: true,
+    error: '',
   }
 
   onClickCreate = () => {
@@ -36,21 +37,39 @@ class RegisterForm extends Component {
     this.props.createAccount(credentials);
   }
 
-  toggleP1Hidden = () => this.setState({ p1Hidden: !this.state.p1Hidden });
-  toggleP2Hidden = () => this.setState({ p2Hidden: !this.state.p2Hidden });
+  toggleP1Hidden = () => this.setState({
+    p1Hidden: !this.state.p1Hidden, 
+    error: '',
+  });
+  toggleP2Hidden = () => this.setState({
+    p2Hidden: !this.state.p2Hidden,
+    error: '',
+  });
 
   onChangeEmail = (e) => {
-    this.setState({ email: e.nativeEvent.text });
+    this.setState({
+      email: e.nativeEvent.text,
+      error: '',
+    });
   }
 
   onChangeUsername = (e) => {
-    this.setState({ username: e.nativeEvent.text });
+    this.setState({
+      username: e.nativeEvent.text,
+      error: '',
+    });
   }
   onChangePasswordOne = (e) => {
-    this.setState({ passwordOne: e.nativeEvent.text });
+    this.setState({
+      passwordOne: e.nativeEvent.text,
+      error: '',
+    });
   }
   onChangePasswordTwo = (e) => {
-    this.setState({ passwordTwo: e.nativeEvent.text });
+    this.setState({
+      passwordTwo: e.nativeEvent.text,
+      error: '',
+    });
   }
 
   render() {

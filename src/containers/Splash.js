@@ -105,7 +105,7 @@ class Splash extends Component {
       <View style={styles.splash}>
 
         <View style={styles.header}>
-          <Text h3>CAGEMATCH</Text>
+          <Text style={{fontSize: 38}}>CAGEMATCH</Text>
         </View>
 
         <View style={styles.formWrapper}>

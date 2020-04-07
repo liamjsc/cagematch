@@ -129,6 +129,8 @@ const theme = {
     raised: true,
     titleStyle: {
       color: constants.textWhite,
+      fontFamily: 'Roboto Mono',
+      
     },
     buttonStyle: {
       backgroundColor: constants.darkPurple,
@@ -159,11 +161,13 @@ const theme = {
     labelStyle: {
       color: constants.textGrey,
       fontWeight: 'normal',
+      fontFamily: 'Roboto Mono',
     },
     inputStyle: {
       paddingLeft: 5,
       color: constants.textWhite,
       backgroundColor: constants.cardGray,
+      fontFamily: 'Roboto Mono',
     },
     inputContainerStyle: {
       backgroundColor: constants.cardGray,
@@ -173,14 +177,20 @@ const theme = {
   Text: {
     style: {
       color: constants.textWhite,
-    }
+      fontFamily: 'Roboto Mono',
+    },
+    // fontFamily: 'Roboto Mono',
   },
   Card: {
     containerStyle: {
       backgroundColor: constants.cardGray,
       borderColor: constants.lighterBlack,
     },
-    titleStyle: { color: 'white' },
+    titleStyle: {
+      color: 'white',
+      fontFamily: 'Roboto Mono Bold',
+      fontWeight: 'bold',
+    },
   },
 }
 
@@ -212,6 +222,7 @@ class App extends React.Component {
     console.log(React.version);
     console.log(this.props);
     console.log(this.state);
+    console.log(theme);
     return (
       <ThemeProvider theme={theme}>
         {

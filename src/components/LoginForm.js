@@ -17,6 +17,7 @@ class LoginForm extends Component {
     username: '',
     password: '',
     hidePassword: true,
+    error: '',
   }
 
   onClickLogin = () => {
@@ -34,14 +35,23 @@ class LoginForm extends Component {
   }
 
   onChangeUsername = (e) => {
-    this.setState({ username: e.nativeEvent.text });
+    this.setState({
+      username: e.nativeEvent.text,
+      error: ''
+    });
   }
   onChangepassword = (e) => {
-    this.setState({ password: e.nativeEvent.text });
+    this.setState({ 
+      password: e.nativeEvent.text,
+      error: '',
+    });
   }
 
   toggleVisibility = () => {
-    this.setState({ hidePassword: !this.state.hidePassword });
+    this.setState({ 
+      hidePassword: !this.state.hidePassword,
+      error: '',
+    });
   }
 
   render() {
@@ -83,6 +93,8 @@ class LoginForm extends Component {
           >
             <Text>Don't have an account? Sign up</Text>
           </TouchableOpacity>
+          <Text>cagematch is coming soon</Text>
+
         </View>
       </View>
     );
