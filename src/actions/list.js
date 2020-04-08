@@ -14,6 +14,9 @@ export function loadAllLists(user) {
     return fetch(`${api}/lists`)
       .then(response => response.json())
       .then(data => {
+        // data is { listIds, listIdMap, entryIdMap }
+        console.log('load all lists, now insert entries');
+        dispatch(insertEntries(data.entryIdMap));
         dispatch(loadAllListsSuccess(data));
       })
       .catch((err) => {
@@ -29,20 +32,11 @@ function loadAllListsStart() {
   return { type: actionTypes.LOAD_ALL_LISTS_START };
 }
 
-function loadAllListsSuccess(lists) {
-  const byId = {};
-  const listIds = lists.map(list => {
-    console.log(list.title, typeof list.title);
-    if (list.title) {
-      byId[list.id] = list;
-      return list.id;
-    }
-  }).filter(Boolean);
-
+function loadAllListsSuccess({ listIds, listIdMap }) {
   return {
     type: actionTypes.LOAD_ALL_LISTS_SUCCESS,
     listIds,
-    byId,
+    byId: listIdMap,
   };
 }
 

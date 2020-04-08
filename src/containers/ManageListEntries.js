@@ -162,18 +162,19 @@ function mstp({
   auth: { user, exclusions },
   list,
 }, { navigation }) {
+  const { byId: entryIdMap } = entries;
   const listId = navigation.getParam('listId');
-  const items = list.byId[listId].entries.map(entry => entry.id) || [];
+  const items = list.byId[listId].entries || [];
   const listExclusions = exclusions[listId] || [];
 
-  exclusionById = {}
+  const exclusionById = {};
   listExclusions.forEach(excludeId => {
     exclusionById[excludeId] = true;
   });
 
   return {
     user,
-    entriesById: entries.byId,
+    entriesById: entryIdMap,
     items,
     exclusionById,
     listId,

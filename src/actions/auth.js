@@ -104,8 +104,10 @@ export function getExclusions() {
     const { auth } = getState();
     if (!auth.user) return;
 
-    const { user: userId } = auth;
+    const { user: { id: userId } } = auth;
     const url = `${api}/exclusion/${userId}`;
+    console.log('exclusions', auth);
+    console.log(url)
     return fetch(url)
       .then(response => response.json())
       .then(exclusions => {

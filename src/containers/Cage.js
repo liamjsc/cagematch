@@ -118,23 +118,23 @@ class Cage extends Component {
   }
 
   selectTwoEntries = () => {
-    const { candidates } = this.props;
+    const { candidateIds, entryIdMap } = this.props;
     const { entryA: { id: entryAId }, entryB: { id: entryBId } } = this.state;
 
-    const indexOne = Math.floor(Math.random() * candidates.length);
-    let indexTwo = Math.floor(Math.random() * candidates.length);
+    const indexOne = Math.floor(Math.random() * candidateIds.length);
+    let indexTwo = Math.floor(Math.random() * candidateIds.length);
 
-    console.log('selecting two entries');
+    console.log('selecting two entries', indexOne, indexTwo);
     // handle some cases here
     // make sure they arent the same index
     // make sure they are nt just repeating the previous two indices
-    const validLength = candidates && candidates.length && candidates.length > 2;
+    const validLength = candidateIds && candidateIds.length && candidateIds.length > 2;
     let isRepeat = [indexOne, indexTwo].indexOf(entryAId) >= 0 && [indexOne, indexTwo].indexOf(entryBId) >= 0;
     while (validLength && (indexOne === indexTwo || isRepeat)) {
-      indexTwo = Math.floor(Math.random() * candidates.length);
+      indexTwo = Math.floor(Math.random() * candidateIds.length);
       isRepeat = [indexOne, indexTwo].indexOf(entryAId) >= 0 && [indexOne, indexTwo].indexOf(entryBId) >= 0;
     }
-    return [candidates[indexOne], candidates[indexTwo]];
+    return [entryIdMap[candidateIds[indexOne]], entryIdMap[candidateIds[indexTwo]]];
   }
 
   resetEntries = () => {
@@ -169,10 +169,11 @@ class Cage extends Component {
 
   // hides entry for this user
   hide = (entryId) => {
+    console.log('hide', entryId);
     const { entryA, entryB } = this.state;
-    const { candidates } = this.props;
+    const { candidateIds, entryIdMap } = this.props;
     const listId = this.getListId();
-    if (candidates.length <= 3) {
+    if (candidateIds.length <= 3) {
       console.log('handle small lists better');
       return;
     }
@@ -180,10 +181,9 @@ class Cage extends Component {
     // find the index in state
     const hideIndex = entryId === entryA.id ? 0 : 1;
 
-    let randomIndex = Math.floor(Math.random() * candidates.length);
-    while (candidates[randomIndex].id === entryA.id || candidates[randomIndex].id === entryB.id) {
-      console.log('finding new index');
-      randomIndex = Math.floor(Math.random() * candidates.length);
+    let randomIndex = Math.floor(Math.random() * candidateIds.length);
+    while (entryIdMap[candidateIds[randomIndex]].id === entryA.id || entryIdMap[candidateIds[randomIndex]].id === entryB.id) {
+      randomIndex = Math.floor(Math.random() * candidateIds.length);
     }
 
     // pick a random number from candidates until the id is neither a or b
@@ -192,12 +192,11 @@ class Cage extends Component {
     }));
 
     this.setState({
-      [hideIndex === 0 ? 'entryA' : 'entryB']: candidates[randomIndex],
+      [hideIndex === 0 ? 'entryA' : 'entryB']: entryIdMap[candidateIds[randomIndex]],
     });
   }
 
   goToFullStandings = () => {
-    console.log('CAGE- go to full standings');
     const { listId, list } = this.props;
     const { title } = list.byId[listId];
     const params = {
@@ -219,11 +218,7 @@ class Cage extends Component {
     if (!this.state.loaded) {
       return <Text>Preparing the cage</Text>;
     }
-    const { hiddenEntries, candidates } = this.props;
     const { entryA, entryB } = this.state;
-
-    // const hiddenCount = hiddenEntries.length;
-    // const candidatesLength = candidates.length;
 
     return (
       <ScrollView
@@ -363,23 +358,37 @@ const styles = StyleSheet.create({
   }
 });
 
-function mstp({ list, listRankings, auth, userRankings }, { navigation }) {
+function mstp({
+  entries,
+  list,
+  listRankings,
+  auth,
+  userRankings,
+}, { navigation }) {
   const { exclusions, user } = auth;
+  const { byId: entryIdMap } = entries;
   const listId = navigation.getParam('listId');
 
-  const hiddenEntries = exclusions[listId] || [];
-  const { entries = [] } = (list.byId[listId] || {});
-  const candidates = entries.filter(entry => {
-    return hiddenEntries.indexOf(entry.id) < 0;;
+  console.log(exclusions);
+  const hiddenEntryIds = exclusions[listId] || [];
+
+  const { entries: entryIds = [] } = (list.byId[listId] || {});
+  const candidateIds = entryIds.filter(entryId => {
+    return hiddenEntryIds.indexOf(entryId) < 0;;
   });
 
+  console.log(hiddenEntryIds);
+  console.log(candidateIds);
+  console.log('candidateIds.length');
+  console.log(candidateIds.length);
   return {
     listId,
     list,
     listRankings,
     user,
-    hiddenEntries,
-    candidates,
+    hiddenEntryIds,
+    candidateIds,
+    entryIdMap,
   };
 }
 export default connect(mstp)(Cage);
