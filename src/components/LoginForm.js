@@ -93,8 +93,13 @@ class LoginForm extends Component {
           >
             <Text>Don't have an account? Sign up</Text>
           </TouchableOpacity>
-          <Text>cagematch is coming soon</Text>
-
+        </View>
+        <View style={styles.forgotPwText}>
+          <TouchableOpacity
+            onPress={this.props.goToForgotPassword}
+          >
+            <Text style={{ color: constants.textGrey }}>Forgot password?</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -115,6 +120,10 @@ const styles = {
   changeFormTextArea: {
     alignItems: 'center',
   },
+  forgotPwText: {
+    alignItems: 'center',
+    paddingTop: 20,
+  }
 }
 
 export default LoginForm;

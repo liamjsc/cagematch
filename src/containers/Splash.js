@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { RegisterForm, LoginForm } from '../components';
+import { RegisterForm, LoginForm, ForgotPassword } from '../components';
 import {
   createAccount,
   login,
@@ -12,6 +12,7 @@ import {
 
  import { loadAllLists } from '../actions/list';
  import * as constants from '../util/constants';
+ import { api } from '../config';
 
 /**
  * Splash is rendered outside of the AppNavigator context
@@ -22,7 +23,9 @@ class Splash extends Component {
   state = {
     showRegister: true,
     authStatusLoaded: false,
+    forgotPassword: false,
     error: '',
+    forgotSuccess: true, // indicates the forgot pw email was sent successfully
   }
 
   /**
@@ -84,13 +87,39 @@ class Splash extends Component {
       });
   }
 
+  submitForgotPassword = (creds) => {
+    const forgoPasswordUrl = `${api}/users/forgot`;
+    console.log('%%', creds);
+    return fetch(forgoPasswordUrl, {
+      method: 'POST',
+      body: JSON.stringify(creds),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(response => {
+      if (!response.ok) {
+        return Promise.reject();
+      }
+      this.setState({ forgotSuccess: true });
+      return Promise.resolve()
+    })
+  }
+
+  goToForgotPassword = () => this.setState({ forgotPassword: true});
+  hideForgotPassword = () => this.setState({ forgotPassword: false});
+
   changeForm = () => this.setState({ showRegister: !this.state.showRegister });
 
   render() {
     console.log('splash render');
     console.log(this.state);
     console.log(this.props);
-    const { showRegister, authStatusLoaded, error } = this.state;
+    const {
+      showRegister,
+      authStatusLoaded,
+      error, 
+      forgotPassword,
+    } = this.state;
 
     if (!authStatusLoaded) return (
       <View style={styles.fullScreenSpinner}>
@@ -110,12 +139,23 @@ class Splash extends Component {
 
         <View style={styles.formWrapper}>
           {
-            showRegister ?
+            forgotPassword ? (
+              <ForgotPassword
+                submitForgotPassword={this.submitForgotPassword}
+                hideForgotPassword={this.hideForgotPassword}
+              />
+            ) : (
+              showRegister ?
               (
                 <RegisterForm createAccount={this.createAccount} changeForm={this.changeForm} />
               ) : (
-                <LoginForm login={this.login} changeForm={this.changeForm} />
+                <LoginForm
+                  login={this.login}
+                  changeForm={this.changeForm}
+                  goToForgotPassword={this.goToForgotPassword}
+                />
               )
+            )
           }
           {
             (error && error.length) ? (
