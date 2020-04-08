@@ -179,7 +179,6 @@ const theme = {
       color: constants.textWhite,
       fontFamily: 'Roboto Mono',
     },
-    // fontFamily: 'Roboto Mono',
   },
   Card: {
     containerStyle: {

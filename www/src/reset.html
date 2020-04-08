@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CAGEMATCH</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- <script src="" async defer></script> -->
+    <script>
+      const local = 'http://192.168.1.18:8000/api'
+      const prod = 'http://ec2-18-236-88-40.us-west-2.compute.amazonaws.com:8000/api';
+
+      function submitForm() {
+        const qs = window.location.search;
+        const params = {}
+        qs.slice(1).split('&').forEach(keyValuePair => {
+          const [key, value] = keyValuePair.split('=');
+          params[key] = value;
+        })
+        const url = `${local}/users/pw`;
+        console.log(url);
+
+        const formElements = document.getElementById('pwform').elements;
+        const p1 = formElements.namedItem('p1').value;
+        const p2 = formElements.namedItem('p2').value;
+        const data = {
+          passwordOne: p1,
+          passwordTwo: p2,
+          token: params.token,
+        };
+        console.log(data)
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        })
+      }
+ 
+    </script>
+  </head>
+  <body>
+    <div class="formWrapper">
+      <form id="pwform">
+        <div class="input">
+          <label for="name">New Password: </label>
+          <input type="password" name="passwordOne" id="p1" required>
+        </div>
+        <div class="input">
+          <label for="email">Confirm Password: </label>
+          <input type="password" name="passwordTwo" id="p2" required>
+        </div>
+        <div class="submit">
+          <input class="button" type="button" value="Update Password" onClick="submitForm()">
+        </div>
+      
+      </form>
+    </div>
+  </body>
+</html>
