@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: 'black',
     height: 40,
-    width: '30%',
+    width: '31%',
   },
   outlineActive: {
     borderBottomColor: constants.lightPurple,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     // color: constants.lightPurple,
   },
   outlineText: {
-    fontSize: 18,
+    fontSize: 16,
   },
   promptBox: {
     paddingTop: 25,
