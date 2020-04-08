@@ -20,6 +20,12 @@ body {
 .lightPurple {
   color: #BB86FC;
 }
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
 
 .formWrapper {
   height: 75%;

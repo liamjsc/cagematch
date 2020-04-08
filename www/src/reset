@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="styles.css">
     <!-- <script src="" async defer></script> -->
     <script>
-      const local = 'http://192.168.1.18:8000/api'
       const prod = 'http://ec2-18-236-88-40.us-west-2.compute.amazonaws.com:8000/api';
 
       function submitForm() {
@@ -23,7 +22,7 @@
           const [key, value] = keyValuePair.split('=');
           params[key] = value;
         })
-        const url = `${local}/users/pw`;
+        const url = `${prod}/users/pw`;
         console.log(url);
 
         const formElements = document.getElementById('pwform').elements;
@@ -69,7 +68,7 @@
         <div class="submit">
           <input class="button" type="button" value="Update Password" onClick="submitForm()">
         </div>
-        <div id="message" style="color:#BB86FC;text-align: center;padding-top: 16px;"></div>
+        <div id="message" style="text-align: center;padding-top: 16px;"></div>
       </form>
     </div>
   </body>
