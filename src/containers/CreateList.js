@@ -54,7 +54,7 @@ class CreateList extends Component {
 
   constructor(props) {
     super(props);
-    this.pendingEntryEl = null;
+    this.inputEl = null;
   }
 
   state = initialState;
@@ -132,7 +132,7 @@ class CreateList extends Component {
       entries: [...this.state.entries, toInsert],
       pendingEntry: '',
     });
-    this.pendingEntryEl.focus();
+    this.inputEl.focus();
   }
 
   render() {
@@ -152,7 +152,7 @@ class CreateList extends Component {
 
     return (
       <View style={styles.outer}>
-        <ScrollView style={styles.createList}>
+        <ScrollView style={styles.createList} keyboardShouldPersistTaps="handled">
           <View style={styles.outline}>
             <View style={[styles.outlineBox, section === TITLE && styles.outlineActive]}>
               <TouchableOpacity style={styles.touch} onPress={this.goToTitle}>
@@ -176,21 +176,25 @@ class CreateList extends Component {
               <Text h3>{title}</Text>
             ) : null
           }
-
+{/* 
           <View style={styles.promptBox}>
             <Text style={styles.promptText}>
               {this.getPromptText()}
             </Text>
-          </View>
+          </View> */}
 
           { section === TITLE && (
             <View style={styles.titleInputBox}>
               <Input
-                label="Title"
+                autoFocus={true}
                 onChangeText={(text) => {
                   this.setState({ title: text })
                 }}
-                value={title}      
+                value={title}    
+                placeholder="Title"
+                ref={(el) => this.inputEl = el}    
+                returnKeyType="next"
+                onSubmitEditing={this.goToDescription}
               />
               <Button
                 containerStyle={styles.button}
@@ -204,11 +208,15 @@ class CreateList extends Component {
           { section === DESCRIPTION && (
             <View style={styles.titleInputBox}>
               <Input
-                label="Description"
+                autoFocus={true}
                 onChangeText={(text) => {
                   this.setState({ description: text })
                 }}
-                value={description}      
+                value={description}   
+                placeholder="Description"   
+                ref={(el) => this.inputEl = el}
+                onSubmitEditing={this.goToEntries}
+                returnKeyType="next"
               />
               <Button
                 containerStyle={styles.button}
@@ -222,14 +230,15 @@ class CreateList extends Component {
           { section === ENTRIES && (
             <View style={styles.titleInputBox}>
               <Input
-                key="Entries"
-                label="Entry"
+                autoFocus={true}
+                key={this.state.entries.length}
                 onChangeText={(text) => {
                   this.setState({ pendingEntry: text })
                 }}
                 onSubmitEditing={this.pushEntry}
                 value={pendingEntry}  
-                ref={(el) => this.pendingEntryEl = el}    
+                ref={(el) => this.inputEl = el}    
+                placeholder="Add entry"
               />
               <Button
                 containerStyle={styles.button}
@@ -260,17 +269,17 @@ class CreateList extends Component {
               }
               <View style={styles.submitArea}>
                 { (entries && entries.length < 3) ? (
-                  <Text>Add at least 3 items</Text>
+                  <Text style={{paddingBottom: 10 }}>Add at least 3 items</Text>
                 ) : null}
                 <Button
-                  containerStyle={{
-                    marginTop: 10,
-                    marginBottom: 10,
-                  }}
+                  // containerStyle={{
+                  //   marginTop: 10,
+                  //   marginBottom: 10,
+                  // }}
                   title="Save & start ranking"
                   onPress={this.onClickCreateList}
                   disabled={entries.length < 3}
-                  type="solid"
+                  // type="solid"
                 />
               </View>
             </View>
@@ -300,6 +309,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingBottom: 25,
   },
   outlineBox: {
     alignItems: 'center',
@@ -350,6 +360,7 @@ const styles = StyleSheet.create({
   },
   submitArea: {
     paddingTop: 20,
+    paddingBottom: 20,
   },
   posting: {
     width: '100%',
