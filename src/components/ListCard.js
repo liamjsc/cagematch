@@ -22,6 +22,7 @@ class ListCard extends Component {
       entries,
       voterCount,
       matchupCount,
+      // image = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Conairinternational.jpg/220px-Conairinternational.jpg',
     } = this.props;
     console.log('browse list');
     console.log(this.props);
@@ -35,6 +36,7 @@ class ListCard extends Component {
         <Card
           title={title}
           containerStyle={styles.card}
+          // image={{ uri: image }}
         >
           { !description ? null : (<Text>{description}</Text>) }
           <Text style={styles.lightPurple}>{count} entries</Text>
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
     height: 180,
   },
   lightPurple: {
-    color: constants.lightPurple,
+    color: constants.textBlue,
   }
 });
 
