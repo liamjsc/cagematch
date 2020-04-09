@@ -20,6 +20,8 @@ class ListCard extends Component {
       title,
       description,
       entries,
+      voterCount,
+      matchupCount,
     } = this.props;
     console.log('browse list');
     console.log(this.props);
@@ -34,8 +36,10 @@ class ListCard extends Component {
           title={title}
           containerStyle={styles.card}
         >
-          <Text>{description}</Text>
-          <Text>{count} entries</Text>
+          { !description ? null : (<Text>{description}</Text>) }
+          <Text style={styles.lightPurple}>{count} entries</Text>
+          { !voterCount ? null : (<Text style={styles.lightPurple}>{voterCount} voters</Text>) }
+          { !matchupCount ? null : (<Text style={styles.lightPurple}>{matchupCount} matchups</Text>) }
         </Card>
       </TouchableWithoutFeedback>
     )
@@ -44,17 +48,11 @@ class ListCard extends Component {
 
 const styles = StyleSheet.create({
   card: {
-    // flex: 1,
-    // width: '100%',
-    // backgroundColor: constants.secondary_sub,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     height: 180,
-    // padding: 0,
-    // width: '100%',
-    // marginBottom: 5,
-    // marginTop: 5,
   },
+  lightPurple: {
+    color: constants.lightPurple,
+  }
 });
 
 export default ListCard;

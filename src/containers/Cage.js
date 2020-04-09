@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import { loadList, fetchUserListRankings } from '../actions/list';
 import { exclude, getExclusions } from '../actions/auth';
 import { postMatchup } from '../actions/matchup';
-import { Rankings } from '../components';
+import { Rankings, Padding } from '../components';
 
 import * as constants from '../util/constants';
 
@@ -285,7 +285,7 @@ class Cage extends Component {
             />
           </Card>
         </View>
-        <View style={styles.bottomPadding}/>
+        <Padding/>
 
       </ScrollView>
     );
@@ -293,9 +293,6 @@ class Cage extends Component {
 }
 
 const styles = StyleSheet.create({
-  bottomPadding: {
-    height: 30,
-  },
   lrPad: {
     paddingLeft: 15,
     paddingRight: 15,

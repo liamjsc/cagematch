@@ -57,6 +57,7 @@ class Standings extends Component {
       <View style={{
         paddingBottom: 100,
         backgroundColor: constants.background,
+        height: '100%',
        }}>
         <View style={{
           justifyContent: 'center',

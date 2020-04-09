@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { ListCard } from '../components';
+import { ListCard, Padding } from '../components';
 import { loadAllLists } from '../actions/list';
 import * as constants from '../util/constants';
 
@@ -82,6 +82,7 @@ class BrowseLists extends Component {
           }}
           keyExtractor={(item, idx) => `${idx}`}
         />
+        <Padding/>
       </ScrollView>
     );
   }

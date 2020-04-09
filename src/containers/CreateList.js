@@ -17,6 +17,7 @@ import {
 import { connect } from 'react-redux';
 import { createList as postList } from '../actions/list';
 import * as constants from '../util/constants';
+import { Padding } from '../components';
 
 const TITLE = 'TITLE';
 const DESCRIPTION = 'DESCRIPTION';
@@ -274,7 +275,7 @@ class CreateList extends Component {
               </View>
             </View>
           )}
-          <View style={styles.bottomPadding}/>
+          <Padding/>
         </ScrollView>
       </View>
     )
@@ -349,9 +350,6 @@ const styles = StyleSheet.create({
   },
   submitArea: {
     paddingTop: 20,
-  },
-  bottomPadding: {
-    height: 30,
   },
   posting: {
     width: '100%',
