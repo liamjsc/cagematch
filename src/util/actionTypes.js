@@ -17,3 +17,6 @@ export const PUSH_EXCLUSIONS = 'PUSH_EXCLUSIONS';
 export const POST_MATCHUP = 'POST_MATCHUP';
 
 export const INSERT_ENTRIES = 'INSERT_ENTRIES';
+
+// auth
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';

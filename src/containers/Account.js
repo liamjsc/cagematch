@@ -7,9 +7,10 @@ import {
  } from 'react-native';
 
  import { 
-  Text,
   Button,
   Card,
+  ListItem,
+  Text,
  } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -28,7 +29,13 @@ class Account extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const {
+      listById,
+      user,
+    } = this.props;
+    const {
+      listsCreated,
+    } = user;
     const { email, username, id } = user;
     return (
       <ScrollView style={styles.container}>
@@ -47,6 +54,25 @@ class Account extends Component {
             onPress={this.signOut}
           />
         </Card>
+        <Card
+          title="My Lists"
+        >
+          {listsCreated.map((listId, i) => {
+            const listMeta = listById[listId];
+            return (
+              <ListItem
+                key={i+1}
+                title={listMeta.title}
+                containerStyle={{
+                  backgroundColor: constants.cardGray,
+                  borderWidth: 1,
+                  borderColor: constants.raisinBlack,
+                }}
+                bottomDivider
+              />
+            )
+          })}
+        </Card>
       </ScrollView>
     );
   }
@@ -63,9 +89,15 @@ const styles = StyleSheet.create({
   }
 });
 
-function mstp({ auth: { user } }) {
+function mstp({
+  auth: { user: { id } },
+  users: { byId: usersById },
+  list,
+}) {
+  const user = usersById[id];
   return {
     user,
+    listById: list.byId,
   };
 }
 export default connect(mstp)(Account);

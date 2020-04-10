@@ -12,11 +12,12 @@ export async function getUserFromDevice() {
   return userString ? JSON.parse(userString) : null;;
 }
 
-export function setUser(user) {
-  console.log('setUser action', user);
+
+export function setUser({ username, email, id }) {
+  console.log('setUser action', { username, email, id });
   return {
     type: actionTypes.SET_USER,
-    user,
+    user: { username, email, id },
   };
 }
 
@@ -45,8 +46,11 @@ export function createAccount(credentials) {
       .then(async results => {
         console.log('api register response');
         console.log(results);
-        await AsyncStorage.setItem('user', JSON.stringify(results)); // who is the user of this device
-        return dispatch(setUser(results));
+        const { id, username, email } = results;
+        await AsyncStorage.setItem('user', JSON.stringify({ id, username, email })); // who is the user of this device
+        const action = { type: actionTypes.LOAD_USER_SUCCESS, user: results };
+        dispatch();
+        return dispatch(setUser({ id, username, email }));
       })
       .catch(error => {
         console.log('error register');

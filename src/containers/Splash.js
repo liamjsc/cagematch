@@ -10,7 +10,8 @@ import {
   setUser,
  } from '../actions/auth';
 
- import { loadAllLists } from '../actions/list';
+ import { loadAllLists, fetchUserListRankings } from '../actions/list';
+ import { loadUser } from '../actions/users';
  import * as constants from '../util/constants';
  import { api } from '../config';
 
@@ -41,16 +42,19 @@ class Splash extends Component {
 
     console.log('set the user', user);
     if (!user) return this.setState({ authStatusLoaded: true });
-
+    
     // there is a user, load app data then dismiss the splash screen
-    return dispatch(loadAllLists(user))
+    return dispatch(loadUser(user.id))
       .then(() => {
-        console.log('calling onAppReady', onAppReady);
-        onAppReady && onAppReady();
-      })
-      .catch(() => {
-        console.log('CDM error Splash.js')
-      });
+        return dispatch(loadAllLists(user))
+          .then(() => {
+            console.log('calling onAppReady', onAppReady);
+            onAppReady && onAppReady();
+          })
+          .catch(() => {
+            console.log('CDM error Splash.js')
+          });
+        });
   }
 
   login = (creds) => {

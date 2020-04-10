@@ -7,7 +7,7 @@ import { insertEntries } from '../actions/entries';
 const dev = false;
 
 /**load all lists without sorted entries */
-export function loadAllLists(user) {
+export function loadAllLists() {
   return (dispatch, getState) => {
     console.log('load all lists', api);
     dispatch(loadAllListsStart());
@@ -81,11 +81,15 @@ function loadListFail(id) {
 export function createList(list) {
   console.log('create list');
   console.log(list);
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { auth: { user: { id: userId } } } = getState();
     const url = `${api}/lists`;
     return fetch(url, {
       method: 'POST',
-      body: JSON.stringify(list),
+      body: JSON.stringify({
+        ...list,
+        user_id: userId,
+      }),
       headers: {
         'Content-Type': 'application/json'
       },
