@@ -7,6 +7,9 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import {
+  SearchBar,
+} from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { ListCard, Padding } from '../components';
@@ -20,6 +23,7 @@ class BrowseLists extends Component {
 
   state = {
     refreshing: false,
+    search: ''
   }
 
   componentDidMount() {
@@ -39,15 +43,17 @@ class BrowseLists extends Component {
     console.log('BrowseLists.js - go to list full detail', listId);
     this.props.navigation.navigate('ListFullDetail', {
       listId,
-      title
+      title,
     });
   }
 
   onRefresh = () => {
     this.setState({ refreshing: true });
     this.props.dispatch(loadAllLists())
-      .then(() => this.setState({ refreshing: false }));
+      .then(() => this.setState({ search: '', refreshing: false }));
   }
+
+  updateSearch = search => this.setState({ search })
 
   render() {
     const { loaded, loading, listIds, byId } = this.props;
@@ -57,6 +63,13 @@ class BrowseLists extends Component {
         size="large"
       />
     );
+    const { search } = this.state;
+
+    const listIdsToRender = listIds.filter(id => {
+      const { title: listTitle } = byId[id];
+      // return true if it includes state.search
+      return listTitle.toLowerCase().indexOf(search.toLowerCase()) >= 0;
+    });
 
     return (
       <ScrollView
@@ -68,9 +81,14 @@ class BrowseLists extends Component {
           />
         }
       >
+        <SearchBar
+          placeholder="search..."
+          onChangeText={this.updateSearch}
+          value={search}
+        />
         <FlatList
           style={styles.list}
-          data={listIds}
+          data={listIdsToRender}
           renderItem={({ item }) => {
             return (
               <ListCard
