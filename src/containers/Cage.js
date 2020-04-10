@@ -102,6 +102,7 @@ class Cage extends Component {
       .then(() => dispatch(fetchUserListRankings({ listId, userId })))
       .then(() => {
         const entries = this.selectTwoEntries();
+        console.log('selected 2', entries);
         this.setState({
           loaded: true,
           entryA: entries[0],
@@ -125,6 +126,12 @@ class Cage extends Component {
     let indexTwo = Math.floor(Math.random() * candidateIds.length);
 
     console.log('selecting two entries', indexOne, indexTwo);
+    const indexOneId = candidateIds[indexOne];
+    const indexTwoId = candidateIds[indexTwo];
+    console.log(indexOneId, indexTwoId);
+    console.log(entryIdMap[indexOneId]);
+    console.log(entryIdMap[indexTwoId]);
+    if (!entryIdMap[indexOneId]) console.log(entryIdMap);
     // handle some cases here
     // make sure they arent the same index
     // make sure they are nt just repeating the previous two indices
@@ -133,7 +140,12 @@ class Cage extends Component {
     while (validLength && (indexOne === indexTwo || isRepeat)) {
       indexTwo = Math.floor(Math.random() * candidateIds.length);
       isRepeat = [indexOne, indexTwo].indexOf(entryAId) >= 0 && [indexOne, indexTwo].indexOf(entryBId) >= 0;
+      console.log('isRepeat', isRepeat);
     }
+
+    console.log('returning', indexOne, indexTwo);
+    console.log('returning', candidateIds);
+    console.log('returning', entryIdMap);
     return [entryIdMap[candidateIds[indexOne]], entryIdMap[candidateIds[indexTwo]]];
   }
 
@@ -220,6 +232,10 @@ class Cage extends Component {
     }
     const { entryA, entryB } = this.state;
 
+    if (!entryA) {
+      console.log('DEBUG CAGE');
+      console.log(this.state);
+    }
     return (
       <ScrollView
         style={styles.container}

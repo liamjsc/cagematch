@@ -83,21 +83,25 @@ export function createList(list) {
   console.log(list);
   return (dispatch, getState) => {
     const { auth: { user: { id: userId } } } = getState();
+    const body = {
+      ...list,
+      user_id: userId,
+    };
+    console.log('POSTING CREATE LIST', body);
     const url = `${api}/lists`;
     return fetch(url, {
       method: 'POST',
-      body: JSON.stringify({
-        ...list,
-        user_id: userId,
-      }),
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json'
       },
     })
       .then(data => data.json())
       .then((results) => {
-        dispatch(addList(results));
-        return results;
+        return dispatch(addList(results))
+          .then(() => {
+            return results;
+          });
       })
       .catch(error => {
         console.log(error);
@@ -107,10 +111,19 @@ export function createList(list) {
 }
 
 function addList({ list, entries }) {
-  return {
-    type: actionTypes.ADD_LIST,
-    list,
-    entries,
+  return function (dispatch) {
+    const entryIdMap = {};
+    const entryIds = entries.map(entry => {
+      entryIdMap[entry.id] = entry;
+      return entry.id;
+    });
+  
+    dispatch(insertEntries(entryIdMap));
+    dispatch({
+      type: actionTypes.ADD_LIST,
+      list: { ...list, entries: entryIds },
+    });
+    return Promise.resolve();
   }
 }
 

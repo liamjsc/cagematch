@@ -24,8 +24,6 @@ class ListCard extends Component {
       matchupCount,
       // image = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Conairinternational.jpg/220px-Conairinternational.jpg',
     } = this.props;
-    console.log('browse list');
-    console.log(this.props);
     const count = entries.length;
 
     return (
