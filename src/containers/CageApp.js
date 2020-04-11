@@ -131,16 +131,24 @@ const theme = {
   ButtonGroup: {
     containerStyle: {
       borderWidth: 0,
+      borderColor: constants.background,
     },
     selectedButtonStyle: {
-      backgroundColor: constants.lightPurple,
+      borderBottomColor: constants.lightPurple,
+      backgroundColor: constants.background,
     },
     buttonStyle: {
-      backgroundColor: constants.lighterBlack,
+      borderWidth: 1,
+      borderColor: constants.background,
+      backgroundColor: constants.background,
     },
     textStyle: {
       color: constants.textWhite,
     },
+    innerBorderStyle: {
+      color: constants.background,
+      width: 0,
+    }
   },
   Input: {
     placeholderTextColor: constants.textGrey,
