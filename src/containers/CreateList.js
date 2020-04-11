@@ -113,7 +113,9 @@ class CreateList extends Component {
     this.setState({ section: TITLE });
   }
 
-  goToDescription = () => {
+  goToDescription = (e) => {
+    // console.log(e.preventDefault());
+    this.inputEl.focus();
     this.setState({ section: DESCRIPTION });
   }
 
@@ -132,7 +134,7 @@ class CreateList extends Component {
       entries: [...this.state.entries, toInsert],
       pendingEntry: '',
     });
-    this.inputEl.focus();
+    // this.inputEl.focus();
   }
 
   render() {
@@ -148,6 +150,61 @@ class CreateList extends Component {
 
     if (posting) {
       return <ListIsPosting/>
+    }
+
+    const titleInputProps = {
+      autoFocus: true,
+      onChangeText: (text) => {
+        this.setState({ title: text })
+      },
+      value: title,
+      placeholder: 'title',
+      ref: (el) => this.inputEl = el, 
+      returnKeyType: 'next',
+      onSubmitEditing: this.goToDescription,
+      blurOnSubmit: false,
+    }
+
+    const descriptionInputProps = {
+      autoFocus: true,
+      onChangeText: (text) => {
+        this.setState({ description: text })
+      },
+      value: description,
+      placeholder: 'description',
+      ref: (el) => this.inputEl = el, 
+      returnKeyType: 'next',
+      onSubmitEditing: this.goToEntries,
+      blurOnSubmit: false,
+    }
+
+    const entriesInputProps = {
+      autoFocus: true,
+      onChangeText: (text) => {
+        this.setState({ pendingEntry: text })
+      },
+      value: pendingEntry,
+      placeholder: 'add entry',
+      ref: (el) => this.inputEl = el, 
+      onSubmitEditing: this.pushEntry,
+      blurOnSubmit: false,
+    }
+
+    let inputProps;
+    const buttonProps = {
+      containerStyle: styles.button,
+      title: section !== ENTRIES ? 'Continue' : 'Add to list',
+      type: 'clear',
+    }
+    if (section === TITLE) {
+      inputProps = titleInputProps;
+      buttonProps.onPress = this.goToDescription;
+    } else if (section === DESCRIPTION) {
+      inputProps = descriptionInputProps;
+      buttonProps.onPress = this.goToEntries;
+    } else {
+      inputProps = entriesInputProps;
+      buttonProps.onPress = this.pushEntry;
     }
 
     return (
@@ -176,78 +233,12 @@ class CreateList extends Component {
               <Text h3>{title}</Text>
             ) : null
           }
-{/* 
-          <View style={styles.promptBox}>
-            <Text style={styles.promptText}>
-              {this.getPromptText()}
-            </Text>
-          </View> */}
 
-          { section === TITLE && (
-            <View style={styles.titleInputBox}>
-              <Input
-                autoFocus={true}
-                onChangeText={(text) => {
-                  this.setState({ title: text })
-                }}
-                value={title}    
-                placeholder="Title"
-                ref={(el) => this.inputEl = el}    
-                returnKeyType="next"
-                onSubmitEditing={this.goToDescription}
-              />
-              <Button
-                containerStyle={styles.button}
-                title="Continue"
-                onPress={this.goToDescription}
-                type="clear"
-              />
-            </View>
-          )}
+          <View style={styles.titleInputBox}>
+            <Input key="activeInput" {...inputProps}/>
+            <Button key="activeButton" {...buttonProps}/>
+          </View>
 
-          { section === DESCRIPTION && (
-            <View style={styles.titleInputBox}>
-              <Input
-                autoFocus={true}
-                onChangeText={(text) => {
-                  this.setState({ description: text })
-                }}
-                value={description}   
-                placeholder="Description"   
-                ref={(el) => this.inputEl = el}
-                onSubmitEditing={this.goToEntries}
-                returnKeyType="next"
-              />
-              <Button
-                containerStyle={styles.button}
-                title="Continue"
-                onPress={this.goToEntries}
-                type="clear"
-              />
-            </View>
-          )}
-
-          { section === ENTRIES && (
-            <View style={styles.titleInputBox}>
-              <Input
-                autoFocus={true}
-                key={this.state.entries.length}
-                onChangeText={(text) => {
-                  this.setState({ pendingEntry: text })
-                }}
-                onSubmitEditing={this.pushEntry}
-                value={pendingEntry}  
-                ref={(el) => this.inputEl = el}    
-                placeholder="Add entry"
-              />
-              <Button
-                containerStyle={styles.button}
-                title="Add to list"
-                onPress={this.pushEntry}
-                type="clear"
-              />
-            </View>
-          )}
           { section === ENTRIES && (
             <View style={styles.entriesArea}>
               {
@@ -272,14 +263,10 @@ class CreateList extends Component {
                   <Text style={{paddingBottom: 10 }}>Add at least 3 items</Text>
                 ) : null}
                 <Button
-                  // containerStyle={{
-                  //   marginTop: 10,
-                  //   marginBottom: 10,
-                  // }}
+                  containerStyle={styles.button}
                   title="Save & start ranking"
                   onPress={this.onClickCreateList}
                   disabled={entries.length < 3}
-                  // type="solid"
                 />
               </View>
             </View>
@@ -361,6 +348,7 @@ const styles = StyleSheet.create({
   submitArea: {
     paddingTop: 20,
     paddingBottom: 20,
+    alignItems: 'center',
   },
   posting: {
     width: '100%',
