@@ -17,6 +17,16 @@ export default function entriesReducer(state = initialState, action = {}) {
           ...entries,
         },
       };
+    case actionTypes.SET_IMAGE:
+      return {
+        byId: {
+          ...state.byId,
+          [action.entryId]: {
+            ...state.byId[action.entryId],
+            image: action.iamge,
+          },
+        },
+      };
     default:
       return state;
   }

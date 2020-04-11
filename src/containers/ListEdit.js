@@ -7,12 +7,14 @@ import {
 } from 'react-native';
 
 import { 
+  Button,
   Icon,
   Input,
   Image,
   Text,
 } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { postImage } from '../actions/entries';
 
 import * as constants from '../util/constants';
 
@@ -21,30 +23,98 @@ import {
 } from '../components';
 
 class ListEditItem extends Component {
+  constructor(props) {
+    super(props);
+    this.el = null;
+  }
+
+  state = {
+    pendingImageUrl: '',
+    saving: false,
+    saved: false,
+  }
+
+  focusInput = () => {
+    this.el.focus();
+  }
+
+  saveImageUrl = () => {
+    console.log('saving image url');
+    const { id: entryId } = this.props;
+    const { pendingImageUrl } = this.state;
+    this.setState({ saving: true, saved: false });
+    return this.props.postImage({ entryId, image: pendingImageUrl })
+      .then(() => {
+        this.setState({ saved: true, saving: false, });
+      })
+  }
+
   render() {
     const {
       image,
       title,
-      id,
     } = this.props;
+
+    const { pendingImageUrl, saved } = this.state;
     return (
       <TouchableHighlight
-        onPress={() => {
-          this.props.openEditImage(id);
-        }}
+        onPress={() => this.focusInput()}
         style={rowStyle.touchable}
       >
         <View 
           style={rowStyle.container}
         >
           {
-            !image ? null : (<Image
-              source={{ uri: image }}
+            !(pendingImageUrl || image) ? null : (<Image
+              source={{ uri: pendingImageUrl || image }}
               style={rowStyle.image}
             />)
           }
           <View style={rowStyle.textWrapper}>
             <Text style={rowStyle.text}>{title}</Text>
+            <Input
+              label="Image URL"
+              ref={(el) => this.el = el}
+              inputStyle={rowStyle.input}
+              containerStyle={{
+                backgroundColor: constants.cardGray,
+                borderColor: constants.background,
+                paddingLeft: 0,
+                marginLeft: 0,
+              }}
+              placeholder={image}
+              value={pendingImageUrl}
+              onChangeText={(val) => this.setState({ pendingImageUrl: val })}
+            />
+            { !saved ? null : <Text style={{color: 'green'}}>Success!</Text>}
+            { saved || !pendingImageUrl ? null : (
+              <View style={{flexDirection: 'row'}}>
+                <Button
+                  title="Save"
+                  onPress={this.saveImageUrl}
+                  titleStyle={{ color: constants.lightPurple }}
+                  buttonStyle={{
+                    backgroundColor: constants.cardGray,
+                  }}
+                  containerStyle={{
+                    flex: 1,
+                  }}
+                  raised={false}
+                />
+                <Button
+                  title="Reset"
+                  onPress={() => this.setState({ pendingImageUrl: '' })}
+                  titleStyle={{ color: constants.red }}
+                  buttonStyle={{
+                    backgroundColor: constants.cardGray,
+                  }}
+                  containerStyle={{
+                    flex: 1,
+                  }}
+                  raised={false}
+                />
+              </View>
+            )}
           </View>
         </View>
       </TouchableHighlight>
@@ -77,6 +147,9 @@ const rowStyle = StyleSheet.create({
     fontSize: 18,
     color: constants.textWhite
   },
+  input: {
+    fontSize: 10,
+  }
 });
 
 class ListEdit extends Component {
@@ -84,37 +157,8 @@ class ListEdit extends Component {
     title: 'Edit List',
   };
 
-  state = {
-    editImageModal: false,
-    editingId: '',
-  }
-
-  openEditImage = (entryId) => {
-    this.setState({
-      editImageModal: true,
-      editingId: entryId,
-    });
-  }
-
-  renderEditImage = (id) => {
-    const {
-      title,
-      image,
-    } = this.props.entryById[id];
-    return (
-      <View style={styles.modal}>
-        <View style={styles.header}>
-          <Text>{title}</Text>
-        </View>
-        <View style={styles.inputArea}>
-          <Input
-            placeholder="http://your.image.url"
-            value={this.state.pendingImageUrl}
-            onChangeText={(pendingImageUrl) => this.setState({ pendingImageUrl })}
-          />
-        </View>
-      </View>
-    )
+  updateImage = ({ entryId, image }) => {
+    return this.props.dispatch(postImage({ entryId, image }));
   }
 
   render() {
@@ -123,10 +167,11 @@ class ListEdit extends Component {
       entryById,
     } = this.props;
 
-    const { editImageModal, editingId } = this.state;
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+        >
           <Text style={{ padding: 10 }}>Add entries or edit images</Text>
           <View>
             {listMeta.entries.sort((a, b) => {
@@ -135,7 +180,7 @@ class ListEdit extends Component {
               return (
                 <ListEditItem
                   key={entryId}
-                  openEditImage={this.openEditImage}
+                  postImage={this.updateImage}
                   {...entryById[entryId]}
                 />
               )
@@ -143,11 +188,6 @@ class ListEdit extends Component {
           </View>
           <Padding/>
         </ScrollView>
-
-        { !editImageModal ? null : (
-          this.renderEditImage(editingId)
-        )}
-
         <Icon
           type="material"
           name="add"
@@ -172,15 +212,6 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 20,
   },
-  modal: {
-    position: 'absolute',
-    top: 50,
-    height: 200,
-  }, 
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  }, 
   inputArea: {
 
   },
