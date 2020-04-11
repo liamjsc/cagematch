@@ -28,6 +28,8 @@ export const darkPurple = '#3700B3';
 export const textWhite = '#E1E1E1';
 export const textGrey = '#A5A5A5';
 
+export const red = '#B00020';
+
 export const textBlue = '#bbf9fc';
 export const googleTeal = '#03DAC5';
 

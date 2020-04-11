@@ -14,7 +14,6 @@ import {
  } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { loadList, fetchUserListRankings } from '../actions/list';
 import { signOut } from '../actions/auth';
 import * as constants from '../util/constants';
 
@@ -26,6 +25,10 @@ class Account extends Component {
 
   signOut = () => {
     this.props.dispatch(signOut());
+  }
+
+  goToListEdit = (listId) => {
+    this.props.navigation.navigate('ListEdit', { listId });
   }
 
   render() {
@@ -55,7 +58,7 @@ class Account extends Component {
           />
         </Card>
         <Card
-          title="My Lists"
+          title="Edit Lists"
         >
           {listsCreated.map((listId, i) => {
             const listMeta = listById[listId];
@@ -69,6 +72,8 @@ class Account extends Component {
                   borderColor: constants.raisinBlack,
                 }}
                 bottomDivider
+                chevron
+                onPress={() => this.goToListEdit(listId)}
               />
             )
           })}

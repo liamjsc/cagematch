@@ -48,7 +48,7 @@ class ListCard extends Component {
 
 const styles = StyleSheet.create({
   card: {
-    height: 180,
+    // height: 180,
   },
   lightPurple: {
     color: constants.textBlue,

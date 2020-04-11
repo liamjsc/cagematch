@@ -209,7 +209,10 @@ class CreateList extends Component {
 
     return (
       <View style={styles.outer}>
-        <ScrollView style={styles.createList} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          style={styles.createList}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={styles.outline}>
             <View style={[styles.outlineBox, section === TITLE && styles.outlineActive]}>
               <TouchableOpacity style={styles.touch} onPress={this.goToTitle}>
@@ -271,6 +274,22 @@ class CreateList extends Component {
               </View>
             </View>
           )}
+          <View style={{
+            alignItems: 'center',
+          }}>
+            <Button
+              containerStyle={styles.button}
+              buttonStyle={styles.clear}
+              title="Clear list"
+              onPress={() => this.setState({
+                title: '',
+                description: '',
+                entries: [],
+                pendingEntry: '',
+              })}
+              type="clear"     
+            />
+          </View>
           <Padding/>
         </ScrollView>
       </View>
@@ -329,6 +348,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     width: '80%',
+  },
+  clear: {
+    backgroundColor: constants.red,
   },
   entry: {
     backgroundColor: constants.cardGray,

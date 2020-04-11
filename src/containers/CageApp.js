@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
-import { 
-  Platform,
-  StyleSheet,
-} from 'react-native';
-import { ThemeProvider, colors, Icon } from 'react-native-elements';
+import React from 'react';
+import { ThemeProvider, Icon } from 'react-native-elements';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -17,6 +13,7 @@ import {
   BrowseLists,
   Cage,
   CreateList,
+  ListEdit,
   ManageListEntries,
   Splash,
   Standings,
@@ -60,6 +57,7 @@ const BrowseStack = createStackNavigator({
 
 const AccountStack = createStackNavigator({
   Account,
+  ListEdit,
 }, {
   ...sharedStackNavigatorConfig,
   navigationOptions: {
@@ -115,13 +113,6 @@ const AppNavigator = createBottomTabNavigator(
 );
 
 const AppContainer = createAppContainer(AppNavigator);
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: constants.secondary_sub,
-    minHeight: 200,
-  },
-});
 
 const theme = {
   Button: {
@@ -202,9 +193,6 @@ class App extends React.Component {
   showSplash = () => this.setState({ showSplash: true });
 
   static getDerivedStateFromProps(nextProps, state) {
-    console.log('Cage App CWRP');
-    console.log(nextProps);
-
     if (nextProps.user === null && state.showSplash === false) {
       return {
         showSplash: true,
@@ -221,7 +209,6 @@ class App extends React.Component {
     console.log(React.version);
     console.log(this.props);
     console.log(this.state);
-    console.log(theme);
     return (
       <ThemeProvider theme={theme}>
         {
