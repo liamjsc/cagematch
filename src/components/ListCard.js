@@ -22,6 +22,7 @@ class ListCard extends Component {
       entries,
       voterCount,
       matchupCount,
+      createdBy,
       // image = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Conairinternational.jpg/220px-Conairinternational.jpg',
     } = this.props;
     const count = entries.length;
@@ -40,6 +41,7 @@ class ListCard extends Component {
           <Text style={styles.lightPurple}>{count} entries</Text>
           { !voterCount ? null : (<Text style={styles.lightPurple}>{voterCount} voters</Text>) }
           { !matchupCount ? null : (<Text style={styles.lightPurple}>{matchupCount} matchups</Text>) }
+          { !createdBy ? null : (<Text style={styles.lightPurple}>Created by {createdBy}</Text>) }
         </Card>
       </TouchableWithoutFeedback>
     )

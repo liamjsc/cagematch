@@ -264,13 +264,13 @@ class CreateList extends Component {
               <View style={styles.submitArea}>
                 { (entries && entries.length < 3) ? (
                   <Text style={{paddingBottom: 10 }}>Add at least 3 items</Text>
-                ) : null}
-                <Button
-                  containerStyle={styles.button}
-                  title="Save & start ranking"
-                  onPress={this.onClickCreateList}
-                  disabled={entries.length < 3}
-                />
+                ) : (
+                  <Button
+                    containerStyle={styles.button}
+                    title="Save & start ranking"
+                    onPress={this.onClickCreateList}
+                  />
+                )}
               </View>
             </View>
           )}

@@ -208,7 +208,6 @@ class ListEdit extends Component {
         <ScrollView
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={{ padding: 10 }}>Tap an entry to edit images</Text>
           <Card title="Add Entries" 
             containerStyle={{
               height: 275,
@@ -303,7 +302,10 @@ class ListEdit extends Component {
               })}
             </Card>
           )}
-          <View style={{ marginTop: 15 }}>
+
+          <Text style={{ padding: 20 }}>Tap an entry to edit images</Text>
+
+          <View>
             {listMeta.entries
               .filter(id => this.state.newEntries.indexOf(id) < 0)
               .sort((a, b) => {
