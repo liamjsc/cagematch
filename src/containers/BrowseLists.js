@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {
+  ButtonGroup,
   SearchBar,
 } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -16,6 +17,14 @@ import { ListCard, Padding } from '../components';
 import { loadAllLists } from '../actions/list';
 import * as constants from '../util/constants';
 
+const POPULAR = 'Popular';
+const MY_LISTS = 'My Lists';
+const NEW = 'New';
+const tabs = [
+  POPULAR,
+  MY_LISTS,
+  NEW,
+]
 class BrowseLists extends Component {
   static navigationOptions = {
     title: 'CAGEMATCH',
@@ -23,7 +32,8 @@ class BrowseLists extends Component {
 
   state = {
     refreshing: false,
-    search: ''
+    search: '',
+    tabIndex: 0,
   }
 
   componentDidMount() {
@@ -53,27 +63,43 @@ class BrowseLists extends Component {
       .then(() => this.setState({ search: '', refreshing: false }));
   }
 
-  updateSearch = search => {
-    console.log('updateSearch');
-    this.setState({ search });
-  }
+  updateSearch = search => this.setState({ search });
   onSearchClear = () => this.setState({ search: '' });
 
+  setActiveTab = (tabIndex) => this.setState({ tabIndex })
+
   render() {
-    const { loaded, loading, listIds, byId } = this.props;
+    const { userId, loading, listIds, byId } = this.props;
     if (loading) return (
       <ActivityIndicator
         style={{ paddingTop: 250 }}
         size="large"
       />
     );
-    const { search } = this.state;
+    const { search, tabIndex } = this.state;
 
-    const listIdsToRender = listIds.filter(id => {
+    // apply search filter
+    const searchFiltered = listIds.filter(id => {
       const { title: listTitle } = byId[id];
-      // return true if it includes state.search
       return listTitle.toLowerCase().indexOf(search.toLowerCase()) >= 0;
     });
+
+    let listIdsToRender = searchFiltered;
+    // apply tab filter
+    const tab = tabs[tabIndex];
+    if (tab === MY_LISTS) {
+      listIdsToRender = searchFiltered.filter(id => {
+        const { user_id } = byId[id];
+        return parseInt(user_id) === parseInt(userId);
+      });
+    }
+    if (tab === NEW) {
+      listIdsToRender = searchFiltered.sort((a,b) => {
+        const { createdAt: createdAtA } = byId[a];
+        const { createdAt: createdAtB } = byId[b];
+        return new Date(createdAtA) > new Date(createdAtB) ? -1 : 1;
+      });
+    }
 
     return (
       <ScrollView
@@ -103,6 +129,11 @@ class BrowseLists extends Component {
           }}
           onClear={this.onSearchClear}
         />
+        <ButtonGroup
+          onPress={this.setActiveTab}
+          selectedIndex={tabIndex}
+          buttons={tabs}
+        />
         <FlatList
           style={styles.list}
           data={listIdsToRender}
@@ -130,7 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
-    // backgroundColor: 'black' || 'lightslategray',
     width: '100%',
   },
 });
@@ -141,8 +171,11 @@ const styles = StyleSheet.create({
 //   listIds: [],
 //   byId: {},
 // }
-function mstp(state) {
-  const { list } = state;
-  return list;
+function mstp({list, auth}) {
+  const { user: { id: userId } } = auth;
+  return {
+    ...list,
+    userId,
+  };
 }
 export default connect(mstp)(BrowseLists);

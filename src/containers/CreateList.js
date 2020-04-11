@@ -307,8 +307,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 30,
-    // borderWidth: 1,
-    // borderColor: 'orange',
   },
   outline: {
     flexDirection: 'row',
@@ -320,8 +318,6 @@ const styles = StyleSheet.create({
   outlineBox: {
     alignItems: 'center',
     justifyContent: 'center',
-    // borderWidth: 1,
-    // borderColor: 'black',
     height: 40,
     width: '31%',
   },
@@ -329,7 +325,6 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.lightPurple,
     borderColor: constants.background,
     borderWidth: 1,
-    // color: constants.lightPurple,
   },
   outlineText: {
     fontSize: 16,

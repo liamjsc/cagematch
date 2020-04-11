@@ -23,10 +23,16 @@ class ListCard extends Component {
       voterCount,
       matchupCount,
       createdBy,
+      createdAt,
       // image = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Conairinternational.jpg/220px-Conairinternational.jpg',
     } = this.props;
     const count = entries.length;
 
+    let date;
+    if (createdAt) {
+      const arr = new Date(createdAt).toString().split(' ');
+      date = `${arr[1]} ${arr[2]}, ${arr[3]}`
+    } 
     return (
       <TouchableWithoutFeedback
         style={{ padding: 0, justifyContent: 'center', alignItems: 'stretch' }}
@@ -35,13 +41,13 @@ class ListCard extends Component {
         <Card
           title={title}
           containerStyle={styles.card}
-          // image={{ uri: image }}
         >
           { !description ? null : (<Text>{description}</Text>) }
           <Text style={styles.lightPurple}>{count} entries</Text>
           { !voterCount ? null : (<Text style={styles.lightPurple}>{voterCount} voters</Text>) }
           { !matchupCount ? null : (<Text style={styles.lightPurple}>{matchupCount} matchups</Text>) }
           { !createdBy ? null : (<Text style={styles.lightPurple}>Created by {createdBy}</Text>) }
+          { !createdAt ? null : (<Text style={styles.lightPurple}>{date}</Text>) }
         </Card>
       </TouchableWithoutFeedback>
     )
