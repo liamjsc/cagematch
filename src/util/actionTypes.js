@@ -19,6 +19,7 @@ export const PUSH_EXCLUSIONS = 'PUSH_EXCLUSIONS';
 export const POST_MATCHUP = 'POST_MATCHUP';
 
 export const INSERT_ENTRIES = 'INSERT_ENTRIES';
+export const PUSH_NEW_ENTRIES = 'PUSH_NEW_ENTRIES';
 export const SET_IMAGE = 'SET_IMAGE';
 
 // auth

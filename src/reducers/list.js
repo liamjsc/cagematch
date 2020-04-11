@@ -64,6 +64,20 @@ export default function listReducer(state = initialState, action = {}) {
             }
           }
         }
+      case actionTypes.PUSH_NEW_ENTRIES:
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.listId]: {
+              ...state.byId[action.listId],
+              entries: [
+                ...state.byId[action.listId].entries,
+                ...action.entryIds,
+              ]
+            }
+          }
+        }
     default:
       return state;
   }

@@ -134,14 +134,10 @@ export function fetchUserListRankings({ userId, listId }) {
     console.log(url);
     return fetch(url)
       .then(response => {
-        console.log('## got raw response');
-        console.log(response);
         if (!response.ok) return Promise.reject(response);
         return response.json();
       })
       .then(({ rankings, records }) => {
-        console.log('##got response');
-
         dispatch({
           type: actionTypes.SET_USER_LIST_RANKINGS,
           userId,

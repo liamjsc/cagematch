@@ -31,3 +31,36 @@ export function postImage({ entryId, image }) {
     });
   };
 }
+
+export function postNewEntries({ listId, entries }) {
+  return function (dispatch, getState) {
+    const { auth: { user: { id: userId } } } = getState();
+    const body = entries.map(({ title, image }) => {
+      return { image, title, userId };
+    });
+    console.log('POSTING NEW ENTRIES', listId, body);
+    const url = `${api}/entries/${listId}`;
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((data) => {
+      if (!data.ok) return Promise.reject('api error');
+      return data.json();
+    }).then(newEntries => {
+      console.log(newEntries)
+      const idMap = {};
+      const entryIds = newEntries.map(entry => {
+        idMap[entry.id] = entry;
+        return entry.id;
+      });
+      console.log('action cb', newEntries);
+      dispatch(insertEntries(idMap));
+      dispatch({ type: actionTypes.PUSH_NEW_ENTRIES, entryIds, listId })
+      return Promise.resolve(entryIds);
+    });
+  }
+}

@@ -37,7 +37,7 @@ class Account extends Component {
       user,
     } = this.props;
     const {
-      listsCreated,
+      listsCreated = [],
     } = user;
     const { email, username, id } = user;
     return (
@@ -57,27 +57,29 @@ class Account extends Component {
             onPress={this.signOut}
           />
         </Card>
-        <Card
+        {!(listsCreated && listsCreated.length) ? null : (
+          <Card
           title="Edit Lists"
-        >
-          {listsCreated.map((listId, i) => {
-            const listMeta = listById[listId];
-            return (
-              <ListItem
-                key={i+1}
-                title={listMeta.title}
-                containerStyle={{
-                  backgroundColor: constants.cardGray,
-                  borderWidth: 1,
-                  borderColor: constants.raisinBlack,
-                }}
-                bottomDivider
-                chevron
-                onPress={() => this.goToListEdit(listId)}
-              />
-            )
-          })}
-        </Card>
+          >
+            {listsCreated.map((listId, i) => {
+              const listMeta = listById[listId];
+              return (
+                <ListItem
+                  key={i+1}
+                  title={listMeta.title}
+                  containerStyle={{
+                    backgroundColor: constants.cardGray,
+                    borderWidth: 1,
+                    borderColor: constants.raisinBlack,
+                  }}
+                  bottomDivider
+                  chevron
+                  onPress={() => this.goToListEdit(listId)}
+                />
+              )
+            })}
+          </Card>
+        )}
       </ScrollView>
     );
   }
@@ -100,6 +102,7 @@ function mstp({
   list,
 }) {
   const user = usersById[id];
+  console.log(user);
   return {
     user,
     listById: list.byId,

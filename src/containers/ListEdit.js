@@ -8,13 +8,16 @@ import {
 
 import { 
   Button,
-  Icon,
+  Card,
   Input,
   Image,
   Text,
 } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { postImage } from '../actions/entries';
+import {
+  postImage,
+  postNewEntries,
+} from '../actions/entries';
 
 import * as constants from '../util/constants';
 
@@ -39,7 +42,6 @@ class ListEditItem extends Component {
   }
 
   saveImageUrl = () => {
-    console.log('saving image url');
     const { id: entryId } = this.props;
     const { pendingImageUrl } = this.state;
     this.setState({ saving: true, saved: false });
@@ -73,14 +75,19 @@ class ListEditItem extends Component {
           <View style={rowStyle.textWrapper}>
             <Text style={rowStyle.text}>{title}</Text>
             <Input
-              label="Image URL"
+              label="image url:"
               ref={(el) => this.el = el}
               inputStyle={rowStyle.input}
               containerStyle={{
                 backgroundColor: constants.cardGray,
-                borderColor: constants.background,
+                borderColor: constants.cardGray,
+                borderBottomColor: constants.lightPurple,
+                borderWidth: 1,
                 paddingLeft: 0,
                 marginLeft: 0,
+              }}
+              labelStyle={{
+                fontSize: 10,
               }}
               placeholder={image}
               value={pendingImageUrl}
@@ -157,8 +164,35 @@ class ListEdit extends Component {
     title: 'Edit List',
   };
 
+  state = {
+    pendingTitle: '',
+    pendingImage: '',
+    newEntries: [] // array of { image, title, id }
+  }
+
   updateImage = ({ entryId, image }) => {
     return this.props.dispatch(postImage({ entryId, image }));
+  }
+
+  saveNewEntry = () => {
+    const { pendingTitle: title, pendingImage: image } = this.state;
+    const { listId } = this.props;
+    const newEntry = { title, image };
+    this.props.dispatch(postNewEntries({ listId, entries: [newEntry] }))
+      .then((newIds) => {
+        this.setState({
+          newEntries: [
+            ...newIds,
+            ...this.state.newEntries,
+          ],
+          pendingTitle: '',
+          pendingImage: '',
+        })
+      });
+  }
+
+  clearNewEntry = () => {
+    this.setState({ pendingImageUrl: '', pendingImage: '' });
   }
 
   render() {
@@ -167,35 +201,125 @@ class ListEdit extends Component {
       entryById,
     } = this.props;
 
+    const { pendingImage, pendingTitle, newEntries } = this.state;
+
     return (
       <View style={styles.container}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={{ padding: 10 }}>Add entries or edit images</Text>
-          <View>
-            {listMeta.entries.sort((a, b) => {
-              return entryById[b].title.toLowerCase() < entryById[a].title.toLowerCase() ? 1 : -1;
-            }).map(entryId => {
-              return (
-                <ListEditItem
-                  key={entryId}
-                  postImage={this.updateImage}
-                  {...entryById[entryId]}
+          <Text style={{ padding: 10 }}>Tap an entry to edit images</Text>
+          <Card title="Add Entries" 
+            containerStyle={{
+              height: 275,
+            }}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              {
+                !(pendingImage) ? null : (<Image
+                  source={{ uri: pendingImage }}
+                  style={rowStyle.image}
+                />)
+              }
+              <View style={{ flex: 1 }}>
+                <Input
+                  label="title"
+                  // ref={(el) => this.el = el}
+                  inputStyle={rowStyle.input}
+                  containerStyle={{
+                    backgroundColor: constants.cardGray,
+                    borderColor: constants.cardGray,
+                    borderBottomColor: constants.lightPurple,
+                    borderWidth: 1,
+                    paddingLeft: 0,
+                    marginLeft: 0,
+                  }}
+                  labelStyle={{
+                    fontSize: 10,
+                  }}
+                  placeholder="new title"
+                  value={pendingTitle}
+                  onChangeText={(val) => this.setState({ pendingTitle: val })}
                 />
-              )
+                <Input
+                  label="image url"
+                  ref={(el) => this.el = el}
+                  inputStyle={rowStyle.input}
+                  containerStyle={{
+                    backgroundColor: constants.cardGray,
+                    borderColor: constants.cardGray,
+                    borderBottomColor: constants.lightPurple,
+                    borderWidth: 1,
+                    paddingLeft: 0,
+                    marginLeft: 0,
+                  }}
+                  labelStyle={{
+                    fontSize: 10,
+                  }}
+                  placeholder="new image"
+                  value={pendingImage}
+                  onChangeText={(val) => this.setState({ pendingImage: val })}
+                />
+              </View>
+            </View>
+            <View style={{flexDirection: 'row' }}>
+              <Button
+                title="Save"
+                onPress={this.saveNewEntry}
+                titleStyle={{ color: constants.lightPurple }}
+                buttonStyle={{
+                  backgroundColor: constants.cardGray,
+                }}
+                containerStyle={{
+                  flex: 1,
+                }}
+                raised={false}
+              />
+              <Button
+                title="Reset"
+                onPress={this.clearNewEntry}
+                titleStyle={{ color: constants.red }}
+                buttonStyle={{
+                  backgroundColor: constants.cardGray,
+                }}
+                containerStyle={{
+                  flex: 1,
+                }}
+                raised={false}
+              />
+            </View>
+          </Card>
+
+          {!(newEntries && newEntries.length) ? null : (
+            <Card title="Just Added">
+              {newEntries.map(entryId => {
+                return (
+                  <ListEditItem
+                    key={entryId}
+                    postImage={this.updateImage}
+                    {...entryById[entryId]}
+                  />
+                )
+              })}
+            </Card>
+          )}
+          <View style={{ marginTop: 15 }}>
+            {listMeta.entries
+              .filter(id => this.state.newEntries.indexOf(id) < 0)
+              .sort((a, b) => {
+                return entryById[b].title.toLowerCase() < entryById[a].title.toLowerCase() ? 1 : -1;
+              }).map(entryId => {
+                return (
+                  <ListEditItem
+                    key={entryId}
+                    postImage={this.updateImage}
+                    {...entryById[entryId]}
+                  />
+                )
             })}
           </View>
           <Padding/>
         </ScrollView>
-        <Icon
-          type="material"
-          name="add"
-          color={constants.lightPurple}
-          reverse
-          raised
-          containerStyle={styles.positionAdd}
-        />
       </View>
     );
   }
