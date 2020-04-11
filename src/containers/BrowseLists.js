@@ -53,7 +53,11 @@ class BrowseLists extends Component {
       .then(() => this.setState({ search: '', refreshing: false }));
   }
 
-  updateSearch = search => this.setState({ search })
+  updateSearch = search => {
+    console.log('updateSearch');
+    this.setState({ search });
+  }
+  onSearchClear = () => this.setState({ search: '' });
 
   render() {
     const { loaded, loading, listIds, byId } = this.props;
@@ -80,11 +84,24 @@ class BrowseLists extends Component {
             onRefresh={this.onRefresh}
           />
         }
+        keyboardShouldPersistTaps="handled"
       >
         <SearchBar
           placeholder="search..."
           onChangeText={this.updateSearch}
           value={search}
+          containerStyle={{
+            backgroundColor: constants.background,
+            borderWidth: 1,
+            borderColor: constants.darkerGrey,
+          }}
+          inputContainerStyle={{
+            backgroundColor: constants.background,
+          }}
+          inputStyle={{
+            backgroundColor: constants.background,
+          }}
+          onClear={this.onSearchClear}
         />
         <FlatList
           style={styles.list}
