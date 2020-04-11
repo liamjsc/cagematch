@@ -8,7 +8,6 @@ const initialState = {
 }
 
 export default function listReducer(state = initialState, action = {}) {
-  // console.log('reducer', action);
   switch (action.type) {
     case actionTypes.LOAD_ALL_LISTS_START:
       return {
@@ -42,6 +41,29 @@ export default function listReducer(state = initialState, action = {}) {
           }
         }
         return newState;
+      case actionTypes.INCREMENT_VOTER_COUNT:
+        console.log('incrementing voter count');
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.listId]: {
+              ...state.byId[action.listId],
+              voterCount: (state.byId[action.listId].voterCount || 0) + 1,
+            }
+          }
+        }
+      case actionTypes.UPDATE_LOCAL_SCORE:
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.listId]: {
+              ...state.byId[action.listId],
+              matchupCount: (state.byId[action.listId].matchupCount || 0) + 1,
+            }
+          }
+        }
     default:
       return state;
   }

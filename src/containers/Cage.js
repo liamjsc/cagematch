@@ -22,6 +22,7 @@ import { postMatchup } from '../actions/matchup';
 import { Rankings, Padding } from '../components';
 
 import * as constants from '../util/constants';
+import * as actionTypes from '../util/actionTypes';
 
 const CageEntry = (props) => {
   const {
@@ -161,7 +162,7 @@ class Cage extends Component {
   handlePress = (winner, loser) => {
     const listId = this.getListId();
     const { entryA, entryB } = this.state;
-    const { dispatch, user: { id: userId } } = this.props;
+    const { dispatch, user: { id: userId }, isNewUserForList } = this.props;
     const entryAId = entryA.id; 
     const entryBId = entryB.id; 
     const matchupResults = {
@@ -172,7 +173,12 @@ class Cage extends Component {
       listId,
       userId,
     }
-    console.log('matchup results:', matchupResults);
+
+    // need to increment voterCount on the listMeta
+    console.log('isNewUserForList', !!isNewUserForList);
+    if (isNewUserForList) {
+      dispatch({ type: actionTypes.INCREMENT_VOTER_COUNT, listId })
+    }
 
     dispatch(postMatchup(matchupResults));
     
@@ -302,7 +308,6 @@ class Cage extends Component {
           </Card>
         </View>
         <Padding/>
-
       </ScrollView>
     );
   }
@@ -315,8 +320,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // paddingLeft: 15,
-    // paddingRight: 15,
     backgroundColor: constants.background,
     width: '100%',
   },
@@ -362,11 +365,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: constants.almostBlack,
-    // paddingTop: 15,
-    // paddingBottom: 10,
   },
   rankingsWrapper: {
-    // alignItems: 'center',
     width: '100%',
   }
 });
@@ -377,12 +377,14 @@ function mstp({
   listRankings,
   auth,
   userRankings,
+  users,
 }, { navigation }) {
   const { exclusions, user } = auth;
   const { byId: entryIdMap } = entries;
   const listId = navigation.getParam('listId');
 
-  console.log(exclusions);
+  console.log('###');
+  console.log(users);
   const hiddenEntryIds = exclusions[listId] || [];
 
   const { entries: entryIds = [] } = (list.byId[listId] || {});
@@ -390,10 +392,8 @@ function mstp({
     return hiddenEntryIds.indexOf(entryId) < 0;;
   });
 
-  console.log(hiddenEntryIds);
-  console.log(candidateIds);
-  console.log('candidateIds.length');
-  console.log(candidateIds.length);
+  const userListData = users.byId[user.id].listStats[listId];
+  const isNewUserForList = !(userListData && userListData.matchup_count > 0);
   return {
     listId,
     list,
@@ -402,6 +402,7 @@ function mstp({
     hiddenEntryIds,
     candidateIds,
     entryIdMap,
+    isNewUserForList,
   };
 }
 export default connect(mstp)(Cage);
