@@ -178,6 +178,7 @@ const theme = {
       color: constants.textWhite,
       fontFamily: 'Roboto Mono',
     },
+    allowFontScaling: false,
   },
   Card: {
     containerStyle: {
@@ -213,10 +214,7 @@ class App extends React.Component {
   render() {
     const { showSplash } = this.state;
     const { user } = this.props;
-    console.log('CageApp Render');
-    console.log(React.version);
-    console.log(this.props);
-    console.log(this.state);
+
     return (
       <ThemeProvider theme={theme}>
         {

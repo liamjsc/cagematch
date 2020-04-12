@@ -54,7 +54,14 @@ class Splash extends Component {
           .catch(() => {
             console.log('CDM error Splash.js')
           });
+        })
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          showRegister: false,
+          authStatusLoaded: true,
         });
+      })
   }
 
   login = (creds) => {
