@@ -68,6 +68,11 @@ class BrowseLists extends Component {
 
   setActiveTab = (tabIndex) => this.setState({ tabIndex })
 
+  goToUserDetail = (params) => {
+    console.log('gotouserdetail', params);
+    this.props.navigation.navigate('UserDetail', params);
+  }
+
   render() {
     const { userId, loading, listIds, byId } = this.props;
     if (loading) return (
@@ -146,6 +151,7 @@ class BrowseLists extends Component {
               <ListCard
                 goToListDetail={this.goToListDetail}
                 goToCage={this.goToCage}
+                goToUserDetail={this.goToUserDetail}
                 {...byId[item]}
               />
             )

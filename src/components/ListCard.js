@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View,
-  Button,
   TouchableWithoutFeedback,
+  TouchableHighlight,
 } from 'react-native';
 
 import { Card, Text } from 'react-native-elements';
@@ -17,13 +16,14 @@ class ListCard extends Component {
 
   render() {
     const {
+      goToUserDetail,
       title,
-      description,
       entries,
       voterCount,
       matchupCount,
       createdBy,
       createdAt,
+      user_id,
       // image = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Conairinternational.jpg/220px-Conairinternational.jpg',
     } = this.props;
     const count = entries.length;
@@ -42,11 +42,16 @@ class ListCard extends Component {
           title={title}
           containerStyle={styles.card}
         >
-          { !description ? null : (<Text>{description}</Text>) }
           <Text style={styles.lightPurple}>{count} entries</Text>
           { !voterCount ? null : (<Text style={styles.lightPurple}>{voterCount} voters</Text>) }
           { !matchupCount ? null : (<Text style={styles.lightPurple}>{matchupCount} matchups</Text>) }
-          { !createdBy ? null : (<Text style={styles.lightPurple}>Created by {createdBy}</Text>) }
+          { !createdBy ? null : (
+            <TouchableWithoutFeedback
+              onPress={() => goToUserDetail({ userId: user_id, username: createdBy })}
+            >
+              <Text style={styles.lightPurple}>Created by {createdBy}</Text>
+            </TouchableWithoutFeedback>
+          )}
           { !createdAt ? null : (<Text style={styles.lightPurple}>{date}</Text>) }
         </Card>
       </TouchableWithoutFeedback>
@@ -58,9 +63,10 @@ const styles = StyleSheet.create({
   card: {
     // height: 180,
   },
-  lightPurple: {
+  lightBlue: {
     color: constants.textBlue,
-  }
+  },
+  lightPurple: { color: constants.lightPurple },
 });
 
 export default ListCard;

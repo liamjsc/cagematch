@@ -17,6 +17,7 @@ import {
   ManageListEntries,
   Splash,
   Standings,
+  UserDetail,
 } from './index';
 import { ListFullDetail } from '../components'
 
@@ -40,7 +41,8 @@ const BrowseStack = createStackNavigator({
   ListFullDetail,
   Cage,
   ManageListEntries,
-  Standings
+  Standings,
+  UserDetail,
 }, {
   ...sharedStackNavigatorConfig,
   navigationOptions: {

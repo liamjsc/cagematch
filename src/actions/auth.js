@@ -48,8 +48,8 @@ export function createAccount(credentials) {
         console.log(results);
         const { id, username, email } = results;
         await AsyncStorage.setItem('user', JSON.stringify({ id, username, email })); // who is the user of this device
-        const action = { type: actionTypes.LOAD_USER_SUCCESS, user: results };
-        dispatch();
+        // const action = { type: actionTypes.LOAD_USER_SUCCESS, user: results };
+        // dispatch();
         return dispatch(setUser({ id, username, email }));
       })
       .catch(error => {

@@ -49,10 +49,13 @@ class Standings extends Component {
       userId,
       listId,
       title,
+      usersById,
     } = this.props;
 
     const { loading, selectedIndex } = this.state;
     if (loading) return null;
+
+    const { username } = usersById[userId];
 
     return (
       <View style={{
@@ -69,7 +72,7 @@ class Standings extends Component {
         <ButtonGroup
           onPress={(idx) => this.setState({ selectedIndex: idx })}
           selectedIndex={selectedIndex}
-          buttons={['Global', 'User']}
+          buttons={['Global', username]}
         />
         <ScrollView>
           <Card title="STANDINGS">
@@ -86,17 +89,23 @@ class Standings extends Component {
 }
 
 function mstp(state, ownProps) {
-  const { list, auth: { user } } = state;
+  const {
+    users: { byId: usersById },
+    list,
+    auth: { user },
+  } = state;
   const listId = ownProps.navigation.getParam('listId');
+  const userIdOverride = ownProps.navigation.getParam('userId');
   console.log('mstp--', listId);
   const {
     title,
   } = list.byId[listId];
 
   return {
+    usersById,
     title,
     listId,
-    userId: user.id,
+    userId: userIdOverride || user.id,
   }
 }
 

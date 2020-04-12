@@ -6,3 +6,4 @@ export { default as ListEdit } from './ListEdit';
 export { default as ManageListEntries } from './ManageListEntries';
 export { default as Splash } from "./Splash";
 export { default as Standings } from './Standings';
+export { default as UserDetail } from './UserDetail';

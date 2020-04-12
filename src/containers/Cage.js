@@ -144,9 +144,6 @@ class Cage extends Component {
       console.log('isRepeat', isRepeat);
     }
 
-    console.log('returning', indexOne, indexTwo);
-    console.log('returning', candidateIds);
-    console.log('returning', entryIdMap);
     return [entryIdMap[candidateIds[indexOne]], entryIdMap[candidateIds[indexTwo]]];
   }
 

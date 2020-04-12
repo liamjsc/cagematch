@@ -4,7 +4,7 @@ import { api } from '../config'
 export function loadUser(userId) {
   console.log('action - loadUser', userId);
   return (dispatch, getState) => {
-    const { auth: { user: { id: userId } } } = getState();
+    // const { auth: { user: { id: userId } } } = getState();
     const url = `${api}/user/${userId}`;
     return fetch(url)
       .then(data => {
