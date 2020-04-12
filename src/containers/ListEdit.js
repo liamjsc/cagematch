@@ -203,6 +203,7 @@ class ListEdit extends Component {
 
     const { pendingImage, pendingTitle, newEntries } = this.state;
 
+    const isKeyboardActive = true;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -320,7 +321,9 @@ class ListEdit extends Component {
                 )
             })}
           </View>
-          <Padding/>
+          <Padding
+            height={isKeyboardActive ? 300 : 30}
+          />
         </ScrollView>
       </View>
     );
