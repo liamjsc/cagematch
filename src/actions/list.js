@@ -85,7 +85,7 @@ export function createList(list) {
     const { auth: { user: { id: userId } } } = getState();
     const body = {
       ...list,
-      user_id: userId,
+      userId,
     };
     console.log('POSTING CREATE LIST', body);
     const url = `${api}/lists`;

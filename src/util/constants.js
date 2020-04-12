@@ -44,8 +44,6 @@ export const purple1 = '#360568';
 export const purple2 = '#5B2A86';
 export const shadowBlue = '#7785AC';
 export const opal = '#9AC6C5';
-// export const
-// 
 
 // https://www.schemecolor.com/google-chrome-ui.php
 export const googleGray = '#BABCBE';
