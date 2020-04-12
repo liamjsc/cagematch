@@ -1,3 +1,4 @@
+export { default as AppData } from './AppData';
 export { default as ForgotPassword } from './ForgotPassword';
 export { default as ListCard } from './ListCard';
 export { default as ListFullDetail } from './ListFullDetail';

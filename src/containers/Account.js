@@ -14,6 +14,11 @@ import {
  } from 'react-native-elements';
 import { connect } from 'react-redux';
 
+import {
+  AppData,
+  Padding,
+} from '../components';
+
 import { signOut } from '../actions/auth';
 import * as constants from '../util/constants';
 
@@ -80,6 +85,8 @@ class Account extends Component {
             })}
           </Card>
         )}
+        <AppData/>
+        <Padding/>
       </ScrollView>
     );
   }

@@ -91,6 +91,10 @@ class BrowseLists extends Component {
       listIdsToRender = searchFiltered.filter(id => {
         const { user_id } = byId[id];
         return parseInt(user_id) === parseInt(userId);
+      }).sort((a,b) => {
+        const { createdAt: createdAtA } = byId[a];
+        const { createdAt: createdAtB } = byId[b];
+        return new Date(createdAtA) > new Date(createdAtB) ? -1 : 1;
       });
     }
     if (tab === NEW) {
@@ -159,9 +163,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    width: '100%',
   },
 });
 
