@@ -117,7 +117,7 @@ class BrowseLists extends Component {
         keyboardShouldPersistTaps="handled"
       >
         <SearchBar
-          placeholder="search..."
+          placeholder="filter"
           onChangeText={this.updateSearch}
           value={search}
           containerStyle={{

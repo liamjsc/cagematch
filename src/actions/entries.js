@@ -57,7 +57,6 @@ export function postNewEntries({ listId, entries }) {
         idMap[entry.id] = entry;
         return entry.id;
       });
-      console.log('action cb', newEntries);
       dispatch(insertEntries(idMap));
       dispatch({ type: actionTypes.PUSH_NEW_ENTRIES, entryIds, listId })
       return Promise.resolve(entryIds);
