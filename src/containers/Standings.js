@@ -17,6 +17,7 @@ import { loadList, fetchUserListRankings } from '../actions/list';
 import { getExclusions } from '../actions/auth';
 import Rankings from '../components/Rankings';
 import * as constants from '../util/constants';
+import { Padding } from '../components';
 
 class Standings extends Component {
   static navigationOptions = {
@@ -55,7 +56,6 @@ class Standings extends Component {
 
     return (
       <View style={{
-        paddingBottom: 100,
         backgroundColor: constants.background,
         height: '100%',
        }}>
@@ -78,6 +78,7 @@ class Standings extends Component {
               userId={selectedIndex === 1 ? userId : null}
             />
           </Card>
+          <Padding/>
         </ScrollView>
       </View>
     );
