@@ -68,7 +68,9 @@ class UserDetail extends Component {
 
   goToUserRankings = (listId) => {
     const { userId } = this.props;
-    this.props.navigation.navigate('Standings', { listId, userId });
+    const params = { listId, userId };
+    console.log('goToUserRankings', params);
+    this.props.navigation.navigate('Standings', params);
   }
 
   render() {
@@ -162,8 +164,6 @@ function mstp({
 }, { navigation }) {
   const userId = navigation.getParam('userId');
   const user = usersById[userId];
-  console.log('mstp userdetail');
-  console.log(user);
   return {
     userId,
     listById,

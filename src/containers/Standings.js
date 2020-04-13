@@ -24,9 +24,12 @@ class Standings extends Component {
     title: 'Standings',
   };
 
-  state = {
-    selectedIndex: 0,
-    loading: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedIndex: props.initGlobal ? 0 : 1,
+      loading: true,
+    }
   }
 
   setGlobal = () => this.setState({ selectedIndex: 0 });
@@ -76,7 +79,7 @@ class Standings extends Component {
         />
         <ScrollView>
           <Card title="STANDINGS">
-            <Rankings 
+            <Rankings
               listId={listId}
               userId={selectedIndex === 1 ? userId : null}
             />
@@ -96,7 +99,6 @@ function mstp(state, ownProps) {
   } = state;
   const listId = ownProps.navigation.getParam('listId');
   const userIdOverride = ownProps.navigation.getParam('userId');
-  console.log('mstp--', listId);
   const {
     title,
   } = list.byId[listId];
@@ -106,6 +108,7 @@ function mstp(state, ownProps) {
     title,
     listId,
     userId: userIdOverride || user.id,
+    initGlobal: !userIdOverride,
   }
 }
 

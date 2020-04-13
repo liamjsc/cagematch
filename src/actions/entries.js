@@ -51,7 +51,6 @@ export function postNewEntries({ listId, entries }) {
       if (!data.ok) return Promise.reject('api error');
       return data.json();
     }).then(newEntries => {
-      console.log(newEntries)
       const idMap = {};
       const entryIds = newEntries.map(entry => {
         idMap[entry.id] = entry;

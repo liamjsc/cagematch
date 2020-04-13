@@ -52,11 +52,18 @@ export function loadList(id) {
   return (dispatch, getState) => {
     dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          console.log('error fetching list')
+          return Promise.reject(response);
+        }
+        return response.json();
+      })
       .then(({ listIds, listIdMap, entryIdMap }) => {
         // new format
+        console.log('load list THEN');
+        console.log({ listIds, listIdMap, entryIdMap })
         const listId = listIds[0];
-        console.log('list response:', list, entryIdMap);
         dispatch(insertEntries(entryIdMap));
         dispatch(loadListSuccess(listIdMap[listId]));
       })
@@ -131,9 +138,7 @@ function addList({ list, entries }) {
 
 export function fetchUserListRankings({ userId, listId }) {
   return (dispatch, getState) => {
-    console.log('##inside fetchUserListRankings action');
     const url = `${api}/user/${userId}/list/${listId}`;
-    console.log(url);
     return fetch(url)
       .then(response => {
         if (!response.ok) return Promise.reject(response);

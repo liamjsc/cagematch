@@ -98,7 +98,7 @@ function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
     return { rankedList }
   }
   
-  const listEntries = listRankings[listId].children; // array of ID's
+  const { entries: listEntries } = listRankings[listId]; // array of ID's
   return {
     rankedList: listEntries.map(id => entries.byId[id]).sort(function (a, b) {
       return a.score > b.score ? -1 : 1;
