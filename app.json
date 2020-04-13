@@ -30,11 +30,11 @@
     "ios": {
       "bundleIdentifier": "com.cagematch.cagematch",
       "supportsTablet": true,
-      "buildNumber": "0.0.11"
+      "buildNumber": "0.0.12"
     },
     "android": {
       "package": "com.cagematch.cagematch",
-      "versionCode": 11
+      "versionCode": 12
     }
   }
 }
