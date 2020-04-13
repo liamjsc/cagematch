@@ -50,6 +50,7 @@ class Rankings extends Component {
       rankedList,
       length,
     } = this.props;
+    console.log(this.props);
     const items = length ? rankedList.slice(0, length) : rankedList;
     return (
       <View style={styles.rankings}>
@@ -58,9 +59,7 @@ class Rankings extends Component {
             const { title, score, winCount, lossCount } = item;
             return (
               <View 
-                style={{
-                  width: '100%',
-                }}
+                style={{ width: '100%' }}
                 key={i}
               >
                 <RankingRow
@@ -86,9 +85,12 @@ const styles = StyleSheet.create({
   }
 });
 
-function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
+function mstp({ userRankings, entries, list }, { listId, userId }) {
   if (userId) {
-    const { records, rankings } = userRankings[userId][listId];
+    const {
+      records,
+      rankings, // array of id's
+    } = userRankings[userId][listId];
     const rankedList = rankings.map(id => {
       return {
         ...entries.byId[id],
@@ -98,11 +100,13 @@ function mstp({ listRankings, userRankings, entries }, { listId, userId }) {
     return { rankedList }
   }
   
-  const { entries: listEntries } = listRankings[listId]; // array of ID's
+  const { entries: listEntries } = list.byId[listId]; // array of ID's
+  const rankedGlobalList = listEntries.map(id => entries.byId[id]).sort(function (a, b) {
+    return a.score > b.score ? -1 : 1;
+  });
+
   return {
-    rankedList: listEntries.map(id => entries.byId[id]).sort(function (a, b) {
-      return a.score > b.score ? -1 : 1;
-  })
+    rankedList: rankedGlobalList,
   }
 }
 

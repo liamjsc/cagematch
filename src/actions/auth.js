@@ -103,14 +103,9 @@ export function signOut() {
   };
 }
 
-export function getExclusions() {
+export function getExclusions(userId) {
   return function(dispatch, getState) {
-    const { auth } = getState();
-    if (!auth.user) return;
-
-    const { user: { id: userId } } = auth;
     const url = `${api}/exclusion/${userId}`;
-    console.log('exclusions', auth);
     console.log(url)
     return fetch(url)
       .then(response => response.json())

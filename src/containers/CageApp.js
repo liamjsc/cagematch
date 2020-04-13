@@ -193,6 +193,11 @@ const theme = {
       fontWeight: 'bold',
     },
   },
+  ListItem: {
+    subtitleStyle: {
+      color: constants.lightPurple,
+    },
+  },
 }
 
 class App extends React.Component {

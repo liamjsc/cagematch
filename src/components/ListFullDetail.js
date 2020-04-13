@@ -25,10 +25,10 @@ class ListFullDetail extends Component {
   };
 
   componentDidMount() {
-    const { listId, dispatch } = this.props;
+    const { listId, dispatch, userId } = this.props;
     const promises = [
       dispatch(loadList(listId)),
-      dispatch(getExclusions()),
+      dispatch(getExclusions(userId)),
     ];
     Promise.all(promises);
   }
@@ -109,13 +109,6 @@ class ListFullDetail extends Component {
             onPress={this.goToFullStandings}
           />
         </Card>
-
-        {/* <Card title="STATS">
-          <View>
-            <Text>319 Matchups</Text>
-            <Text>4 Contributors</Text>
-          </View>
-        </Card> */}
       </ScrollView>
     )
   }
@@ -128,15 +121,15 @@ const style = StyleSheet.create({
 });
 
 function mstp(state, ownProps) {
-  const { list, listRankings, entries } = state;
+  const { list, entries, auth } = state;
   const listId = ownProps.navigation.getParam('listId');
   const {
     title,
     createdBy,
     description,
     matchupCount,
+    entries: listEntries,
   } = list.byId[listId];
-  const listEntries = (listRankings[listId] || {}).children || [];
   const rankedList = listEntries.map(id => entries.byId[id]).sort(function (a, b) {
     return a.score > b.score ? -1 : 1;
   });
@@ -147,6 +140,7 @@ function mstp(state, ownProps) {
     description,
     listId,
     matchupCount,
+    userId: auth.user.id,
   }
 }
 

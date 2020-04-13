@@ -73,6 +73,13 @@ class UserDetail extends Component {
     this.props.navigation.navigate('Standings', params);
   }
 
+  goToCage = (listId) => {
+    const { listById } = this.props;
+    const params = { listId, title: listById[listId].title };
+    console.log('goToCage', params);
+    this.props.navigation.navigate('Cage', params);
+  }
+
   render() {
     const {
       listStats = {},
@@ -95,39 +102,17 @@ class UserDetail extends Component {
           />
         }
       >
-        <Card title={`Rankings - ${username}`}>
-          {listsVotedOn.map(listId => {
-            const listData = listById[listId];
-            const { matchup_count } = listStats[listId];
-            return (
-              <ListItem
-                key={listId}
-                title={listData.title}
-                subtitle={`${matchup_count} vote${matchup_count === 1 ? '' : 's'}`}
-                subtitleStyle={styles.lightPurple}
-                containerStyle={{
-                  backgroundColor: constants.cardGray,
-                  borderWidth: 1,
-                  borderColor: constants.raisinBlack,
-                }}
-                bottomDivider
-                chevron
-                onPress={() => this.goToUserRankings(listId)}
-              />
-            )
-          })}
-        </Card>
-
-        {!(listsCreated && listsCreated.length) ? null : (
-          <Card
-          title="Lists Created"
-          >
-            {listsCreated.map((listId, i) => {
-              const listMeta = listById[listId];
+        <Card title="Activity">
+          <View>
+            <Text style={styles.cardSubtitle}>Tap to view {username}'s rankings</Text>
+            {listsVotedOn.map(listId => {
+              const listData = listById[listId];
+              const { matchup_count } = listStats[listId];
               return (
                 <ListItem
-                  key={i+1}
-                  title={listMeta.title}
+                  key={listId}
+                  title={listData.title}
+                  subtitle={`voted ${matchup_count} time${matchup_count === 1 ? '' : 's'}`}
                   containerStyle={{
                     backgroundColor: constants.cardGray,
                     borderWidth: 1,
@@ -135,10 +120,38 @@ class UserDetail extends Component {
                   }}
                   bottomDivider
                   chevron
-                  onPress={() => this.goToListEdit(listId)}
+                  onPress={() => this.goToUserRankings(listId)}
                 />
               )
             })}
+          </View>
+        </Card>
+
+        {!(listsCreated && listsCreated.length) ? null : (
+          <Card
+          title="Lists Created"
+          >
+            <View>
+              <Text style={styles.cardSubtitle}>Tap to rank {username}'s lists</Text>
+              {listsCreated.map((listId, i) => {
+                const listMeta = listById[listId];
+                return (
+                  <ListItem
+                    key={i+1}
+                    title={listMeta.title}
+                    subtitle="Rank now"
+                    containerStyle={{
+                      backgroundColor: constants.cardGray,
+                      borderWidth: 1,
+                      borderColor: constants.raisinBlack,
+                    }}
+                    bottomDivider
+                    chevron
+                    onPress={() => this.goToCage(listId)}
+                  />
+                )
+              })}
+            </View>
           </Card>
         )}
         <Padding/>
@@ -155,7 +168,12 @@ const styles = StyleSheet.create({
   },
   lightPurple: {
     color: constants.lightPurple,
-  }
+  },
+  cardSubtitle: {
+    color: constants.textGrey,
+    paddingLeft: 3,
+    paddingBottom: 5,
+  },
 });
 
 function mstp({

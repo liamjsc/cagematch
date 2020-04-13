@@ -64,7 +64,7 @@ class Account extends Component {
         </Card>
         {!(listsCreated && listsCreated.length) ? null : (
           <Card
-          title="Edit Lists"
+            title="Edit Lists"
           >
             {listsCreated.map((listId, i) => {
               const listMeta = listById[listId];

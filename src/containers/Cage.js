@@ -371,7 +371,6 @@ const styles = StyleSheet.create({
 function mstp({
   entries,
   list,
-  listRankings,
   auth,
   userRankings,
   users,
@@ -394,7 +393,6 @@ function mstp({
   return {
     listId,
     list,
-    listRankings,
     user,
     hiddenEntryIds,
     candidateIds,

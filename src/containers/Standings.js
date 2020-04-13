@@ -39,7 +39,7 @@ class Standings extends Component {
     const { listId, dispatch, userId } = this.props;
     const promises = [
       dispatch(loadList(listId)),
-      dispatch(getExclusions()),
+      dispatch(getExclusions(userId)),
       dispatch(fetchUserListRankings({ listId, userId }))
     ];
     Promise.all(promises).then(() => {

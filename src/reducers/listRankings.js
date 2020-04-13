@@ -25,7 +25,8 @@ export default function listRankingsReducer(state = initialState, action = {}) {
       };
     case actionTypes.LOAD_LIST_SUCCESS:
       const { data: list } = action;
-      console.log('LOAD_LIST_SUCCESS===');
+      console.log('LOAD_LIST_SUCCESS===listRankings');
+      console.log(action);
       console.log(list);
       return {
         ...state,
