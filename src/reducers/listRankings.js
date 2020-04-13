@@ -33,7 +33,7 @@ export default function listRankingsReducer(state = initialState, action = {}) {
           loading: false,
           loaded: true,
           error: null,
-          children: list.entries,
+          ...list,
         },
       };
     case actionTypes.LOAD_LIST_FAIL:

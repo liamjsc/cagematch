@@ -52,21 +52,35 @@ class ListCard extends Component {
             )}
 
             <View style={styles.textBox}>
-              <Text style={styles.lightPurple}>{count} entries</Text>
-              { !voterCount ? null : (<Text style={styles.lightPurple}>{voterCount} voters</Text>) }
-              { !matchupCount ? null : (<Text style={styles.lightPurple}>{matchupCount} matchups</Text>) }
-              { !createdBy ? null : (
-                <TouchableWithoutFeedback
-                  onPress={() => goToUserDetail({ userId: user_id, username: createdBy })}
-                >
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={{ color: constants.lightPurple, paddingRight: 5 }}>Created by</Text>
-                    <Text style={{ color: constants.textWhite }}>{createdBy}</Text>
+              <View style={styles.upperText}>
 
-                  </View>
-                </TouchableWithoutFeedback>
+                <Text style={styles.lightPurple}>{count} entries</Text>
+                {!voterCount ? null : (
+                  <Text style={styles.lightPurple}>{voterCount} voters</Text>
+                )}
+                {!matchupCount ? null : (
+                  <Text style={styles.lightPurple}>{matchupCount} matchups</Text>
+                )}
+              </View>
+              {!createdBy ? null : (
+                <View style={styles.lowerText}>
+                  <TouchableWithoutFeedback
+                    style={styles.createdBy}
+                    onPress={() => goToUserDetail({ userId: user_id, username: createdBy })}
+                    >
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={{ color: constants.lightPurple, paddingRight: 5 }}>created by</Text>
+                      <Text style={styles.createdBy}>
+                        {createdBy}
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
               )}
-              { !createdAt ? null : (<Text style={styles.lightPurple}>{date}</Text>) }
+{/* 
+              {!createdAt ? null : (
+                <Text style={styles.lightPurple}>{date}</Text>
+              )} */}
 
             </View>
           </View>
@@ -81,27 +95,36 @@ const styles = StyleSheet.create({
     // height: 180,
   },
   listCardView: {
-    flexDirection: 'row',
-    // borderWidth: 1,
+    flexDirection: 'row-reverse',
     borderColor: 'orange',
   },
   listCardViewImage: {
-    flexDirection: 'row',
-    borderColor: 'orange',
+    flexDirection: 'row-reverse',
     height: 180,
   },
   image: {
     flex: 1,
     aspectRatio: 182 / 268,
-    // borderWidth: 1,
-    borderColor: 'blue'
-
   },
   textBox: {
     paddingLeft: 5,
     flex: 1,
     // borderWidth: 1,
-    borderColor: 'yellow',
+    // borderColor: 'yellow',
+    justifyContent: 'space-between',
+  },
+  upperText: {
+
+  },
+  lowerText: {
+    paddingTop: 7,
+    paddingBottom: 7,
+  },
+  createdBy: {
+    color: constants.textWhite,
+    borderBottomWidth: 1,
+    borderColor: constants.lightPurple,
+    alignSelf: 'flex-end',
   },
   lightBlue: {
     color: constants.textBlue,

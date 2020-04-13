@@ -53,10 +53,12 @@ export function loadList(id) {
     dispatch(loadListStart(id));
     return fetch(`${api}/lists/${id}`)
       .then(response => response.json())
-      .then(({ list, entryIdMap }) => {
+      .then(({ listIds, listIdMap, entryIdMap }) => {
+        // new format
+        const listId = listIds[0];
         console.log('list response:', list, entryIdMap);
         dispatch(insertEntries(entryIdMap));
-        dispatch(loadListSuccess(list));
+        dispatch(loadListSuccess(listIdMap[listId]));
       })
       .catch((err) => {
         console.log('LOADLISTFAIL');
