@@ -147,11 +147,16 @@ class BrowseLists extends Component {
           style={styles.list}
           data={listIdsToRender}
           renderItem={({ item }) => {
+            console.log('flat list render');
+            const topEntryId = byId[item].entries[0];
+            console.log(topEntryId);
+            const { image } = this.props.entryIdMap[topEntryId];
             return (
               <ListCard
                 goToListDetail={this.goToListDetail}
                 goToCage={this.goToCage}
                 goToUserDetail={this.goToUserDetail}
+                image={image}
                 {...byId[item]}
               />
             )
@@ -178,11 +183,12 @@ const styles = StyleSheet.create({
 //   listIds: [],
 //   byId: {},
 // }
-function mstp({list, auth}) {
+function mstp({list, entries, auth}) {
   const { user: { id: userId } } = auth;
   return {
     ...list,
     userId,
+    entryIdMap: entries.byId,
   };
 }
 export default connect(mstp)(BrowseLists);
