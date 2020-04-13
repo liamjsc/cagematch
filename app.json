@@ -13,7 +13,7 @@
     "orientation": "portrait",
     "icon": "./src/assets/cmicon.png",
     "splash": {
-      "image": "./src/assets/CageMatchLogo2_03.png",
+      "image": "./src/assets/cmicon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -30,11 +30,11 @@
     "ios": {
       "bundleIdentifier": "com.cagematch.cagematch",
       "supportsTablet": true,
-      "buildNumber": "0.0.10"
+      "buildNumber": "0.0.11"
     },
     "android": {
       "package": "com.cagematch.cagematch",
-      "versionCode": 10
+      "versionCode": 11
     }
   }
 }
