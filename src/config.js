@@ -4,6 +4,7 @@ const prodUrl = 'http://ec2-18-236-88-40.us-west-2.compute.amazonaws.com:8000/ap
 const { NODE_ENV } = process.env;
 const __DEVELOPMENT__ = NODE_ENV === 'development';
 
+console.log('__DEVELOPMENT__', __DEVELOPMENT__)
 let useProd;
 // useProd = true; // comment this line for convenience
 export const api = (__DEVELOPMENT__ && !useProd) ? localUrl : prodUrl;
