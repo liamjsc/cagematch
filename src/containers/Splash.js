@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { RegisterForm, LoginForm, ForgotPassword } from '../components';
+import { RegisterForm, LoginForm, ForgotPassword, LoadingScreen } from '../components';
 import {
   createAccount,
   login,
@@ -132,14 +132,7 @@ class Splash extends Component {
       forgotPassword,
     } = this.state;
 
-    if (!authStatusLoaded) return (
-      <View style={styles.fullScreenSpinner}>
-        <Text>Cagematch is loading</Text>
-        <ActivityIndicator
-          size="large"
-        />
-      </View>
-    );
+    if (!authStatusLoaded) return <LoadingScreen text="cagematch is loading" />;
 
     return (
       <View style={styles.splash}>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet, 
   TouchableHighlight,
@@ -155,7 +156,7 @@ const rowStyle = StyleSheet.create({
     color: constants.textWhite
   },
   input: {
-    fontSize: 10,
+    fontSize: 12,
   }
 });
 
@@ -165,6 +166,7 @@ class ListEdit extends Component {
   };
 
   state = {
+    saving: false,
     pendingTitle: '',
     pendingImage: '',
     newEntries: [] // array of { image, title, id }
@@ -178,6 +180,7 @@ class ListEdit extends Component {
     const { pendingTitle: title, pendingImage: image } = this.state;
     const { listId } = this.props;
     const newEntry = { title, image };
+    this.setState({ saving: true });
     this.props.dispatch(postNewEntries({ listId, entries: [newEntry] }))
       .then((newIds) => {
         this.setState({
@@ -187,8 +190,13 @@ class ListEdit extends Component {
           ],
           pendingTitle: '',
           pendingImage: '',
+          saving: false,
         })
-      });
+      })
+      .catch(e => {
+        console.log(e);
+        this.setState({ saving: false });
+      })
   }
 
   clearNewEntry = () => {
@@ -201,9 +209,8 @@ class ListEdit extends Component {
       entryById,
     } = this.props;
 
-    const { pendingImage, pendingTitle, newEntries } = this.state;
+    const { pendingImage, pendingTitle, newEntries, saving } = this.state;
 
-    const isKeyboardActive = true;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -262,32 +269,38 @@ class ListEdit extends Component {
                 />
               </View>
             </View>
-            <View style={{flexDirection: 'row' }}>
-              <Button
-                title="Save"
-                onPress={this.saveNewEntry}
-                titleStyle={{ color: constants.lightPurple }}
-                buttonStyle={{
-                  backgroundColor: constants.cardGray,
-                }}
-                containerStyle={{
-                  flex: 1,
-                }}
-                raised={false}
-              />
-              <Button
-                title="Reset"
-                onPress={this.clearNewEntry}
-                titleStyle={{ color: constants.red }}
-                buttonStyle={{
-                  backgroundColor: constants.cardGray,
-                }}
-                containerStyle={{
-                  flex: 1,
-                }}
-                raised={false}
-              />
-            </View>
+            {
+              saving ? (
+                <ActivityIndicator size="large" style={{ paddingTop: 5 }}/>
+              ) : (
+                <View style={{flexDirection: 'row' }}>
+                  <Button
+                    title="Save"
+                    onPress={this.saveNewEntry}
+                    titleStyle={{ color: constants.lightPurple }}
+                    buttonStyle={{
+                      backgroundColor: constants.cardGray,
+                    }}
+                    containerStyle={{
+                      flex: 1,
+                    }}
+                    raised={false}
+                  />
+                  <Button
+                    title="Reset"
+                    onPress={this.clearNewEntry}
+                    titleStyle={{ color: constants.red }}
+                    buttonStyle={{
+                      backgroundColor: constants.cardGray,
+                    }}
+                    containerStyle={{
+                      flex: 1,
+                    }}
+                    raised={false}
+                  />
+                </View>
+              )
+            }
           </Card>
 
           {!(newEntries && newEntries.length) ? null : (
@@ -322,7 +335,7 @@ class ListEdit extends Component {
             })}
           </View>
           <Padding
-            height={isKeyboardActive ? 300 : 30}
+            height={300}
           />
         </ScrollView>
       </View>

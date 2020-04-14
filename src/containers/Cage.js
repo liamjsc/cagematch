@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import { loadList, fetchUserListRankings } from '../actions/list';
 import { exclude, getExclusions } from '../actions/auth';
 import { postMatchup } from '../actions/matchup';
-import { Rankings, Padding } from '../components';
+import { LoadingScreen, Rankings, Padding } from '../components';
 
 import * as constants from '../util/constants';
 import * as actionTypes from '../util/actionTypes';
@@ -231,7 +231,9 @@ class Cage extends Component {
     const listId = this.getListId();
 
     if (!this.state.loaded) {
-      return <Text>Preparing the cage</Text>;
+      return (
+        <LoadingScreen text="preparing the cage"/>
+      );
     }
     const { entryA, entryB } = this.state;
 
