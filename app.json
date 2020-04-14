@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CageMatch",
-    "slug": "reactcage",
+    "name": "Cagematch",
+    "slug": "cage",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -28,13 +28,13 @@
       "backgroundColor": "#121212"
     },
     "ios": {
-      "bundleIdentifier": "com.cagematch.cagematch",
+      "bundleIdentifier": "com.cagematch.cage",
       "supportsTablet": true,
-      "buildNumber": "0.0.14"
+      "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.cagematch.cagematch",
-      "versionCode": 14
+      "package": "com.cagematch.cage",
+      "versionCode": 1
     }
   }
 }
