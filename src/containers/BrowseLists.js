@@ -27,7 +27,7 @@ const tabs = [
 ]
 class BrowseLists extends Component {
   static navigationOptions = {
-    title: 'CAGEMATCH',
+    title: 'cagematch',
   };
 
   state = {

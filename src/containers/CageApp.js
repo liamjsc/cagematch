@@ -28,10 +28,13 @@ const sharedStackNavigatorConfig = {
     headerTintColor: constants.white,
     headerStyle: {
       backgroundColor: constants.cardGray,
+      fontFamily: 'Roboto Mono',
     },
     headerTitleStyle: {
       color: constants.lightPurple,
       width: '100%',
+      fontFamily: 'Roboto Mono',
+      fontWeight: 'normal',
     }
   }
 }
@@ -132,9 +135,11 @@ const theme = {
     },
   },
   ButtonGroup: {
+    containerBorderRadius: 0,
     containerStyle: {
       borderWidth: 0,
       borderColor: constants.background,
+      borderRadius: 0,
     },
     selectedButtonStyle: {
       borderBottomColor: constants.lightPurple,

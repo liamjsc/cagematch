@@ -46,7 +46,7 @@ const CageEntry = (props) => {
               style={{ width: '95%', aspectRatio: 182 / 268 }}
             />)
           }
-          <Text style={{ fontSize: 18, paddingTop: 5, paddingBottom: 5 }}>{title}</Text>
+          <Text style={{ fontSize: 18, paddingTop: 5, paddingBottom: 5, textAlign: 'center', }}>{title}</Text>
         </View>
       </TouchableOpacity>
       <Button

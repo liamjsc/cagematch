@@ -17,7 +17,7 @@ import {
 import { connect } from 'react-redux';
 import { createList as postList } from '../actions/list';
 import * as constants from '../util/constants';
-import { Padding } from '../components';
+import { LoadingScreen, Padding } from '../components';
 
 const TITLE = 'TITLE';
 const DESCRIPTION = 'DESCRIPTION';
@@ -32,19 +32,6 @@ const initialState = {
   posting: false,
   posted: false,
   error: null,
-}
-
-function ListIsPosting({ title }) {
-  return (
-    <View style={styles.posting}>
-      <Text h3>{title}</Text>
-      <Text>Setting up your list for rankings, this might take a moment.</Text>
-      <ActivityIndicator
-        style={{ paddingTop: 25 }}
-        size="large"
-      />
-    </View>
-  )
 }
 
 class CreateList extends Component {
@@ -72,11 +59,7 @@ class CreateList extends Component {
     this.setState({ posting: true });
     return this.props.dispatch(postList(list))
       .then((newListData) => {
-
-        console.log('newList');
-        console.log(newListData);
         const cage = { listId: newListData.list.id, title };
-        console.log(cage)
         this.setState(initialState)
         this.goToCage(cage);
       })
@@ -149,7 +132,7 @@ class CreateList extends Component {
     } = this.state; // will be title, description, or entries
 
     if (posting) {
-      return <ListIsPosting/>
+      return <LoadingScreen text="Setting up your list for rankings, this might take a moment."/>
     }
 
     const titleInputProps = {
