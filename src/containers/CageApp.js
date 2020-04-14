@@ -54,7 +54,7 @@ const BrowseStack = createStackNavigator({
       <Icon
         type="material"
         focused={focused}
-        name="list"
+        name="home"
         color={tintColor}
       />
     ),
@@ -85,9 +85,9 @@ const CreateStack = createStackNavigator({
   navigationOptions: {
     tabBarIcon: ({ focused, tintColor }) => (
       <Icon
-        type="material"
+        type="material-community"
         focused={focused}
-        name="create"
+        name="plus"
         color={tintColor}
       />
     ),

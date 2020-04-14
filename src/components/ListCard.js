@@ -91,13 +91,44 @@ class ListCard extends Component {
 
             <View style={styles.textBox}>
               <View style={styles.upperText}>
+                <View style={styles.statRow}>
+                  <Icon
+                    containerStyle={styles.statIcon}
+                    name="format-list-bulleted"
+                    type="material-community"
+                    color={constants.lightPurple}
+                  />
+                  <View style={styles.statText}>
+                    <Text>{count} entries</Text>
+                  </View>
+                </View>
 
-                <Text style={styles.lightPurple}>{count} entries</Text>
                 {!voterCount ? null : (
-                  <Text style={styles.lightPurple}>{voterCount} voters</Text>
+                  <View style={styles.statRow}>
+                    <Icon
+                      containerStyle={styles.statIcon}
+                      name="account-multiple"
+                      type="material-community"
+                      color={constants.lightPurple}
+                    />
+                    <View style={styles.statText}>
+                      <Text>{voterCount} voter{voterCount === 1 ? '' : 's'}</Text>
+                    </View>
+                  </View>
                 )}
+
                 {!matchupCount ? null : (
-                  <Text style={styles.lightPurple}>{matchupCount} matchups</Text>
+                  <View style={styles.statRow}>
+                    <Icon
+                      containerStyle={styles.statIcon}
+                      name="chart-line-variant"
+                      type="material-community"
+                      color={constants.lightPurple}
+                    />
+                    <View style={styles.statText}>
+                      <Text>{matchupCount} matchup{matchupCount === 1 ? '' : 's'}</Text>
+                    </View>
+                  </View>
                 )}
               </View>
               {!createdBy ? null : (
@@ -166,6 +197,17 @@ const styles = StyleSheet.create({
   },
   upperText: {
 
+  },
+  statRow: {
+    flexDirection: 'row',
+    height: 25,
+    alignItems: 'center',
+  },
+  statIcon: {
+    marginRight: 10,
+  },
+  statText: {
+    color: constants.textGrey,
   },
   lowerText: {
     paddingTop: 7,
