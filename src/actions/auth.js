@@ -13,11 +13,10 @@ export async function getUserFromDevice() {
 }
 
 
-export function setUser({ username, email, id }) {
-  console.log('setUser action', { username, email, id });
+export function setUser(user) {
   return {
     type: actionTypes.SET_USER,
-    user: { username, email, id },
+    user,
   };
 }
 
