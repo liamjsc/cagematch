@@ -380,8 +380,6 @@ function mstp({
   const { byId: entryIdMap } = entries;
   const listId = navigation.getParam('listId');
 
-  console.log('###');
-  console.log(users);
   const hiddenEntryIds = exclusions[listId] || [];
 
   const { entries: entryIds = [] } = (list.byId[listId] || {});
@@ -389,7 +387,7 @@ function mstp({
     return hiddenEntryIds.indexOf(entryId) < 0;;
   });
 
-  const userListData = users.byId[user.id].listStats[listId];
+  const userListData = ((users.byId[user.id] || {}).listStats || {})[listId] = {};
   const isNewUserForList = !(userListData && userListData.matchup_count > 0);
   return {
     listId,
