@@ -372,7 +372,6 @@ function mstp({
   entries,
   list,
   auth,
-  userRankings,
   users,
 }, { navigation }) {
   const { exclusions, user } = auth;
