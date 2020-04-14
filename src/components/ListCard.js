@@ -5,13 +5,46 @@ import {
   View,
 } from 'react-native';
 
-import { Card, Image, Text } from 'react-native-elements';
+import {
+  Card,
+  Divider,
+  Icon,
+  Image,
+  Text,
+} from 'react-native-elements';
 import * as constants from '../util/constants';
 
 class ListCard extends Component {
   handlePress = () => {
     const { goToCage, id: listId, title } = this.props;
     goToCage({ listId, title });
+  }
+
+  goToListEdit = () => {
+    const { id: listId } = this.props;
+    this.props.goToListEdit({ listId });
+  }
+
+  renderTitle(title) {
+    return (
+      <View style={styles.title}>
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <View style={styles.iconWrapper} />
+          <View style={styles.titleTextWrapper}>
+            <Text style={styles.titleText}>{title}</Text>
+          </View>
+          <View style={styles.iconWrapper}>
+            <Icon
+              name="settings"
+              color={constants.white}
+              onPress={this.goToListEdit}
+              underlayColor={constants.lightPurple}
+            />
+          </View>
+        </View>
+        <Divider style={{ backgroundColor: constants.textGrey }}/>
+      </View>
+    )
   }
 
   render() {
@@ -39,7 +72,7 @@ class ListCard extends Component {
         onPress={this.handlePress}
       >
         <Card
-          title={title}
+          title={this.renderTitle(title)}
           containerStyle={styles.card}
         >
           <View style={image ? styles.listCardViewImage : styles.listCardView}>
@@ -94,9 +127,24 @@ const styles = StyleSheet.create({
   card: {
     // height: 180,
   },
+  title: {
+    alignItems: 'center',
+  },
+  iconWrapper: {
+    flex: 1,
+  },
+  titleTextWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 8,
+    flexDirection: 'row',
+  },
+  titleText: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
   listCardView: {
     flexDirection: 'row-reverse',
-    borderColor: 'orange',
   },
   listCardViewImage: {
     flexDirection: 'row-reverse',
@@ -109,8 +157,6 @@ const styles = StyleSheet.create({
   textBox: {
     paddingLeft: 5,
     flex: 1,
-    // borderWidth: 1,
-    // borderColor: 'yellow',
     justifyContent: 'space-between',
   },
   upperText: {

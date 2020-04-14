@@ -43,6 +43,7 @@ const BrowseStack = createStackNavigator({
   ManageListEntries,
   Standings,
   UserDetail,
+  ListEdit,
 }, {
   ...sharedStackNavigatorConfig,
   navigationOptions: {

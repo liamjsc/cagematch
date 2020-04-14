@@ -49,6 +49,13 @@ class BrowseLists extends Component {
     });
   }
 
+  goToListEdit = ({ listId }) => {
+    console.log('BrowseLists.js - go to list edit', listId);
+    this.props.navigation.navigate('ListEdit', {
+      listId,
+    });
+  }
+
   goToListDetail = ({ listId, title }) => {
     console.log('BrowseLists.js - go to list full detail', listId);
     this.props.navigation.navigate('ListFullDetail', {
@@ -153,6 +160,7 @@ class BrowseLists extends Component {
             const { image } = this.props.entryIdMap[topEntryId];
             return (
               <ListCard
+                goToListEdit={this.goToListEdit}
                 goToListDetail={this.goToListDetail}
                 goToCage={this.goToCage}
                 goToUserDetail={this.goToUserDetail}
