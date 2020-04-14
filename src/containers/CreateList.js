@@ -108,16 +108,15 @@ class CreateList extends Component {
 
   pushEntry = () => {
     // validate entry
-    const { pendingEntry } = this.state;
+    const { pendingEntry = '' } = this.state;
     const toInsert = pendingEntry.trim();
     if (!toInsert.length) return false;
-    if (this.state.entries.some(currentEntry => currentEntry === toInsert)) return false;
+    if (this.state.entries.some(currentEntry => currentEntry.toLowerCase() === toInsert.toLowerCase())) return false;
 
     this.setState({
       entries: [...this.state.entries, toInsert],
       pendingEntry: '',
     });
-    // this.inputEl.focus();
   }
 
   render() {

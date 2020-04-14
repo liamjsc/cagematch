@@ -177,9 +177,16 @@ class ListEdit extends Component {
   }
 
   saveNewEntry = () => {
-    const { pendingTitle: title, pendingImage: image } = this.state;
+    const { pendingTitle: rawTitle = '', pendingImage: rawImage = '', newEntries } = this.state;
     const { listId } = this.props;
+
+    const title = rawTitle.trim();
+    const image = rawImage.trim();
     const newEntry = { title, image };
+
+    if (!title.length) return false;
+    if (newEntries.some(existingEntry => existingEntry.toLowerCase() === title.toLowerCase())) return false;
+
     this.setState({ saving: true });
     this.props.dispatch(postNewEntries({ listId, entries: [newEntry] }))
       .then((newIds) => {
