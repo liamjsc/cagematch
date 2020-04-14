@@ -42,7 +42,12 @@ class ListCard extends Component {
             />
           </View>
         </View>
-        <Divider style={{ backgroundColor: constants.textGrey }}/>
+        <Divider style={{
+          marginTop: 10,
+          marginBottom: 10,
+          backgroundColor: constants.textGrey,
+          width: '70%',
+        }}/>
       </View>
     )
   }
