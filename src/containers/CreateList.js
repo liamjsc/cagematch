@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
-  Dimensions,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
