@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
 import { 
   Button,
   Input,
@@ -18,6 +18,7 @@ class LoginForm extends Component {
     password: '',
     hidePassword: true,
     error: '',
+    posting: false,
   }
 
   onClickLogin = () => {
@@ -31,7 +32,11 @@ class LoginForm extends Component {
       username,
       password,
     }
-    this.props.login(credentials);
+    this.setState({ posting: true });
+    return this.props.login(credentials)
+      .catch(() => {
+        this.setState({ posting: false });
+      })
   }
 
   onChangeUsername = (e) => {
@@ -80,12 +85,18 @@ class LoginForm extends Component {
           }}
         />
 
-        <Button
-          title="Sign In"
-          containerStyle={styles.button}
-          onPress={this.onClickLogin}
-          underlayColor='#99d9f4'
-        />
+        {
+          this.state.posting ? (
+            <ActivityIndicator size="large" style={{ paddingTop: 5 }}/>
+          ) : (
+            <Button
+              title="Sign In"
+              containerStyle={styles.button}
+              onPress={this.onClickLogin}
+              underlayColor='#99d9f4'
+            />  
+          )
+        }
 
         <View style={styles.changeFormTextArea}>
           <TouchableOpacity

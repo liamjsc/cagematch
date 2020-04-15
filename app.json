@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CageMatch",
-    "slug": "reactcage",
+    "name": "Cagematch",
+    "slug": "cage",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/cmicon.png",
+    "icon": "./src/assets/CageMatchSameShade512.png",
     "splash": {
-      "image": "./src/assets/cmicon.png",
+      "image": "./src/assets/CageMatchSameShade1024.png",
       "resizeMode": "contain",
       "backgroundColor": "#121212"
     },
@@ -28,13 +28,13 @@
       "backgroundColor": "#121212"
     },
     "ios": {
-      "bundleIdentifier": "com.cagematch.cagematch",
+      "bundleIdentifier": "com.cagematch.cage",
       "supportsTablet": true,
-      "buildNumber": "0.0.14"
+      "buildNumber": "1.0.1"
     },
     "android": {
-      "package": "com.cagematch.cagematch",
-      "versionCode": 15
+      "package": "com.cagematch.cage",
+      "versionCode": 2
     }
   }
 }
