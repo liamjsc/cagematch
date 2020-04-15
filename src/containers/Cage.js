@@ -96,7 +96,7 @@ class Cage extends Component {
     const { user, dispatch } = this.props;
 
     const userId = user.id;
-    return dispatch(getExclusions())
+    return dispatch(getExclusions(userId))
       .then(() => {
         return dispatch(loadList(listId));
       })
