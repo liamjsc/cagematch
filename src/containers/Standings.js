@@ -16,8 +16,8 @@ import {
 import { loadList, fetchUserListRankings } from '../actions/list';
 import { getExclusions } from '../actions/auth';
 import Rankings from '../components/Rankings';
+import { LoadingScreen, Padding } from '../components';
 import * as constants from '../util/constants';
-import { Padding } from '../components';
 
 class Standings extends Component {
   static navigationOptions = {
@@ -56,7 +56,7 @@ class Standings extends Component {
     } = this.props;
 
     const { loading, selectedIndex } = this.state;
-    if (loading) return null;
+    if (loading) return <LoadingScreen text="loading your rankings"/>;
 
     console.log('usersById', usersById);
     console.log('userId', userId);

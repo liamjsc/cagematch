@@ -13,8 +13,8 @@
     "orientation": "portrait",
     "icon": "./src/assets/CageMatchSameShade512.png",
     "splash": {
-      "image": "./src/assets/CageMatchSameShade1024.png",
-      "resizeMode": "contain",
+      "image": "./src/assets/cage_splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#121212"
     },
     "updates": {

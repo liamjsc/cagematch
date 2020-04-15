@@ -59,10 +59,10 @@ export function loadList(id) {
         }
         return response.json();
       })
-      .then(({ listIds, listIdMap, entryIdMap }) => {
+      .then(({ listIdMap, entryIdMap }) => {
         // new format
         dispatch(insertEntries(entryIdMap));
-        dispatch(loadListSuccess(listIdMap[listId]));
+        dispatch(loadListSuccess(listIdMap[id]));
       })
       .catch((err) => {
         console.log('LOADLISTFAIL');
