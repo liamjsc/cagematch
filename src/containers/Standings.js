@@ -58,7 +58,9 @@ class Standings extends Component {
     const { loading, selectedIndex } = this.state;
     if (loading) return null;
 
-    const { username } = usersById[userId];
+    console.log('usersById', usersById);
+    console.log('userId', userId);
+    const { username = 'user' } = usersById[userId] || {};
 
     return (
       <View style={{

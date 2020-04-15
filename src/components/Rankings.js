@@ -50,7 +50,6 @@ class Rankings extends Component {
       rankedList,
       length,
     } = this.props;
-    console.log(this.props);
     const items = length ? rankedList.slice(0, length) : rankedList;
     return (
       <View style={styles.rankings}>
