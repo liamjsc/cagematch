@@ -61,9 +61,6 @@ export function loadList(id) {
       })
       .then(({ listIds, listIdMap, entryIdMap }) => {
         // new format
-        console.log('load list THEN');
-        console.log({ listIds, listIdMap, entryIdMap })
-        const listId = listIds[0];
         dispatch(insertEntries(entryIdMap));
         dispatch(loadListSuccess(listIdMap[listId]));
       })
@@ -88,8 +85,6 @@ function loadListFail(id) {
 }
 
 export function createList(list) {
-  console.log('create list');
-  console.log(list);
   return (dispatch, getState) => {
     const { auth: { user: { id: userId } } } = getState();
     const body = {

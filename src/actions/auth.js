@@ -47,8 +47,8 @@ export function createAccount(credentials) {
         console.log(results);
         const { id, username, email } = results;
         await AsyncStorage.setItem('user', JSON.stringify({ id, username, email })); // who is the user of this device
-        // const action = { type: actionTypes.LOAD_USER_SUCCESS, user: results };
-        // dispatch();
+        const action = { type: actionTypes.LOAD_USER_SUCCESS, user: results };
+        dispatch(action);
         return dispatch(setUser({ id, username, email }));
       })
       .catch(error => {
@@ -83,6 +83,8 @@ export function login(credentials) {
         console.log(results);
         await AsyncStorage.setItem('user', JSON.stringify(results)); // who is the user of this device
         dispatch(setUser(results))
+        const action = { type: actionTypes.LOAD_USER_SUCCESS, user: results };
+        dispatch(action);
         return results;
       })
       .catch(error => {
