@@ -80,6 +80,7 @@ class Splash extends Component {
         this.setState({
           error,
         });
+        return Promise.reject();
       });
   }
 
@@ -95,6 +96,7 @@ class Splash extends Component {
         this.setState({
           error,
         });
+        return Promise.reject();
       });
   }
 

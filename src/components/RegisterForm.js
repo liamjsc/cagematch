@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { 
+  ActivityIndicator,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   Button,
   Input,
@@ -21,6 +25,7 @@ class RegisterForm extends Component {
     p1Hidden: true,
     p2Hidden: true,
     error: '',
+    posting: false,
   }
 
   onClickCreate = () => {
@@ -34,7 +39,9 @@ class RegisterForm extends Component {
       username,
       password,
     }
-    this.props.createAccount(credentials);
+    this.setState({ posting: true });
+    return this.props.createAccount(credentials)
+      .catch(() => this.setState({ posting: false }));
   }
 
   toggleP1Hidden = () => this.setState({
@@ -73,7 +80,7 @@ class RegisterForm extends Component {
   }
 
   render() {
-    console.log('registerform -- render');
+    console.log('registerform -- render', this.state);
     const { p1Hidden, p2Hidden } = this.state;
     return (
       <View style={styles.registerForm}>
@@ -91,6 +98,7 @@ class RegisterForm extends Component {
           label="Password"
           value={this.state.passwordOne}
           onChange={this.onChangePasswordOne}
+          secureTextEntry={p1Hidden}
           rightIcon={{
             name: p1Hidden ? 'visibility-off' : 'visibility',
             type: 'material',
@@ -103,6 +111,7 @@ class RegisterForm extends Component {
           label="Confirm Password"
           value={this.state.passwordTwo}
           onChange={this.onChangePasswordTwo}
+          secureTextEntry={p2Hidden}
           rightIcon={{
             name: p2Hidden ? 'visibility-off' : 'visibility',
             type: 'material',
@@ -111,12 +120,16 @@ class RegisterForm extends Component {
             color: constants.lightPurple,
           }}
         />
-        <Button
-          containerStyle={styles.button}
-          title="Create Account"
-          onPress={this.onClickCreate}
-          underlayColor='#99d9f4'
-        />
+        {this.state.posting ? (
+            <ActivityIndicator size="large" style={{ paddingTop: 5 }}/>
+        ): (
+          <Button
+            containerStyle={styles.button}
+            title="Create Account"
+            onPress={this.onClickCreate}
+            underlayColor='#99d9f4'
+          />
+        )}
         <View style={styles.changeFormTextArea}>
           <TouchableOpacity
             onPress={this.props.changeForm}
