@@ -34,7 +34,7 @@
     },
     "android": {
       "package": "com.cagematch.cage",
-      "versionCode": 3,
+      "versionCode": 4,
       "permissions": []
     }
   }

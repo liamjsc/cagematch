@@ -6,5 +6,5 @@ const __DEVELOPMENT__ = NODE_ENV === 'development';
 
 console.log('__DEVELOPMENT__', NODE_ENV)
 let useProd;
-useProd = true; // comment this line for convenience
+// useProd = true; // comment this line for convenience
 export const api = (__DEVELOPMENT__ && !useProd) ? localUrl : prodUrl;
