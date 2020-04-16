@@ -78,6 +78,17 @@ export default function listReducer(state = initialState, action = {}) {
             }
           }
         }
+      case actionTypes.DELETE_ENTRY:
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.listId]: {
+              ...state.byId[action.listId],
+              entries: state.byId[action.listId].entries.filter(id => id !== action.entryId)
+            }
+          }
+        }
     default:
       return state;
   }

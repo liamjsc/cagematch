@@ -10,6 +10,7 @@ import {
 import { 
   Button,
   Card,
+  Icon,
   Input,
   Image,
   Text,
@@ -18,6 +19,7 @@ import { connect } from 'react-redux';
 import {
   postImage,
   postNewEntries,
+  deleteEntry,
 } from '../actions/entries';
 
 import * as constants from '../util/constants';
@@ -25,6 +27,7 @@ import * as constants from '../util/constants';
 import {
   Padding,
 } from '../components';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 class ListEditItem extends Component {
   constructor(props) {
@@ -36,9 +39,11 @@ class ListEditItem extends Component {
     pendingImageUrl: '',
     saving: false,
     saved: false,
+    showDeletePrompt: false,
   }
 
   focusInput = () => {
+    this.setState({ showDeletePrompt: false });
     this.el.focus();
   }
 
@@ -52,13 +57,27 @@ class ListEditItem extends Component {
       })
   }
 
+  showDeletePrompt = () => {
+    this.setState({ showDeletePrompt: true })
+    console.log('show delete prompt');
+  }
+
+  hideDeletePrompt = () => {
+    this.setState({ showDeletePrompt: false })
+  }
+
+  deleteEntry = () => {
+    this.props.deleteEntry(this.props.id);
+  }
+
   render() {
     const {
       image,
       title,
+      deleteInProgress,
     } = this.props;
 
-    const { pendingImageUrl, saved } = this.state;
+    const { pendingImageUrl, saved, showDeletePrompt } = this.state;
     return (
       <TouchableHighlight
         onPress={() => this.focusInput()}
@@ -67,6 +86,28 @@ class ListEditItem extends Component {
         <View 
           style={rowStyle.container}
         >
+          <View style={rowStyle.x}>
+            <Icon
+              name="trash-can-outline"
+              type="material-community"
+              color={constants.white}
+              onPress={this.showDeletePrompt}
+            />
+            {!showDeletePrompt ? null : (
+              <TouchableWithoutFeedback
+                onPress={this.deleteEntry}
+              >
+                {deleteInProgress ? (
+                  <ActivityIndicator 
+                    color={constants.lightPurple}
+                    size="small"
+                  />
+                ) : (
+                  <Text>Tap to delete</Text>
+                )}
+              </TouchableWithoutFeedback>
+            )}
+          </View>
           {
             !(pendingImageUrl || image) ? null : (<Image
               source={{ uri: pendingImageUrl || image }}
@@ -135,6 +176,12 @@ const rowStyle = StyleSheet.create({
     marginBottom: 5,
     // backgroundColor: constants.background,
   },
+  x: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    flexDirection: 'row-reverse',
+  },
   container: {
     flexDirection: 'row',
     backgroundColor: constants.cardGray,
@@ -169,7 +216,8 @@ class ListEdit extends Component {
     saving: false,
     pendingTitle: '',
     pendingImage: '',
-    newEntries: [] // array of { image, title, id }
+    newEntries: [], // array of { image, title, id }
+    deleting: '',
   }
 
   updateImage = ({ entryId, image }) => {
@@ -204,6 +252,18 @@ class ListEdit extends Component {
         console.log(e);
         this.setState({ saving: false });
       })
+  }
+
+  deleteEntry = (entryId) => {
+    const { listId } = this.props;
+    this.setState({ deleting: entryId });
+    return this.props.dispatch(deleteEntry({ entryId, listId }))
+      .then(() => {
+        this.setState({ deleting: '' });
+      })
+      .catch(() => {
+        this.setState({ deleting: '' });
+      });
   }
 
   clearNewEntry = () => {
@@ -317,6 +377,8 @@ class ListEdit extends Component {
                   <ListEditItem
                     key={entryId}
                     postImage={this.updateImage}
+                    deleteEntry={this.deleteEntry}
+                    deleteInProgress={entryId === this.state.deleting}
                     {...entryById[entryId]}
                   />
                 )
@@ -336,6 +398,8 @@ class ListEdit extends Component {
                   <ListEditItem
                     key={entryId}
                     postImage={this.updateImage}
+                    deleteEntry={this.deleteEntry}
+                    deleteInProgress={entryId === this.state.deleting}
                     {...entryById[entryId]}
                   />
                 )

@@ -62,3 +62,18 @@ export function postNewEntries({ listId, entries }) {
     });
   }
 }
+
+export function deleteEntry({ entryId, listId }) {
+  return function (dispatch, getState) {
+    console.log('DELETING ENTRY', entryId);
+    const url = `${api}/entry/${entryId}`;
+    return fetch(url, {
+      method: 'DELETE',
+    })
+    .then((response) => {
+      if (!response.ok) return Promise.reject();
+      dispatch({ type: actionTypes.DELETE_ENTRY, entryId, listId });
+      return Promise.resolve();
+    });
+  };
+}

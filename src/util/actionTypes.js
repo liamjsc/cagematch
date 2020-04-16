@@ -21,6 +21,7 @@ export const POST_MATCHUP = 'POST_MATCHUP';
 export const INSERT_ENTRIES = 'INSERT_ENTRIES';
 export const PUSH_NEW_ENTRIES = 'PUSH_NEW_ENTRIES';
 export const SET_IMAGE = 'SET_IMAGE';
+export const DELETE_ENTRY = 'DELETE_ENTRY';
 
 // auth
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
