@@ -35,6 +35,7 @@ export function postImage({ entryId, image }) {
 export function postNewEntries({ listId, entries }) {
   return function (dispatch, getState) {
     const { auth: { user: { id: userId } } } = getState();
+    
     const body = entries.map(({ title, image }) => {
       return { image, title, userId };
     });

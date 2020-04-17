@@ -75,9 +75,18 @@ class ListEditItem extends Component {
       image,
       title,
       deleteInProgress,
+      listCreator,
+      userId,
+      user_id: entryCreator,
     } = this.props;
 
+    console.log(this.props);
+    console.log('listCreator', listCreator, typeof listCreator);
+    console.log('userId', userId, typeof userId);
+    console.log('entryCreator', entryCreator, typeof entryCreator);
     const { pendingImageUrl, saved, showDeletePrompt } = this.state;
+    const showDeleteIcon = parseInt(listCreator) === parseInt(userId) || parseInt(entryCreator) === parseInt(userId);
+
     return (
       <TouchableHighlight
         onPress={() => this.focusInput()}
@@ -86,7 +95,7 @@ class ListEditItem extends Component {
         <View 
           style={rowStyle.container}
         >
-          <View style={rowStyle.x}>
+          {!showDeleteIcon ? null : (<View style={rowStyle.x}>
             <Icon
               name="trash-can-outline"
               type="material-community"
@@ -107,7 +116,7 @@ class ListEditItem extends Component {
                 )}
               </TouchableWithoutFeedback>
             )}
-          </View>
+          </View>)}
           {
             !(pendingImageUrl || image) ? null : (<Image
               source={{ uri: pendingImageUrl || image }}
@@ -274,6 +283,8 @@ class ListEdit extends Component {
     const {
       listMeta,
       entryById,
+      userId,
+      listId,
     } = this.props;
 
     const { pendingImage, pendingTitle, newEntries, saving } = this.state;
@@ -379,6 +390,8 @@ class ListEdit extends Component {
                     postImage={this.updateImage}
                     deleteEntry={this.deleteEntry}
                     deleteInProgress={entryId === this.state.deleting}
+                    listCreator={listMeta.user_id}
+                    userId={userId}
                     {...entryById[entryId]}
                   />
                 )
@@ -400,6 +413,8 @@ class ListEdit extends Component {
                     postImage={this.updateImage}
                     deleteEntry={this.deleteEntry}
                     deleteInProgress={entryId === this.state.deleting}
+                    listCreator={listMeta.user_id}
+                    userId={userId}
                     {...entryById[entryId]}
                   />
                 )
@@ -433,6 +448,7 @@ const styles = StyleSheet.create({
 function mstp({
   list,
   entries,
+  auth: { user: { id: userId } },
 }, { navigation }) {
   const listId = navigation.getParam('listId');
 
@@ -442,6 +458,7 @@ function mstp({
     listId,
     listMeta,
     entryById,
+    userId,
   };
 }
 export default connect(mstp)(ListEdit);
