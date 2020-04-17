@@ -95,85 +95,112 @@ class ListEditItem extends Component {
         <View 
           style={rowStyle.container}
         >
-          {!showDeleteIcon ? null : (<View style={rowStyle.x}>
-            <Icon
-              name="trash-can-outline"
-              type="material-community"
-              color={constants.white}
-              onPress={this.showDeletePrompt}
-            />
-            {!showDeletePrompt ? null : (
-              <TouchableWithoutFeedback
-                onPress={this.deleteEntry}
-              >
-                {deleteInProgress ? (
-                  <ActivityIndicator 
-                    color={constants.lightPurple}
-                    size="small"
-                  />
-                ) : (
-                  <Text>Tap to delete</Text>
-                )}
-              </TouchableWithoutFeedback>
-            )}
-          </View>)}
+          {!showDeleteIcon || showDeletePrompt ? null : (
+            <View style={rowStyle.x}>
+              <Icon
+                name="trash-can-outline"
+                type="material-community"
+                color={constants.white}
+                onPress={this.showDeletePrompt}
+              />
+            </View>
+          )}
           {
             !(pendingImageUrl || image) ? null : (<Image
               source={{ uri: pendingImageUrl || image }}
               style={rowStyle.image}
             />)
           }
-          <View style={rowStyle.textWrapper}>
-            <Text style={rowStyle.text}>{title}</Text>
-            <Input
-              label="image url:"
-              ref={(el) => this.el = el}
-              inputStyle={rowStyle.input}
-              containerStyle={{
-                backgroundColor: constants.cardGray,
-                borderColor: constants.cardGray,
-                borderBottomColor: constants.lightPurple,
-                borderWidth: 1,
-                paddingLeft: 0,
-                marginLeft: 0,
-              }}
-              labelStyle={{
-                fontSize: 10,
-              }}
-              placeholder={image}
-              value={pendingImageUrl}
-              onChangeText={(val) => this.setState({ pendingImageUrl: val })}
-            />
-            { !saved ? null : <Text style={{color: 'green'}}>Success!</Text>}
-            { saved || !pendingImageUrl ? null : (
-              <View style={{flexDirection: 'row'}}>
-                <Button
-                  title="Save"
-                  onPress={this.saveImageUrl}
-                  titleStyle={{ color: constants.lightPurple }}
-                  buttonStyle={{
-                    backgroundColor: constants.cardGray,
-                  }}
-                  containerStyle={{
-                    flex: 1,
-                  }}
-                  raised={false}
-                />
-                <Button
-                  title="Reset"
-                  onPress={() => this.setState({ pendingImageUrl: '' })}
-                  titleStyle={{ color: constants.red }}
-                  buttonStyle={{
-                    backgroundColor: constants.cardGray,
-                  }}
-                  containerStyle={{
-                    flex: 1,
-                  }}
-                  raised={false}
-                />
-              </View>
-            )}
-          </View>
+          {showDeletePrompt ? (
+            <View style={rowStyle.deletePrompt}>
+              <Text>Delete {title}?</Text>
+              {
+                !deleteInProgress ? (
+                  <View style={{flexDirection: 'row', marginTop: 10}}>
+                    <Button
+                      title="Delete"
+                      onPress={this.deleteEntry}
+                      titleStyle={{ color: constants.textWhite }}
+                      buttonStyle={{
+                        backgroundColor: constants.red,
+                      }}
+                      containerStyle={{
+                        flex: 1,
+                      }}
+                      raised={false}
+                    />
+                    <Button
+                      title="Cancel"
+                      onPress={this.hideDeletePrompt}
+                      titleStyle={{ color: constants.textWhite }}
+                      buttonStyle={{
+                        backgroundColor: constants.cardGray,
+                      }}
+                      containerStyle={{
+                        borderColor: constants.raisinBlack,
+                        flex: 1,
+                      }}
+                      raised={false}
+                    />
+                  </View>
+                ) : (
+                  <ActivityIndicator size="small" color={constants.lightPurple}/>
+                )
+              }
+            </View>
+          ) : (
+            <View style={rowStyle.textWrapper}>
+              <Text style={rowStyle.text}>{title}</Text>
+              <Input
+                label="image url:"
+                ref={(el) => this.el = el}
+                inputStyle={rowStyle.input}
+                containerStyle={{
+                  backgroundColor: constants.cardGray,
+                  borderColor: constants.cardGray,
+                  borderBottomColor: constants.lightPurple,
+                  borderWidth: 1,
+                  paddingLeft: 0,
+                  marginLeft: 0,
+                }}
+                labelStyle={{
+                  fontSize: 10,
+                }}
+                placeholder={image}
+                value={pendingImageUrl}
+                onChangeText={(val) => this.setState({ pendingImageUrl: val })}
+              />
+              { !saved ? null : <Text style={{color: 'green'}}>Success!</Text>}
+              { saved || !pendingImageUrl ? null : (
+                <View style={{flexDirection: 'row'}}>
+                  <Button
+                    title="Save"
+                    onPress={this.saveImageUrl}
+                    titleStyle={{ color: constants.lightPurple }}
+                    buttonStyle={{
+                      backgroundColor: constants.cardGray,
+                    }}
+                    containerStyle={{
+                      flex: 1,
+                    }}
+                    raised={false}
+                  />
+                  <Button
+                    title="Reset"
+                    onPress={() => this.setState({ pendingImageUrl: '' })}
+                    titleStyle={{ color: constants.red }}
+                    buttonStyle={{
+                      backgroundColor: constants.cardGray,
+                    }}
+                    containerStyle={{
+                      flex: 1,
+                    }}
+                    raised={false}
+                  />
+                </View>
+              )}
+            </View>
+          )}
         </View>
       </TouchableHighlight>
     )
@@ -190,6 +217,13 @@ const rowStyle = StyleSheet.create({
     top: 5,
     right: 5,
     flexDirection: 'row-reverse',
+  },
+  deletePrompt: {
+    borderColor: 'green',
+    borderWidth: 1,
+    flexGrow: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
     flexDirection: 'row',
@@ -265,6 +299,7 @@ class ListEdit extends Component {
 
   deleteEntry = (entryId) => {
     const { listId } = this.props;
+    console.log('setting state', entryId);
     this.setState({ deleting: entryId });
     return this.props.dispatch(deleteEntry({ entryId, listId }))
       .then(() => {
