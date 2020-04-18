@@ -97,13 +97,10 @@ class Cage extends Component {
 
     const userId = user.id;
     return dispatch(getExclusions(userId))
-      .then(() => {
-        return dispatch(loadList(listId));
-      })
+      .then(() => dispatch(loadList(listId)))
       .then(() => dispatch(fetchUserListRankings({ listId, userId })))
       .then(() => {
         const entries = this.selectTwoEntries();
-        console.log('selected 2', entries);
         this.setState({
           loaded: true,
           entryA: entries[0],
@@ -113,9 +110,7 @@ class Cage extends Component {
   }
 
   getListId = () => {
-    console.log('cage getListId');
     const listId = this.props.navigation.getParam('listId');
-    console.log(listId);
     return listId;
   }
 
@@ -126,13 +121,6 @@ class Cage extends Component {
     const indexOne = Math.floor(Math.random() * candidateIds.length);
     let indexTwo = Math.floor(Math.random() * candidateIds.length);
 
-    console.log('selecting two entries', indexOne, indexTwo);
-    const indexOneId = candidateIds[indexOne];
-    const indexTwoId = candidateIds[indexTwo];
-    console.log(indexOneId, indexTwoId);
-    console.log(entryIdMap[indexOneId]);
-    console.log(entryIdMap[indexTwoId]);
-    if (!entryIdMap[indexOneId]) console.log(entryIdMap);
     // handle some cases here
     // make sure they arent the same index
     // make sure they are nt just repeating the previous two indices
@@ -174,6 +162,7 @@ class Cage extends Component {
     // need to increment voterCount on the listMeta
     console.log('isNewUserForList', !!isNewUserForList);
     if (isNewUserForList) {
+      console.log('increment voter count from handlePress Cage.js');
       dispatch({ type: actionTypes.INCREMENT_VOTER_COUNT, listId })
     }
 
@@ -387,7 +376,7 @@ function mstp({
     return hiddenEntryIds.indexOf(entryId) < 0;;
   });
 
-  const userListData = ((users.byId[user.id] || {}).listStats || {})[listId] = {};
+  const userListData = ((users.byId[user.id] || {}).listStats || {})[listId] || {};
   const isNewUserForList = !(userListData && userListData.matchup_count > 0);
   return {
     listId,

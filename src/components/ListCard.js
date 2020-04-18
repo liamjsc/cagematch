@@ -146,11 +146,6 @@ class ListCard extends Component {
                   </TouchableWithoutFeedback>
                 </View>
               )}
-{/* 
-              {!createdAt ? null : (
-                <Text style={styles.lightPurple}>{date}</Text>
-              )} */}
-
             </View>
           </View>
         </Card>

@@ -76,7 +76,6 @@ class BrowseLists extends Component {
   setActiveTab = (tabIndex) => this.setState({ tabIndex })
 
   goToUserDetail = (params) => {
-    console.log('gotouserdetail', params);
     this.props.navigation.navigate('UserDetail', params);
   }
 
@@ -154,9 +153,7 @@ class BrowseLists extends Component {
           style={styles.list}
           data={listIdsToRender}
           renderItem={({ item }) => {
-            console.log('flat list render');
             const topEntryId = byId[item].entries[0];
-            console.log(topEntryId);
             const { image } = this.props.entryIdMap[topEntryId];
             return (
               <ListCard

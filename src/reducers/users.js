@@ -7,14 +7,11 @@ const initialState = {
 export default function usersReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actionTypes.LOAD_USER_SUCCESS:
-      console.log('load user success', action.user)
       const { user = {} } = action;
-
-      console.log('inserting', user);
       return {
         byId: {
           ...state.byId,
-          [user.id]: user,
+          [user.id]: { ...user },
         },
       };
     case actionTypes.UPDATE_LOCAL_SCORE:
