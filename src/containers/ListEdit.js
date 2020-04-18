@@ -95,23 +95,13 @@ class ListEditItem extends Component {
         <View 
           style={rowStyle.container}
         >
-          {!showDeleteIcon || showDeletePrompt ? null : (
-            <View style={rowStyle.x}>
-              <Icon
-                name="trash-can-outline"
-                type="material-community"
-                color={constants.white}
-                onPress={this.showDeletePrompt}
-              />
-            </View>
-          )}
           {
             !(pendingImageUrl || image) ? null : (<Image
               source={{ uri: pendingImageUrl || image }}
               style={rowStyle.image}
             />)
           }
-          {showDeletePrompt ? (
+          {!showDeletePrompt ? null : (
             <View style={rowStyle.deletePrompt}>
               <Text>Delete {title}?</Text>
               {
@@ -148,57 +138,74 @@ class ListEditItem extends Component {
                 )
               }
             </View>
-          ) : (
-            <View style={rowStyle.textWrapper}>
-              <Text style={rowStyle.text}>{title}</Text>
-              <Input
-                label="image url:"
-                ref={(el) => this.el = el}
-                inputStyle={rowStyle.input}
-                containerStyle={{
-                  backgroundColor: constants.cardGray,
-                  borderColor: constants.cardGray,
-                  borderBottomColor: constants.lightPurple,
-                  borderWidth: 1,
-                  paddingLeft: 0,
-                  marginLeft: 0,
-                }}
-                labelStyle={{
-                  fontSize: 10,
-                }}
-                placeholder={image}
-                value={pendingImageUrl}
-                onChangeText={(val) => this.setState({ pendingImageUrl: val })}
-              />
-              { !saved ? null : <Text style={{color: 'green'}}>Success!</Text>}
-              { saved || !pendingImageUrl ? null : (
-                <View style={{flexDirection: 'row'}}>
-                  <Button
-                    title="Save"
-                    onPress={this.saveImageUrl}
-                    titleStyle={{ color: constants.lightPurple }}
-                    buttonStyle={{
-                      backgroundColor: constants.cardGray,
-                    }}
+          )}
+          {showDeletePrompt ? null : (
+            <View style={rowStyle.contentWrapper}>
+              <View style={rowStyle.x}>
+                {!showDeleteIcon ? null : (
+                  <Icon
+                    name="trash-can-outline"
+                    type="material-community"
+                    color={constants.white}
+                    onPress={this.showDeletePrompt}
+                    underlayColor={constants.lightPurple}
                     containerStyle={{
-                      flex: 1,
+                      margin: 7,
                     }}
-                    raised={false}
                   />
-                  <Button
-                    title="Reset"
-                    onPress={() => this.setState({ pendingImageUrl: '' })}
-                    titleStyle={{ color: constants.red }}
-                    buttonStyle={{
-                      backgroundColor: constants.cardGray,
-                    }}
-                    containerStyle={{
-                      flex: 1,
-                    }}
-                    raised={false}
-                  />
-                </View>
-              )}
+                )}
+              </View>
+              <View style={rowStyle.textWrapper}>
+                <Text style={rowStyle.text}>{title}</Text>
+                <Input
+                  label="image url:"
+                  ref={(el) => this.el = el}
+                  inputStyle={rowStyle.input}
+                  containerStyle={{
+                    backgroundColor: constants.cardGray,
+                    borderColor: constants.cardGray,
+                    borderBottomColor: constants.lightPurple,
+                    borderWidth: 1,
+                    paddingLeft: 0,
+                    marginLeft: 0,
+                  }}
+                  labelStyle={{
+                    fontSize: 10,
+                  }}
+                  placeholder={image}
+                  value={pendingImageUrl}
+                  onChangeText={(val) => this.setState({ pendingImageUrl: val })}
+                />
+                { !saved ? null : <Text style={{color: 'green'}}>Success!</Text>}
+                { saved || !pendingImageUrl ? null : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Button
+                      title="Save"
+                      onPress={this.saveImageUrl}
+                      titleStyle={{ color: constants.lightPurple }}
+                      buttonStyle={{
+                        backgroundColor: constants.cardGray,
+                      }}
+                      containerStyle={{
+                        flex: 1,
+                      }}
+                      raised={false}
+                    />
+                    <Button
+                      title="Reset"
+                      onPress={() => this.setState({ pendingImageUrl: '' })}
+                      titleStyle={{ color: constants.red }}
+                      buttonStyle={{
+                        backgroundColor: constants.cardGray,
+                      }}
+                      containerStyle={{
+                        flex: 1,
+                      }}
+                      raised={false}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
           )}
         </View>
@@ -212,15 +219,8 @@ const rowStyle = StyleSheet.create({
     marginBottom: 5,
     // backgroundColor: constants.background,
   },
-  x: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    flexDirection: 'row-reverse',
-  },
   deletePrompt: {
-    borderColor: 'green',
-    borderWidth: 1,
+    paddingLeft: 15,
     flexGrow: 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -236,10 +236,17 @@ const rowStyle = StyleSheet.create({
     flex: 1,
     aspectRatio: 182 / 268,
   },
-  textWrapper: {
+  contentWrapper: {
     flex: 1,
-    justifyContent: 'center',
     paddingLeft: 15,
+  },
+  x: {
+    flexDirection: 'row-reverse',
+    flex: 15,
+  },
+  textWrapper: {
+    flex: 40,
+    justifyContent: 'center',
   },
   text: {
     fontSize: 18,
